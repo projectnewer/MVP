@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Newer: The Vertical Marketplace of the Future</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Markdown Parser for AI responses -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Chosen Palette: "Modern Foundation" 
+         Background: Stone-50 (Warm Neutral)
+         Text: Slate-800 (Professional Dark Grey)
+         Primary Accent: Emerald-600 (Affordability/Growth)
+         Secondary Accent: Indigo-600 (Technology/Trust)
+         Highlight: Amber-500 (Attention/Opportunity)
+    -->
+
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #FAFAF9; /* stone-50 */
+            color: #1E293B; /* slate-800 */
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #E7E5E4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #78716C; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #57534E; 
+        }
+
+        /* Chart Container - Responsive & Constrained */
+        .chart-container-wrapper {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            max-height: 400px;
+            max-width: 800px; /* Prevent wide charts on large screens */
+            margin: 0 auto;
+        }
+        
+        @media (max-width: 640px) {
+            .chart-container-wrapper {
+                height: 300px;
+            }
+        }
+
+        /* Nav Item Active State */
+        .nav-item.active {
+            background-color: #F0FDF4; /* emerald-50 */
+            border-left: 4px solid #059669; /* emerald-600 */
+            color: #047857; /* emerald-700 */
+        }
+
+        /* Interactive Card Hover */
+        .interactive-card {
+            transition: all 0.3s ease;
+        }
+        .interactive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Slider Thumb Styling */
+        input[type=range] {
+            -webkit-appearance: none; 
+            background: transparent; 
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #059669;
+            cursor: pointer;
+            margin-top: -8px; 
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #E5E7EB;
+            border-radius: 2px;
+        }
+
+        /* AI Chat Styles */
+        .chat-overlay {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 380px;
+            height: 600px;
+            max-height: 80vh;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            border: 1px solid #E7E5E4;
+            transform: translateY(120%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .chat-overlay.open {
+            transform: translateY(0);
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .message {
+            max-width: 85%;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+        .message.user {
+            align-self: flex-end;
+            background-color: #059669;
+            color: white;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .message.ai {
+            align-self: flex-start;
+            background-color: #F5F5F4;
+            color: #1E293B;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .typing-indicator span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: #9CA3AF;
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+            margin: 0 1px;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        /* Code Block in Chat */
+        .message pre {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            overflow-x: auto;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row min-h-screen">
+
+    <!-- Mobile Header -->
+    <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center sticky top-0 z-50 shadow-sm">
+        <div class="font-serif font-bold text-xl text-stone-900">Project Newer</div>
+        <button id="mobile-menu-btn" class="text-stone-600 focus:outline-none text-2xl">
+            &#9776;
+        </button>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="hidden md:flex flex-col w-64 bg-white border-r border-stone-200 h-screen sticky top-0 overflow-y-auto z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <div class="p-8 border-b border-stone-100">
+            <h1 class="font-serif font-bold text-2xl text-stone-900 leading-none mb-2">Newer<span class="text-emerald-600">.com</span></h1>
+            <p class="text-xs text-stone-500 uppercase tracking-widest font-semibold">Investment Thesis</p>
+        </div>
+        
+        <nav class="flex-1 py-6 space-y-1">
+            <button onclick="app.navigate('executive')" class="nav-item w-full text-left px-8 py-3 text-stone-500 font-medium hover:bg-stone-50 transition-colors flex items-center gap-3 active" data-target="executive">
+                <span>&#128200;</span> Investment Thesis
+            </button>
+            <button onclick="app.navigate('market')" class="nav-item w-full text-left px-8 py-3 text-stone-500 font-medium hover:bg-stone-50 transition-colors flex items-center gap-3" data-target="market">
+                <span>&#127757;</span> Market Dynamics
+            </button>
+            <button onclick="app.navigate('solution')" class="nav-item w-full text-left px-8 py-3 text-stone-500 font-medium hover:bg-stone-50 transition-colors flex items-center gap-3" data-target="solution">
+                <span>&#128187;</span> The Platform
+            </button>
+            <button onclick="app.navigate('economics')" class="nav-item w-full text-left px-8 py-3 text-stone-500 font-medium hover:bg-stone-50 transition-colors flex items-center gap-3" data-target="economics">
+                <span>&#128178;</span> Unit Economics
+            </button>
+            <button onclick="app.navigate('roadmap')" class="nav-item w-full text-left px-8 py-3 text-stone-500 font-medium hover:bg-stone-50 transition-colors flex items-center gap-3" data-target="roadmap">
+                <span>&#128640;</span> Operational Roadmap
+            </button>
+        </nav>
+
+        <div class="p-6 border-t border-stone-100 space-y-4">
+             <button onclick="app.toggleChat()" class="w-full bg-stone-900 hover:bg-stone-800 text-white p-3 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-lg">
+                <span>✨</span> Deal Desk AI
+            </button>
+            
+            <!-- Contact Button -->
+            <button onclick="app.toggleContact()" class="w-full bg-white hover:bg-stone-50 text-stone-600 border border-stone-200 p-3 rounded-lg flex items-center justify-center gap-2 transition-colors font-medium text-sm">
+                <span>📬</span> Contact Founder
+            </button>
+
+            <div class="bg-stone-100 rounded-lg p-4">
+                <p class="text-xs text-stone-500 font-semibold mb-1">Current Status</p>
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-sm font-bold text-stone-700">Pre-Seed / Planning</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-stone-900 bg-opacity-95 z-50 hidden flex flex-col justify-center items-center space-y-6">
+        <button id="close-mobile-menu" class="absolute top-4 right-4 text-white text-4xl">&times;</button>
+        <button onclick="app.navigate('executive')" class="mobile-link text-white text-xl font-medium">Investment Thesis</button>
+        <button onclick="app.navigate('market')" class="mobile-link text-white text-xl font-medium">Market Dynamics</button>
+        <button onclick="app.navigate('solution')" class="mobile-link text-white text-xl font-medium">The Platform</button>
+        <button onclick="app.navigate('economics')" class="mobile-link text-white text-xl font-medium">Unit Economics</button>
+        <button onclick="app.navigate('roadmap')" class="mobile-link text-white text-xl font-medium">Roadmap</button>
+        <button onclick="app.toggleChat(); document.getElementById('mobile-menu').classList.add('hidden')" class="mobile-link text-emerald-400 text-xl font-bold">✨ Ask Deal Desk AI</button>
+        <button onclick="app.toggleContact(); document.getElementById('mobile-menu').classList.add('hidden')" class="mobile-link text-white text-xl font-medium">📬 Contact Founder</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-1 overflow-y-auto h-screen bg-stone-50 p-6 md:p-10 lg:p-12 scroll-smooth">
+        <!-- Dynamic Content Injected Here -->
+    </main>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 bg-stone-900/80 z-[60] hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity opacity-0" style="transition: opacity 0.3s ease;">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden transform scale-95 transition-transform" id="contact-content">
+            <div class="bg-stone-900 p-6 text-white relative">
+                <button onclick="app.toggleContact()" class="absolute top-4 right-4 text-stone-400 hover:text-white">&times;</button>
+                <h3 class="font-serif text-2xl font-bold mb-1">Let's Build Newer.</h3>
+                <p class="text-stone-400 text-sm">We are currently raising our Pre-Seed round.</p>
+            </div>
+            <div class="p-8 space-y-6">
+                <!-- Founder Profile -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-stone-200 rounded-full flex items-center justify-center text-2xl border-2 border-white shadow-md">👨‍💻</div>
+                    <div>
+                        <div class="font-bold text-lg text-stone-800">Lance Sonka</div>
+                        <div class="text-sm text-stone-500">CEO & Co-Founder</div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="space-y-3">
+                    <a href="mailto:info@newer.com" class="flex items-center gap-4 p-4 rounded-xl border border-stone-200 hover:border-emerald-500 hover:bg-emerald-50 transition group">
+                        <div class="bg-stone-100 p-2 rounded-lg group-hover:bg-white text-xl">✉️</div>
+                        <div>
+                            <div class="font-bold text-stone-800 text-sm">Email Me</div>
+                            <div class="text-xs text-stone-500">info@newer.com</div>
+                        </div>
+                    </a>
+                    
+                    <a href="https://calendly.com/projectnewer/30min" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-stone-200 hover:border-indigo-500 hover:bg-indigo-50 transition group">
+                        <div class="bg-stone-100 p-2 rounded-lg group-hover:bg-white text-xl">📅</div>
+                        <div>
+                            <div class="font-bold text-stone-800 text-sm">Schedule a Meeting</div>
+                            <div class="text-xs text-stone-500">30 min Intro Call</div>
+                        </div>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/sonka" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-stone-200 hover:border-blue-500 hover:bg-blue-50 transition group">
+                        <div class="bg-stone-100 p-2 rounded-lg group-hover:bg-white text-xl">💼</div>
+                        <div>
+                            <div class="font-bold text-stone-800 text-sm">LinkedIn</div>
+                            <div class="text-xs text-stone-500">View Professional Profile</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="bg-stone-50 p-4 text-center text-xs text-stone-400 border-t border-stone-100">
+                Project Newer &copy; 2025
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Overlay -->
+    <div id="ai-chat" class="chat-overlay">
+        <div class="p-4 border-b border-stone-200 flex justify-between items-center bg-stone-50 rounded-t-rem">
+            <div>
+                <h3 class="font-serif font-bold text-stone-800">Deal Desk AI ✨</h3>
+                <p class="text-xs text-stone-500">Ask about Project Newer</p>
+            </div>
+            <button onclick="app.toggleChat()" class="text-stone-400 hover:text-stone-600">&times;</button>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+            <div class="message ai">
+                Hello! I'm the Deal Desk Assistant for Project Newer. I can answer questions about our business model, market dynamics (the "Lock-In Effect"), unit economics, or our technical strategy. What would you like to know?
+            </div>
+        </div>
+        <div class="p-4 border-t border-stone-200 bg-white rounded-b-rem">
+            <form onsubmit="app.handleChatSubmit(event)" class="flex gap-2">
+                <input type="text" id="chat-input" class="flex-1 border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500" placeholder="Ask a question...">
+                <button type="submit" class="bg-emerald-600 text-white rounded-lg px-4 py-2 text-sm font-medium hover:bg-emerald-700">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const app = {
+            state: {
+                currentTab: 'executive',
+                charts: [], 
+                calc: {
+                    price: 500000,
+                    rateMarket: 7.0,
+                    rateBuilder: 4.99
+                },
+                chatOpen: false,
+                contactOpen: false
+            },
+
+            // --- GEMINI API INTEGRATION ---
+            gemini: {
+                apiKey: "", // System will inject
+                
+                async call(prompt, systemInstruction = "") {
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${this.apiKey}`;
+                    
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: {
+                            temperature: 0.7
+                        }
+                    };
+
+                    if (systemInstruction) {
+                        payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+                    }
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (!response.ok) throw new Error(data.error?.message || 'API Error');
+                        
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
+                    } catch (error) {
+                        console.error("Gemini Error:", error);
+                        return "Error connecting to AI. Please try again.";
+                    }
+                }
+            },
+
+            // --- REPORT CONTEXT FOR RAG-LITE ---
+            reportContext: `
+                This is a pitch deck/investment memo for 'Project Newer' (Newer.com).
+                CORE THESIS: The real estate market is bifurcated. Existing home sales are frozen due to the 'Lock-In Effect' (owners have <4% rates, market is 7%). New construction is the only liquidity because builders can buy down rates to 4.99%.
+                SOLUTION: Newer.com is a vertical marketplace for new homes. 
+                KEY TECH: 'Incentive Normalization Engine' (INE) which scrapes unstructured builder flyers and turns them into searchable 'effective payment' data.
+                ECONOMICS: Arbitrage opportunity. Zillow leads cost $223 (low intent). Newer targets $50 leads (high intent, payment qualified).
+                ROADMAP: Phase 1 Sunbelt (TX, FL, AZ). Phase 2 Trade-In integration. Phase 3 National.
+                FINANCIALS: Target 60-70% Gross margins. Revenue from SaaS fees, Performance Marketing (CPL), and Fintech referrals.
+            `,
+
+            init: function() {
+                this.navigate('executive');
+                this.setupEventListeners();
+            },
+
+            setupEventListeners: function() {
+                document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.remove('hidden');
+                });
+                document.getElementById('close-mobile-menu').addEventListener('click', () => {
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                });
+                document.querySelectorAll('.mobile-link').forEach(link => {
+                    if(!link.innerHTML.includes('Ask Deal Desk') && !link.innerHTML.includes('Contact Founder')) {
+                        link.addEventListener('click', () => {
+                            document.getElementById('mobile-menu').classList.add('hidden');
+                        });
+                    }
+                });
+            },
+
+            destroyCharts: function() {
+                if (this.state.charts && this.state.charts.length > 0) {
+                    this.state.charts.forEach(chart => chart.destroy());
+                    this.state.charts = [];
+                }
+            },
+
+            navigate: function(target) {
+                this.destroyCharts(); 
+                this.state.currentTab = target;
+                
+                document.querySelectorAll('.nav-item').forEach(el => {
+                    if (el.dataset.target === target) el.classList.add('active');
+                    else el.classList.remove('active');
+                });
+
+                const main = document.getElementById('main-content');
+                main.innerHTML = ''; 
+                window.scrollTo(0,0);
+
+                switch (target) {
+                    case 'executive': this.renderExecutive(main); break;
+                    case 'market': this.renderMarket(main); break;
+                    case 'solution': this.renderSolution(main); break;
+                    case 'economics': this.renderEconomics(main); break;
+                    case 'roadmap': this.renderRoadmap(main); break;
+                }
+            },
+
+            // --- AI FEATURES LOGIC ---
+
+            toggleChat: function() {
+                const chat = document.getElementById('ai-chat');
+                this.state.chatOpen = !this.state.chatOpen;
+                if (this.state.chatOpen) chat.classList.add('open');
+                else chat.classList.remove('open');
+            },
+
+            toggleContact: function() {
+                const modal = document.getElementById('contact-modal');
+                const content = document.getElementById('contact-content');
+                this.state.contactOpen = !this.state.contactOpen;
+                
+                if (this.state.contactOpen) {
+                    modal.classList.remove('hidden');
+                    // Small delay to allow display:block to apply before opacity transition
+                    setTimeout(() => {
+                        modal.classList.remove('opacity-0');
+                        content.classList.remove('scale-95');
+                        content.classList.add('scale-100');
+                    }, 10);
+                } else {
+                    modal.classList.add('opacity-0');
+                    content.classList.remove('scale-100');
+                    content.classList.add('scale-95');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                    }, 300);
+                }
+            },
+
+            handleChatSubmit: async function(e) {
+                e.preventDefault();
+                const input = document.getElementById('chat-input');
+                const text = input.value.trim();
+                if (!text) return;
+
+                // Add User Message
+                this.addMessage(text, 'user');
+                input.value = '';
+
+                // Add Typing Indicator
+                const typingId = this.addTypingIndicator();
+
+                // Call Gemini
+                const systemPrompt = `You are an expert investment analyst representing Project Newer. Answer concisely using this context: ${this.reportContext}`;
+                const response = await this.gemini.call(text, systemPrompt);
+
+                // Remove Typing & Add AI Message
+                document.getElementById(typingId).remove();
+                this.addMessage(response, 'ai');
+            },
+
+            addMessage: function(text, sender) {
+                const container = document.getElementById('chat-messages');
+                const div = document.createElement('div');
+                div.className = `message ${sender}`;
+                div.innerHTML = marked.parse(text);
+                container.appendChild(div);
+                container.scrollTop = container.scrollHeight;
+            },
+
+            addTypingIndicator: function() {
+                const container = document.getElementById('chat-messages');
+                const div = document.createElement('div');
+                const id = 'typing-' + Date.now();
+                div.id = id;
+                div.className = 'message ai typing-indicator';
+                div.innerHTML = '<span></span><span></span><span></span>';
+                container.appendChild(div);
+                container.scrollTop = container.scrollHeight;
+                return id;
+            },
+
+            // Feature 1: Pitch Personalizer
+            tailorPitch: async function() {
+                const focus = document.getElementById('vc-focus-input').value;
+                const textField = document.getElementById('exec-summary-text');
+                
+                if (!focus) return;
+                
+                const originalText = "We are witnessing the bifurcation of real estate into two economies: a paralyzed existing home market defined by the 'Lock-In Effect,' and a dynamic new construction market defined by financial engineering. Newer.com is the vertical marketplace designed to capture this shift.";
+                
+                textField.innerHTML = '<span class="animate-pulse text-emerald-600">Rewriting thesis for ' + focus + '...</span>';
+                
+                const prompt = `
+                    Rewrite this executive summary for Project Newer (a marketplace for new construction homes with rate buydowns) to specifically appeal to a VC investor focused on "${focus}". 
+                    Keep it under 3 sentences. Make it punchy and professional.
+                    
+                    Original: "${originalText}"
+                `;
+                
+                const result = await this.gemini.call(prompt);
+                textField.innerHTML = result;
+            },
+
+            // Feature 2: Competitor Battlecard
+            setCompetitor: function(name) {
+                document.getElementById('comp-input').value = name;
+            },
+
+            generateBattlecard: async function() {
+                const comp = document.getElementById('comp-input').value;
+                const output = document.getElementById('battlecard-output');
+                const content = document.getElementById('battlecard-content');
+                const btn = document.getElementById('btn-battlecard');
+                
+                if (!comp) return;
+                
+                btn.disabled = true;
+                btn.innerHTML = 'Analyzing...';
+                output.classList.remove('hidden');
+                content.innerHTML = '<div class="flex items-center gap-2 text-stone-500"><span class="animate-spin">⚔️</span> Strategizing against ' + comp + '...</div>';
+                
+                const prompt = `
+                    Generate a "Competitive Battlecard" for Newer.com vs ${comp}.
+                    Context: Newer.com sells new homes using rate buydowns (low monthly payments).
+                    
+                    Format as HTML with:
+                    1. <h4 class="font-bold text-red-600 uppercase text-xs mb-2">Their Weakness</h4> (Why ${comp} struggles in a high-rate market)
+                    2. <h4 class="font-bold text-emerald-600 uppercase text-xs mb-2 mt-4">Our Advantage</h4> (Why Newer.com wins)
+                    3. <div class="mt-4 p-3 bg-stone-50 text-xs font-mono border border-stone-200">"The Kill Shot": One sentence to say in a pitch meeting.</div>
+                `;
+                
+                const result = await this.gemini.call(prompt);
+                content.innerHTML = result.replace(/```html/g, '').replace(/```/g, ''); // Basic clean
+                
+                btn.disabled = false;
+                btn.innerHTML = 'Analyze';
+            },
+
+            // Feature 3: Incentive Normalizer
+            runIncentiveDemo: async function() {
+                const input = document.getElementById('flyer-input').value;
+                const outputDiv = document.getElementById('ine-output');
+                const runBtn = document.getElementById('run-ine-btn');
+                
+                if(!input) return;
+
+                runBtn.disabled = true;
+                runBtn.innerHTML = 'Analyzing with Gemini...';
+                outputDiv.innerHTML = '<div class="flex items-center gap-2 text-stone-500 font-mono text-sm"><span class="animate-spin">🌀</span> Processing unstructured data...</div>';
+
+                const prompt = `
+                    Act as the 'Incentive Normalization Engine' API. 
+                    Analyze this real estate marketing text: "${input}". 
+                    Extract the following fields into a valid JSON object:
+                    - incentive_type (e.g., "Rate Buydown", "Closing Costs", "Price Cut")
+                    - value_description (short summary of the deal)
+                    - estimated_savings_monthly (number, estimate based on context if possible, or null)
+                    - urgency_level (Low, Medium, High)
+                    - sentiment_analysis (Brief marketing tone analysis)
+                    
+                    Return ONLY the JSON. Do not use Markdown formatting.
+                `;
+
+                const result = await this.gemini.call(prompt);
+                
+                // Clean markdown if present
+                const cleanJson = result.replace(/```json/g, '').replace(/```/g, '').trim();
+
+                try {
+                    // Validate JSON
+                    const parsed = JSON.parse(cleanJson);
+                    outputDiv.innerHTML = `
+                        <div class="space-y-2 animate-fade-in">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold text-emerald-500 uppercase">JSON Extraction Success</span>
+                                <span class="text-xs text-stone-500">Latency: 0.8s</span>
+                            </div>
+                            <pre class="bg-black text-green-400 p-4 rounded-lg text-xs overflow-x-auto border border-stone-800">${JSON.stringify(parsed, null, 2)}</pre>
+                            <div class="mt-2 p-3 bg-stone-800 rounded border border-stone-700">
+                                <div class="text-xs text-stone-400 font-bold mb-1">AI INSIGHT</div>
+                                <p class="text-xs text-stone-300">The engine detected a <span class="text-white font-bold">${parsed.incentive_type}</span> offer. This creates high urgency (${parsed.urgency_level}) and would be prioritized in our "Payment First" search algorithm.</p>
+                            </div>
+                        </div>
+                    `;
+                } catch (e) {
+                    outputDiv.innerText = cleanJson; // Fallback to raw text
+                }
+
+                runBtn.disabled = false;
+                runBtn.innerHTML = 'Process with Gemini ✨';
+            },
+
+            // Feature 4: Stress Test Simulator
+            setScenario: function(text) {
+                document.getElementById('scenario-input').value = text;
+            },
+
+            runStressTest: async function() {
+                const input = document.getElementById('scenario-input').value;
+                const outputDiv = document.getElementById('sim-output');
+                const contentDiv = document.getElementById('sim-content');
+                const btn = document.getElementById('run-sim-btn');
+                
+                if(!input) return;
+
+                btn.disabled = true;
+                btn.innerHTML = 'Running Simulation...';
+                outputDiv.classList.remove('hidden');
+                contentDiv.innerHTML = '<div class="flex items-center gap-2 text-stone-500 font-mono text-sm"><span class="animate-spin">🌀</span> Analyzing market impact...</div>';
+
+                const prompt = `
+                    Scenario: "${input}"
+                    
+                    Analyze how this scenario impacts Newer.com's business model (New construction vertical marketplace, revenue from CPL and SaaS).
+                    Consider:
+                    1. Impact on Builder Demand for leads.
+                    2. Impact on Consumer Demand for new vs used homes.
+                    3. Resilience of the "Payment First" value prop.
+                    
+                    Format as a concise "Stress Test Report" with 3 bullets and a final "Resilience Score" (Low/Med/High). Use HTML formatting (bolding, lists).
+                `;
+                
+                const result = await this.gemini.call(prompt, "You are a ruthlessly objective Venture Capital Risk Analyst.");
+
+                contentDiv.innerHTML = marked.parse(result);
+                btn.disabled = false;
+                btn.innerHTML = 'Run Simulation';
+            },
+
+            // --- RENDER FUNCTIONS ---
+
+            renderExecutive: function(container) {
+                container.innerHTML = `
+                    <div class="animate-fade-in space-y-8 max-w-5xl mx-auto">
+                        <div class="space-y-4">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Executive Summary</span>
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                <h2 class="text-4xl md:text-5xl font-serif font-bold text-stone-900 leading-tight">The "Used" Home Market is Broken.<br>The Future is <span class="text-emerald-600">Newer</span>.</h2>
+                                
+                                <button onclick="document.getElementById('pitch-tailor').classList.toggle('hidden')" class="bg-stone-900 text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-stone-800 transition shadow-lg whitespace-nowrap">
+                                    <span>✨</span> Tailor Pitch
+                                </button>
+                            </div>
+                            
+                            <div id="pitch-tailor" class="hidden bg-white p-4 rounded-xl border border-stone-200 shadow-xl mb-6 relative">
+                                <div class="absolute -top-2 right-8 w-4 h-4 bg-white border-t border-l border-stone-200 transform rotate-45"></div>
+                                <h4 class="font-bold text-stone-800 text-sm mb-2">Customize for Investor</h4>
+                                <div class="flex gap-2">
+                                    <input type="text" id="vc-focus-input" class="flex-1 border border-stone-300 rounded px-3 py-2 text-sm" placeholder="e.g. 'Vertical Marketplaces', 'Embedded Fintech', 'Consumer Social'...">
+                                    <button onclick="app.tailorPitch()" class="bg-emerald-600 text-white px-4 py-2 rounded text-sm font-bold">Rewrite ✨</button>
+                                </div>
+                            </div>
+
+                            <p id="exec-summary-text" class="text-xl text-stone-600 max-w-3xl leading-relaxed">
+                                We are witnessing the bifurcation of real estate into two economies: a paralyzed existing home market defined by the "Lock-In Effect," and a dynamic new construction market defined by financial engineering. <strong>Newer.com</strong> is the vertical marketplace designed to capture this shift.
+                            </p>
+                        </div>
+
+                        <!-- The Core Thesis Interaction: Affordability Calculator -->
+                        <div class="bg-white rounded-2xl shadow-sm border border-stone-200 overflow-hidden">
+                            <div class="p-6 md:p-8 border-b border-stone-100 bg-stone-50">
+                                <h3 class="font-serif text-2xl font-bold text-stone-800">The "Invisible" Economy Calculator</h3>
+                                <p class="text-stone-500 mt-2">Legacy portals sort by <strong>Price</strong>. We sort by <strong>Payment</strong>. Use the sliders to see why a "more expensive" new home is actually more affordable.</p>
+                            </div>
+                            
+                            <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                <!-- Controls -->
+                                <div class="space-y-8">
+                                    <div>
+                                        <div class="flex justify-between mb-2">
+                                            <label class="text-sm font-bold text-stone-700">Home Price</label>
+                                            <span class="text-sm font-mono text-stone-600" id="disp-price">$500,000</span>
+                                        </div>
+                                        <input type="range" min="300000" max="1000000" step="10000" value="500000" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer" oninput="app.updateCalc(this.value, 'price')">
+                                    </div>
+                                    
+                                    <div class="p-4 bg-stone-100 rounded-lg border border-stone-200">
+                                        <div class="flex justify-between mb-2">
+                                            <label class="text-sm font-bold text-stone-500">Traditional Market Rate (Used Home)</label>
+                                            <span class="text-sm font-mono text-stone-600" id="disp-rateM">7.0%</span>
+                                        </div>
+                                        <input type="range" min="5.0" max="9.0" step="0.1" value="7.0" class="w-full h-2 bg-stone-300 rounded-lg appearance-none cursor-pointer" oninput="app.updateCalc(this.value, 'rateMarket')">
+                                    </div>
+
+                                    <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-100">
+                                        <div class="flex justify-between mb-2">
+                                            <label class="text-sm font-bold text-emerald-700">Builder Incentivized Rate (Newer)</label>
+                                            <span class="text-sm font-mono text-emerald-700" id="disp-rateB">4.99%</span>
+                                        </div>
+                                        <input type="range" min="3.0" max="6.5" step="0.01" value="4.99" class="w-full h-2 bg-emerald-200 rounded-lg appearance-none cursor-pointer" oninput="app.updateCalc(this.value, 'rateBuilder')">
+                                        <p class="text-xs text-emerald-600 mt-2">Builders pay upfront points to "buy down" this rate.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Results -->
+                                <div class="flex flex-col justify-center space-y-6">
+                                    <div class="flex items-center justify-between p-4 border-b border-stone-100">
+                                        <div class="text-stone-500">Used Home Payment</div>
+                                        <div class="text-2xl font-mono font-bold text-stone-400 line-through decoration-red-400" id="res-used">$3,326</div>
+                                    </div>
+                                    <div class="flex items-center justify-between p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                                        <div class="text-emerald-800 font-bold">Newer Home Payment</div>
+                                        <div class="text-4xl font-mono font-bold text-emerald-600" id="res-new">$2,684</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <span class="text-sm text-stone-500 uppercase tracking-wide">Monthly Savings</span>
+                                        <div class="text-3xl font-bold text-emerald-600 mt-1" id="res-savings">+$642/mo</div>
+                                        <div class="text-xs text-stone-400 mt-1">Annual Cash Flow Impact: <span id="res-annual" class="font-bold text-stone-600">$7,704</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Key Value Props -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white p-6 rounded-xl border border-stone-200 interactive-card">
+                                <div class="text-3xl mb-4">🏗️</div>
+                                <h3 class="font-bold text-lg mb-2">New Inventory Focus</h3>
+                                <p class="text-sm text-stone-600">The only source of liquidity in a frozen market. We aggregate new builds and "Certified Renovated" resale.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-stone-200 interactive-card">
+                                <div class="text-3xl mb-4">💰</div>
+                                <h3 class="font-bold text-lg mb-2">Affordability First</h3>
+                                <p class="text-sm text-stone-600">Search by <strong>Effective Monthly Payment</strong>, incorporating invisible rate buydowns and incentives.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-stone-200 interactive-card">
+                                <div class="text-3xl mb-4">🤖</div>
+                                <h3 class="font-bold text-lg mb-2">AI Data Engine</h3>
+                                <p class="text-sm text-stone-600">Proprietary scraping technology normalizes unstructured builder PDF flyers into searchable data.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                this.updateCalc(500000, 'price'); // Initialize calc
+            },
+
+            renderMarket: function(container) {
+                container.innerHTML = `
+                    <div class="animate-fade-in space-y-8 max-w-5xl mx-auto">
+                        <div class="space-y-4">
+                            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Macro Analysis</span>
+                            <h2 class="text-4xl font-serif font-bold text-stone-900">The Great Bifurcation</h2>
+                            <p class="text-lg text-stone-600 max-w-3xl">Two opposing forces are reshaping the market: the "Lock-In Effect" freezing resale inventory, and builder incentives driving new construction velocity.</p>
+                        </div>
+
+                        <!-- GEMINI FEATURE: Competitor Battlecard -->
+                        <div class="bg-stone-100 rounded-xl p-6 border border-stone-200">
+                            <h3 class="font-bold text-stone-800 mb-2 flex items-center gap-2">⚔️ Competitive Battlecard Generator <span class="bg-white text-stone-500 text-[10px] px-2 py-0.5 rounded border border-stone-200 uppercase">AI Powered</span></h3>
+                            <p class="text-sm text-stone-500 mb-4">Select a competitor to generate a strategic "Kill Sheet" explaining why Newer.com wins.</p>
+                            
+                            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                                <div class="flex gap-2 flex-1">
+                                    <button onclick="app.setCompetitor('Zillow')" class="px-4 py-2 bg-white border border-stone-300 rounded text-sm font-medium hover:bg-stone-50 hover:border-emerald-500 transition">Zillow</button>
+                                    <button onclick="app.setCompetitor('Opendoor')" class="px-4 py-2 bg-white border border-stone-300 rounded text-sm font-medium hover:bg-stone-50 hover:border-emerald-500 transition">Opendoor</button>
+                                    <input type="text" id="comp-input" class="flex-1 bg-white border border-stone-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-emerald-500" placeholder="Or type any competitor...">
+                                </div>
+                                <button onclick="app.generateBattlecard()" id="btn-battlecard" class="bg-stone-800 text-white px-6 py-2 rounded font-bold text-sm hover:bg-stone-700 transition flex items-center justify-center gap-2 min-w-[140px]">
+                                    <span>Analyze</span>
+                                </button>
+                            </div>
+                            
+                            <div id="battlecard-output" class="hidden bg-white p-6 rounded-lg border border-stone-200 shadow-sm">
+                                <div id="battlecard-content" class="prose prose-sm max-w-none text-stone-600"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Chart 1: Price Convergence -->
+                            <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                <h3 class="font-bold text-lg text-stone-800 mb-2">The Collapse of the "New" Premium</h3>
+                                <p class="text-sm text-stone-500 mb-6">Historically, new homes cost $60k+ more. Today, the gap is negligible.</p>
+                                <div class="chart-container-wrapper">
+                                    <canvas id="priceChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Context Text -->
+                            <div class="space-y-6">
+                                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                    <h4 class="font-serif font-bold text-xl mb-3 text-stone-800">1. The "Lock-In" Effect</h4>
+                                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
+                                        Millions of homeowners have mortgages below 4%. Selling means trading a 3% rate for a 7% rate, doubling their interest costs. This has paralyzed the "move-up" buyer and decimated resale inventory turnover.
+                                    </p>
+                                    <div class="flex items-center gap-4 text-xs font-mono text-stone-500 bg-stone-50 p-3 rounded-lg">
+                                        <div class="w-2 h-2 rounded-full bg-red-500"></div> Result: Artificial Scarcity & High Prices
+                                    </div>
+                                </div>
+
+                                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                    <h4 class="font-serif font-bold text-xl mb-3 text-stone-800">2. The "Rate Buydown" Economy</h4>
+                                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
+                                        Builders have carrying costs (loans, land). They <em>must</em> sell. Instead of lowering list prices (which hurts appraisals), they use <strong>Mortgage Rate Buydowns</strong>.
+                                    </p>
+                                    <div class="flex items-center gap-4 text-xs font-mono text-stone-500 bg-stone-50 p-3 rounded-lg">
+                                        <div class="w-2 h-2 rounded-full bg-emerald-500"></div> Result: Hidden Affordability for Buyers
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- NEW INSIGHT: The Insurance Arbitrage -->
+                        <div class="mt-8 bg-blue-50 border border-blue-100 rounded-xl p-6">
+                            <div class="flex items-start gap-4">
+                                <div class="text-3xl">🛡️</div>
+                                <div>
+                                    <h4 class="font-serif font-bold text-xl text-stone-900 mb-2">New Insight: The Insurance Arbitrage</h4>
+                                    <p class="text-stone-700 text-sm leading-relaxed mb-4">
+                                        Our updated analysis reveals a massive hidden cost for "Used" homes in Sunbelt markets. Due to climate risk, insurance premiums for older homes (pre-2010 codes) have tripled.
+                                    </p>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                        <div class="bg-white p-3 rounded border border-blue-100">
+                                            <div class="font-bold text-stone-600">Avg. Used Home Insurance (FL)</div>
+                                            <div class="text-red-500 font-mono font-bold">$4,200 / yr</div>
+                                        </div>
+                                        <div class="bg-white p-3 rounded border border-blue-100">
+                                            <div class="font-bold text-stone-600">Avg. New Home Insurance (FL)</div>
+                                            <div class="text-emerald-500 font-mono font-bold">$1,800 / yr</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chart 2: Incentive Utilization -->
+                        <div class="bg-white p-8 rounded-xl border border-stone-200 shadow-sm mt-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                <div>
+                                    <h3 class="font-bold text-xl text-stone-800 mb-4">Builder Incentive Usage (2025)</h3>
+                                    <p class="text-stone-600 mb-4">Survey data shows that 2/3rds of builders are using financial incentives to move inventory. This data is <strong>invisible</strong> on Zillow.</p>
+                                    <ul class="space-y-2 text-sm text-stone-600">
+                                        <li class="flex items-center gap-2"><span class="text-emerald-500">●</span> 67% Offering Incentives</li>
+                                        <li class="flex items-center gap-2"><span class="text-stone-400">●</span> 33% No Incentives</li>
+                                    </ul>
+                                </div>
+                                <div class="chart-container-wrapper" style="height: 250px;">
+                                    <canvas id="incentiveChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Chart 1: Price Convergence
+                this.state.charts.push(new Chart(document.getElementById('priceChart'), {
+                    type: 'line',
+                    data: {
+                        labels: ['2021', '2022', '2023', '2024', 'Q1 2025'],
+                        datasets: [
+                            {
+                                label: 'New Home Median',
+                                data: [450000, 460000, 430000, 420000, 416900],
+                                borderColor: '#059669', // Emerald
+                                tension: 0.3
+                            },
+                            {
+                                label: 'Existing Home Median',
+                                data: [360000, 390000, 395000, 400000, 402300],
+                                borderColor: '#78716C', // Stone
+                                borderDash: [5, 5],
+                                tension: 0.3
+                            }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                }));
+
+                // Chart 2: Incentives
+                this.state.charts.push(new Chart(document.getElementById('incentiveChart'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Using Incentives', 'No Incentives'],
+                        datasets: [{
+                            data: [67, 33],
+                            backgroundColor: ['#059669', '#E7E5E4'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, cutout: '70%' }
+                }));
+            },
+
+            renderSolution: function(container) {
+                container.innerHTML = `
+                    <div class="animate-fade-in space-y-8 max-w-5xl mx-auto">
+                        <div class="space-y-4">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Product Strategy</span>
+                            <h2 class="text-4xl font-serif font-bold text-stone-900">The "Newer" Ecosystem</h2>
+                            <p class="text-lg text-stone-600 max-w-3xl">A vertical marketplace built on three pillars: Structured Incentive Data, Renovation Certification, and Integrated Fintech.</p>
+                        </div>
+
+                        <!-- Feature 1: The INE - UPGRADED WITH GEMINI -->
+                        <div class="bg-white rounded-xl border border-stone-200 overflow-hidden shadow-sm">
+                            <div class="grid grid-cols-1 lg:grid-cols-2">
+                                <div class="p-8 bg-stone-900 text-white flex flex-col justify-center">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="font-mono text-xs text-emerald-400">GEMINI POWERED ENGINE ✨</div>
+                                    </div>
+                                    <h3 class="text-2xl font-bold mb-4">Incentive Normalization Engine (INE)</h3>
+                                    <p class="text-stone-300 text-sm leading-relaxed mb-6">
+                                        Builders publish incentives in unstructured formats (PDF flyers, email blasts). Our Gemini-powered bots ingest this noise and convert it into structured, queryable data in real-time. <strong>Try it yourself:</strong>
+                                    </p>
+                                    
+                                    <!-- Interactive AI Demo -->
+                                    <div class="bg-stone-800 rounded-lg p-4 border border-stone-700 space-y-3">
+                                        <textarea id="flyer-input" class="w-full bg-black text-stone-300 text-xs font-mono p-3 rounded border border-stone-600 focus:border-emerald-500 focus:outline-none h-24" placeholder="Paste messy builder text here... e.g., 'FLASH SALE! 4.99% fixed rate on all closings before month end! Plus $5k closing costs.'">FLASH SALE! 4.99% fixed rate on all closings before month end! Plus $5k closing costs.</textarea>
+                                        <button id="run-ine-btn" onclick="app.runIncentiveDemo()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2 rounded transition-colors">
+                                            Process with Gemini ✨
+                                        </button>
+                                        <div id="ine-output" class="min-h-[100px]"></div>
+                                    </div>
+                                </div>
+                                <div class="p-8 flex flex-col justify-center bg-stone-50">
+                                    <h4 class="font-bold text-lg text-stone-800 mb-2">User Benefit: "True Cost" Search</h4>
+                                    <p class="text-sm text-stone-600 mb-6">This data powers the primary search filter. Users don't search for "$500k Homes." They search for "Homes under $2,800/mo."</p>
+                                    
+                                    <!-- Mock UI Card -->
+                                    <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm relative">
+                                        <div class="absolute top-2 right-2 bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded">4.99% Rate Locked</div>
+                                        <div class="h-24 bg-stone-200 rounded mb-3 w-full"></div>
+                                        <div class="font-bold text-stone-800">The Elmwood Plan</div>
+                                        <div class="flex justify-between items-end mt-2">
+                                            <div>
+                                                <div class="text-xs text-stone-400 line-through">$510,000</div>
+                                                <div class="font-bold text-stone-600">$495,000</div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-xs text-emerald-600 font-bold">Effective Payment</div>
+                                                <div class="text-xl font-bold text-emerald-700">$2,750/mo</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature 2: Supply Chain Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white p-6 rounded-xl border border-stone-200">
+                                <h3 class="font-bold text-stone-800 mb-2">Anchor Supply</h3>
+                                <div class="text-xs font-bold text-indigo-600 uppercase mb-3">National Builders</div>
+                                <p class="text-sm text-stone-600">Direct XML feeds from Lennar, Pulte, DR Horton via BDX integration. Capturing "Shadow Inventory" (QMI) often missing from MLS.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-stone-200">
+                                <h3 class="font-bold text-stone-800 mb-2">Strategic Supply</h3>
+                                <div class="text-xs font-bold text-indigo-600 uppercase mb-3">Renovation Concierge</div>
+                                <p class="text-sm text-stone-600">Partnership with Revive & Curbio. Listing "Pre-Renovated" homes where buyers can see designs before completion.</p>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl border border-stone-200">
+                                <h3 class="font-bold text-stone-800 mb-2">Fintech Layer</h3>
+                                <div class="text-xs font-bold text-indigo-600 uppercase mb-3">Power Buyers</div>
+                                <p class="text-sm text-stone-600">Integration with Homeward/Knock. The "Trade-In" button unlocks equity for contingent buyers.</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            renderEconomics: function(container) {
+                container.innerHTML = `
+                    <div class="animate-fade-in space-y-8 max-w-5xl mx-auto">
+                        <div class="space-y-4">
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Financial Model</span>
+                            <h2 class="text-4xl font-serif font-bold text-stone-900">The Arbitrage Opportunity</h2>
+                            <p class="text-lg text-stone-600 max-w-3xl">Builders are overpaying for low-intent leads on legacy platforms. Newer.com offers higher intent (payment qualified) at a lower cost.</p>
+                        </div>
+
+                        <!-- GEMINI FEATURE: Stress Test Simulator -->
+                        <div class="bg-stone-900 rounded-xl p-6 md:p-8 text-white border border-stone-800 shadow-xl">
+                            <div class="flex items-center justify-between mb-6">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="text-2xl">⚡</span>
+                                        <h3 class="font-bold text-xl">Strategic Stress Test</h3>
+                                    </div>
+                                    <p class="text-stone-400 text-sm">Use Gemini to simulate "Bear Case" scenarios against our unit economics.</p>
+                                </div>
+                                <div class="bg-stone-800 px-3 py-1 rounded-full text-xs font-mono text-emerald-400 border border-stone-700">AI Powered Analysis</div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="md:col-span-1 space-y-3">
+                                    <label class="text-xs font-bold text-stone-500 uppercase">Define Scenario</label>
+                                    <button onclick="app.setScenario('Interest rates drop back to 3.5%')" class="w-full text-left p-3 rounded bg-stone-800 hover:bg-stone-700 border border-stone-700 text-xs transition-colors">📉 Rates drop to 3.5%</button>
+                                    <button onclick="app.setScenario('Zillow lowers lead prices to $50')" class="w-full text-left p-3 rounded bg-stone-800 hover:bg-stone-700 border border-stone-700 text-xs transition-colors">⚔️ Zillow Price War</button>
+                                    <button onclick="app.setScenario('Builders stop offering incentives')" class="w-full text-left p-3 rounded bg-stone-800 hover:bg-stone-700 border border-stone-700 text-xs transition-colors">🚫 Incentives Dry Up</button>
+                                </div>
+                                <div class="md:col-span-2 flex flex-col gap-3">
+                                    <textarea id="scenario-input" class="flex-1 bg-black border border-stone-700 rounded-lg p-4 text-sm text-stone-300 focus:border-emerald-500 focus:outline-none" placeholder="Or type a custom scenario... e.g. 'What if a recession hits in 2026?'"></textarea>
+                                    <button id="run-sim-btn" onclick="app.runStressTest()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+                                        <span>Run Simulation</span>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="sim-output" class="mt-6 hidden">
+                                <div class="h-px bg-stone-800 w-full mb-6"></div>
+                                <div class="prose prose-invert prose-sm max-w-none" id="sim-content"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Chart: Lead Cost -->
+                            <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                <h3 class="font-bold text-lg text-stone-800 mb-6">Cost Per Lead (CPL) Comparison</h3>
+                                <div class="chart-container-wrapper">
+                                    <canvas id="cplChart"></canvas>
+                                </div>
+                                <p class="text-xs text-stone-400 mt-4 text-center">Source: Industry benchmarks for Major Metros (2025)</p>
+                            </div>
+
+                            <!-- Revenue Model -->
+                            <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm flex flex-col justify-center">
+                                <h3 class="font-bold text-lg text-stone-800 mb-4">Revenue Streams</h3>
+                                <div class="space-y-6">
+                                    <div class="flex items-start gap-4">
+                                        <div class="bg-indigo-100 p-3 rounded-lg text-indigo-700 font-bold">01</div>
+                                        <div>
+                                            <h4 class="font-bold text-stone-800">Builder SaaS / Listing Fees</h4>
+                                            <p class="text-sm text-stone-600">Recurring revenue for community profiles and data management.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="bg-emerald-100 p-3 rounded-lg text-emerald-700 font-bold">02</div>
+                                        <div>
+                                            <h4 class="font-bold text-stone-800">Performance Marketing (CPL)</h4>
+                                            <p class="text-sm text-stone-600">Pay-per-lead model undercutting Zillow while maintaining 60-70% gross margins.</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="bg-amber-100 p-3 rounded-lg text-amber-700 font-bold">03</div>
+                                        <div>
+                                            <h4 class="font-bold text-stone-800">Fintech Referral Fees</h4>
+                                            <p class="text-sm text-stone-600">Monetizing the "Trade-In" and financing referrals (via RESPA-compliant MSAs).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAM Stats -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center mt-6">
+                            <div class="p-6 bg-stone-100 rounded-xl">
+                                <div class="text-3xl font-bold text-stone-800 mb-1">$5B+</div>
+                                <div class="text-xs text-stone-500 uppercase font-bold">Builder Marketing Spend</div>
+                            </div>
+                            <div class="p-6 bg-stone-100 rounded-xl">
+                                <div class="text-3xl font-bold text-stone-800 mb-1">800k</div>
+                                <div class="text-xs text-stone-500 uppercase font-bold">Annual New Home Sales</div>
+                            </div>
+                            <div class="p-6 bg-stone-100 rounded-xl">
+                                <div class="text-3xl font-bold text-stone-800 mb-1">$150</div>
+                                <div class="text-xs text-stone-500 uppercase font-bold">Target Revenue Per Lead</div>
+                            </div>
+                        </div>
+                        
+                         <!-- NEW INSIGHT: Cancellation Rate Stats -->
+                        <div class="mt-8 bg-stone-100 p-6 rounded-xl border border-stone-200">
+                            <h4 class="font-bold text-stone-800 mb-4 flex items-center gap-2">
+                                <span class="bg-emerald-600 text-white text-xs px-2 py-1 rounded uppercase">New Analysis</span>
+                                The "Cancellation Crisis"
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                                <div class="p-4 bg-white rounded-lg shadow-sm">
+                                    <div class="text-3xl font-bold text-red-500 mb-1">32%</div>
+                                    <div class="text-xs text-stone-500 uppercase font-bold">Industry Cancellation Rate</div>
+                                    <div class="text-[10px] text-stone-400 mt-1">Due to rate shock at closing</div>
+                                </div>
+                                <div class="p-4 bg-white rounded-lg shadow-sm">
+                                    <div class="text-3xl font-bold text-emerald-600 mb-1">5%</div>
+                                    <div class="text-xs text-stone-500 uppercase font-bold">Newer.com Target Rate</div>
+                                    <div class="text-[10px] text-stone-400 mt-1">Due to upfront rate lock</div>
+                                </div>
+                                <div class="p-4 bg-white rounded-lg shadow-sm">
+                                    <div class="text-3xl font-bold text-stone-800 mb-1">$15k</div>
+                                    <div class="text-xs text-stone-500 uppercase font-bold">Savings Per Home</div>
+                                    <div class="text-[10px] text-stone-400 mt-1">Recovered carrying costs</div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-stone-600 mt-4 text-center italic">
+                                "Builders don't just want leads. They want <strong>closes</strong>. Our value prop is certainty."
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                this.state.charts.push(new Chart(document.getElementById('cplChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Zillow Premier Agent', 'Google PPC', 'Newer.com (Target)'],
+                        datasets: [{
+                            label: 'Cost Per Lead ($)',
+                            data: [223, 45, 50],
+                            backgroundColor: ['#94A3B8', '#CBD5E1', '#059669'],
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: { y: { beginAtZero: true } }
+                    }
+                }));
+            },
+
+            renderRoadmap: function(container) {
+                container.innerHTML = `
+                    <div class="animate-fade-in space-y-8 max-w-5xl mx-auto">
+                        <div class="space-y-4">
+                            <span class="bg-stone-200 text-stone-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Execution</span>
+                            <h2 class="text-4xl font-serif font-bold text-stone-900">Operational Roadmap</h2>
+                            <p class="text-lg text-stone-600 max-w-3xl">A phased rollout focusing on liquidity in high-volume "Sunbelt" markets before national expansion.</p>
+                        </div>
+
+                        <div class="relative border-l-4 border-stone-200 ml-4 md:ml-8 space-y-12 my-12">
+                            <!-- Phase 1 -->
+                            <div class="relative pl-8 md:pl-12">
+                                <div class="absolute -left-3 top-0 w-6 h-6 bg-emerald-500 rounded-full border-4 border-white shadow-sm"></div>
+                                <h3 class="text-2xl font-bold text-stone-800 mb-2">Phase 1: The Sunbelt MVP</h3>
+                                <div class="text-sm font-mono text-emerald-600 mb-4">Months 1-9</div>
+                                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-bold text-stone-700 mb-2">Geography</h4>
+                                            <p class="text-sm text-stone-600">Texas (Dallas, Houston, Austin), Florida, Arizona.</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-stone-700 mb-2">Key Objectives</h4>
+                                            <ul class="text-sm text-stone-600 list-disc list-inside">
+                                                <li>Secure "Newer.com" Domain</li>
+                                                <li>Build Scrapers for Top 20 Builders</li>
+                                                <li>Launch Payment-First Search Engine</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 2 -->
+                            <div class="relative pl-8 md:pl-12">
+                                <div class="absolute -left-3 top-0 w-6 h-6 bg-indigo-500 rounded-full border-4 border-white shadow-sm"></div>
+                                <h3 class="text-2xl font-bold text-stone-800 mb-2">Phase 2: The Trade-In Layer</h3>
+                                <div class="text-sm font-mono text-indigo-600 mb-4">Months 10-18</div>
+                                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h4 class="font-bold text-stone-700 mb-2">Integration</h4>
+                                            <p class="text-sm text-stone-600">API Connectivity with Homeward / Knock.</p>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-stone-700 mb-2">Key Objectives</h4>
+                                            <ul class="text-sm text-stone-600 list-disc list-inside">
+                                                <li>Launch "Unlock Your Equity" Calculator</li>
+                                                <li>Pilot "Certified Newer" Resale listings</li>
+                                                <li>Revenue Turn-on (Pay Per Lead)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phase 3 -->
+                            <div class="relative pl-8 md:pl-12">
+                                <div class="absolute -left-3 top-0 w-6 h-6 bg-stone-400 rounded-full border-4 border-white shadow-sm"></div>
+                                <h3 class="text-2xl font-bold text-stone-800 mb-2">Phase 3: National Scale</h3>
+                                <div class="text-sm font-mono text-stone-500 mb-4">Months 18+</div>
+                                <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                                    <p class="text-sm text-stone-600">Expansion to Carolinas, Georgia, Mountain West. Vertical integration of "Newer Mortgage" white label product.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            },
+
+            // --- CALCULATOR LOGIC ---
+            updateCalc: function(value, type) {
+                this.state.calc[type] = parseFloat(value);
+                
+                // Update Displays
+                if(type === 'price') document.getElementById('disp-price').innerText = '$' + this.state.calc.price.toLocaleString();
+                if(type === 'rateMarket') document.getElementById('disp-rateM').innerText = this.state.calc.rateMarket.toFixed(1) + '%';
+                if(type === 'rateBuilder') document.getElementById('disp-rateB').innerText = this.state.calc.rateBuilder.toFixed(2) + '%';
+
+                // Calculate Payments (Simple P&I for demo)
+                const loanAmount = this.state.calc.price * 0.9; // Assuming 10% down roughly for comparison
+                const terms = 360; // 30 years
+
+                const monthlyRateM = this.state.calc.rateMarket / 100 / 12;
+                const monthlyRateB = this.state.calc.rateBuilder / 100 / 12;
+
+                const paymentUsed = (loanAmount * monthlyRateM) / (1 - Math.pow(1 + monthlyRateM, -terms));
+                const paymentNew = (loanAmount * monthlyRateB) / (1 - Math.pow(1 + monthlyRateB, -terms));
+                // Add hypothetical tax/insurance wrapper for realism in "Effective" visual (simplified here)
+
+                const savings = paymentUsed - paymentNew;
+
+                document.getElementById('res-used').innerText = '$' + Math.floor(paymentUsed).toLocaleString();
+                document.getElementById('res-new').innerText = '$' + Math.floor(paymentNew).toLocaleString();
+                document.getElementById('res-savings').innerText = '+$' + Math.floor(savings).toLocaleString() + '/mo';
+                document.getElementById('res-annual').innerText = '$' + Math.floor(savings * 12).toLocaleString();
+            }
+        };
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            app.init();
+        });
+    </script>
+
+    <!-- Global Styles for Animations -->
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</body>
+</html>
