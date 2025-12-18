@@ -47,7 +47,6 @@
         .message.user { align-self: flex-end; background-color: #059669; color: white; border-bottom-right-radius: 0.25rem; }
         .message.ai { align-self: flex-start; background-color: #F5F5F4; color: #1E293B; border-bottom-left-radius: 0.25rem; }
 
-        /* Typing Indicator */
         .typing-indicator span { display: inline-block; width: 5px; height: 5px; background-color: #9CA3AF; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; margin: 0 1px; }
         .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
         .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
@@ -75,6 +74,11 @@
         </nav>
         <div class="p-6 border-t border-stone-100 space-y-3">
              <button onclick="app.toggleChat()" class="w-full bg-stone-900 hover:bg-stone-800 text-white p-3 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-lg text-sm font-medium"><span>✨</span> Deal Desk AI</button>
+             
+             <button onclick="app.toggleContact()" class="w-full bg-white hover:bg-stone-50 text-stone-600 border border-stone-200 p-3 rounded-lg flex items-center justify-center gap-2 transition-colors font-medium text-sm">
+                <span>📬</span> Contact Founder
+            </button>
+             
              <button onclick="app.toggleSettings()" class="w-full text-xs text-stone-400 hover:text-stone-600 flex items-center justify-center gap-1 mt-2"><span>⚙️</span> API Settings</button>
         </div>
     </aside>
@@ -86,6 +90,7 @@
         <button onclick="app.navigate('solution')" class="mobile-link text-white text-2xl font-serif">The Platform</button>
         <button onclick="app.navigate('economics')" class="mobile-link text-white text-2xl font-serif">Unit Economics</button>
         <button onclick="app.navigate('roadmap')" class="mobile-link text-white text-2xl font-serif">Roadmap</button>
+        <button onclick="app.toggleContact(); document.getElementById('mobile-menu').classList.add('hidden')" class="mobile-link text-emerald-400 text-xl font-bold">📬 Contact Founder</button>
     </div>
 
     <main id="main-content" class="flex-1 overflow-y-auto h-screen bg-stone-50 p-6 md:p-10 lg:p-14 scroll-smooth"></main>
@@ -98,6 +103,39 @@
             <div class="flex justify-end gap-2">
                 <button onclick="document.getElementById('settings-modal').classList.add('hidden')" class="px-4 py-2 text-stone-500 text-sm">Cancel</button>
                 <button onclick="app.saveSettings()" class="px-4 py-2 bg-emerald-600 text-white rounded text-sm font-bold">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="contact-modal" class="fixed inset-0 bg-stone-900/80 z-[110] hidden flex items-center justify-center p-4 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden transform scale-95 transition-transform duration-300" id="contact-content">
+            <div class="bg-stone-900 p-6 text-white relative">
+                <button onclick="app.toggleContact()" class="absolute top-4 right-4 text-stone-400 hover:text-white text-2xl">&times;</button>
+                <h3 class="font-serif text-2xl font-bold mb-1">Let's Build Newer.</h3>
+                <p class="text-stone-400 text-sm">Currently raising Pre-Seed round.</p>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-stone-100 rounded-full flex items-center justify-center text-2xl border border-stone-200">👨‍💻</div>
+                    <div>
+                        <div class="font-bold text-lg text-stone-800">Lance Sonka</div>
+                        <div class="text-sm text-stone-500">CEO & Co-Founder</div>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <a href="mailto:info@newer.com" class="flex items-center gap-4 p-4 rounded-xl border border-stone-200 hover:border-emerald-500 hover:bg-emerald-50 transition group">
+                        <div class="bg-stone-100 p-2 rounded-lg group-hover:bg-white text-xl">✉️</div>
+                        <div><div class="font-bold text-stone-800 text-sm">Email Me</div><div class="text-xs text-stone-500">info@newer.com</div></div>
+                    </a>
+                    <a href="https://calendly.com" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-stone-200 hover:border-indigo-500 hover:bg-indigo-50 transition group">
+                        <div class="bg-stone-100 p-2 rounded-lg group-hover:bg-white text-xl">📅</div>
+                        <div><div class="font-bold text-stone-800 text-sm">Schedule Meeting</div><div class="text-xs text-stone-500">30 min Intro Call</div></div>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="flex items-center gap-4 p-4 rounded-xl border border-stone-200 hover:border-blue-500 hover:bg-blue-50 transition group">
+                        <div class="bg-stone-100 p-2 rounded-lg group-hover:bg-white text-xl">💼</div>
+                        <div><div class="font-bold text-stone-800 text-sm">LinkedIn</div><div class="text-xs text-stone-500">View Profile</div></div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -131,11 +169,12 @@
                     price: 500000,
                     rateMarket: 7.0,
                     rateBuilder: 4.99,
-                    hoa: 150,           // Updated for realism
-                    specialTax: 0,      // Updated for Mello-Roos/PIDs
+                    hoa: 150,
+                    specialTax: 0,
                     includeIns: true
                 },
-                chatOpen: false
+                chatOpen: false,
+                contactOpen: false
             },
 
             // --- MOCK DATA ---
@@ -207,21 +246,19 @@
                 catch(e) { output.innerText = res; }
             },
 
-            // --- CALCULATOR LOGIC (Updated with HOA/Mello-Roos) ---
+            // --- CALCULATOR LOGIC ---
             updateCalc: function(val, type) {
                 if(type !== 'includeIns') this.state.calc[type] = parseFloat(val);
                 else this.state.calc.includeIns = val;
 
                 const { price, rateMarket, rateBuilder, includeIns, hoa, specialTax } = this.state.calc;
 
-                // UI Updates
                 if(type === 'price') document.getElementById('disp-price').innerText = '$' + price.toLocaleString();
                 if(type === 'rateMarket') document.getElementById('disp-rateM').innerText = rateMarket.toFixed(1) + '%';
                 if(type === 'rateBuilder') document.getElementById('disp-rateB').innerText = rateBuilder.toFixed(2) + '%';
                 if(type === 'hoa') document.getElementById('disp-hoa').innerText = '$' + hoa;
                 if(type === 'specialTax') document.getElementById('disp-tax').innerText = '$' + specialTax;
 
-                // Math
                 const loan = price * 0.95; // 5% down
                 const n = 360;
                 const rM = rateMarket / 100 / 12;
@@ -234,17 +271,13 @@
                 const insOld = 350; 
                 const insNew = 120;
                 
-                // Add Taxes/Ins
                 if (includeIns) {
                     payM += propTax + insOld;
                     payB += propTax + insNew;
                 }
 
-                // Add HOA/Special Tax (New Home Specifics vs Used Home Baseline)
-                // We add the user-selected HOA/Tax to the New Home side.
-                // We assume a baseline $50 HOA for the Used home (average) to be fair.
                 payB += (hoa + specialTax);
-                payM += 50; 
+                payM += 50; // Baseline Used HOA
 
                 const savings = payM - payB;
 
@@ -273,6 +306,35 @@
                 else if(marketRate > 5.0) narr.innerText = "Moderate Environment: Builders maintain spread to undercut resale. Newer.com offers best value.";
                 else narr.innerText = "Low Rate Environment: Builders shift incentives to 'Design Credits' or 'Closing Costs' but keep rate advantage.";
             },
+
+            // --- UI ACTIONS ---
+            toggleChat: function() { this.state.chatOpen = !this.state.chatOpen; document.getElementById('ai-chat').classList.toggle('open', this.state.chatOpen); },
+            toggleSettings: function() { document.getElementById('settings-modal').classList.remove('hidden'); document.getElementById('api-key-input').value = this.state.apiKey; },
+            saveSettings: function() { this.state.apiKey = document.getElementById('api-key-input').value; localStorage.setItem('gemini_key', this.state.apiKey); document.getElementById('settings-modal').classList.add('hidden'); },
+            
+            // RESTORED: Contact Toggle Logic
+            toggleContact: function() {
+                const modal = document.getElementById('contact-modal');
+                const content = document.getElementById('contact-content');
+                this.state.contactOpen = !this.state.contactOpen;
+                
+                if (this.state.contactOpen) {
+                    modal.classList.remove('hidden');
+                    setTimeout(() => { modal.classList.remove('opacity-0'); content.classList.remove('scale-95'); content.classList.add('scale-100'); }, 10);
+                } else {
+                    modal.classList.add('opacity-0'); content.classList.remove('scale-100'); content.classList.add('scale-95');
+                    setTimeout(() => { modal.classList.add('hidden'); }, 300);
+                }
+            },
+
+            handleChatSubmit: async function(e) {
+                e.preventDefault(); const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if(!txt) return;
+                const msgs = document.getElementById('chat-messages'); msgs.innerHTML += `<div class="message user">${txt}</div>`; inp.value = '';
+                const id = 'typing-'+Date.now(); msgs.innerHTML += `<div id="${id}" class="message ai typing-indicator"><span></span><span></span><span></span></div>`; msgs.scrollTop = msgs.scrollHeight;
+                const res = await this.callAI(txt, 'chat');
+                document.getElementById(id).remove(); msgs.innerHTML += `<div class="message ai">${marked.parse(res)}</div>`; msgs.scrollTop = msgs.scrollHeight;
+            },
+            destroyCharts: function() { this.state.charts.forEach(c => c.destroy()); this.state.charts = []; },
 
             // --- RENDERERS ---
 
@@ -570,18 +632,6 @@
                     </div>
                 `;
             },
-
-            toggleChat: function() { this.state.chatOpen = !this.state.chatOpen; document.getElementById('ai-chat').classList.toggle('open', this.state.chatOpen); },
-            toggleSettings: function() { document.getElementById('settings-modal').classList.remove('hidden'); document.getElementById('api-key-input').value = this.state.apiKey; },
-            saveSettings: function() { this.state.apiKey = document.getElementById('api-key-input').value; localStorage.setItem('gemini_key', this.state.apiKey); document.getElementById('settings-modal').classList.add('hidden'); },
-            handleChatSubmit: async function(e) {
-                e.preventDefault(); const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if(!txt) return;
-                const msgs = document.getElementById('chat-messages'); msgs.innerHTML += `<div class="message user">${txt}</div>`; inp.value = '';
-                const id = 'typing-'+Date.now(); msgs.innerHTML += `<div id="${id}" class="message ai typing-indicator"><span></span><span></span><span></span></div>`; msgs.scrollTop = msgs.scrollHeight;
-                const res = await this.callAI(txt, 'chat');
-                document.getElementById(id).remove(); msgs.innerHTML += `<div class="message ai">${marked.parse(res)}</div>`; msgs.scrollTop = msgs.scrollHeight;
-            },
-            destroyCharts: function() { this.state.charts.forEach(c => c.destroy()); this.state.charts = []; }
         };
 
         document.addEventListener('DOMContentLoaded', () => app.init());
