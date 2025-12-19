@@ -381,10 +381,10 @@
                                         Verified profiles receive <strong>3.5x more offers</strong> from builders.
                                     </p>
                                 </div>
-                                <button onclick="verifyUser()" class="w-full py-4 bg-white border-2 border-stone-200 rounded-xl font-bold flex items-center justify-center gap-3 hover:border-green-500 hover:text-green-600 transition-all group mb-3">
+                                <button onclick="verifyUser(event)" class="w-full py-4 bg-white border-2 border-stone-200 rounded-xl font-bold flex items-center justify-center gap-3 hover:border-green-500 hover:text-green-600 transition-all group mb-3">
                                     <i class="fas fa-university text-stone-400 group-hover:text-green-500"></i> Connect Bank (Plaid)
                                 </button>
-                                <button onclick="verifyUser()" class="w-full py-4 bg-white border-2 border-stone-200 rounded-xl font-bold flex items-center justify-center gap-3 hover:border-green-500 hover:text-green-600 transition-all group">
+                                <button onclick="verifyUser(event)" class="w-full py-4 bg-white border-2 border-stone-200 rounded-xl font-bold flex items-center justify-center gap-3 hover:border-green-500 hover:text-green-600 transition-all group">
                                     <i class="fas fa-file-upload text-stone-400 group-hover:text-green-500"></i> Upload Pre-Approval
                                 </button>
                             </div>
@@ -425,6 +425,10 @@
                         <div class="flex items-center gap-4">
                             <span class="font-bold tracking-wider">BUILDER TERMINAL</span>
                             <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded border border-green-500/30 animate-pulse">LIVE FEED</span>
+                        </div>
+                        <!-- Restored Matches Counter -->
+                        <div class="text-xs text-stone-400 font-mono hidden lg:block">
+                            MATCHES: <span id="dash-matches" class="text-white font-bold">12</span>
                         </div>
                         <div class="flex bg-stone-800 rounded-lg p-1 border border-stone-700">
                             <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-3 py-1 rounded text-xs font-bold bg-stone-600 text-white transition-all"><i class="fas fa-list"></i> List</button>
@@ -999,6 +1003,7 @@
             persona: '',
             bedrooms: 3,
             budget: 500,
+            amenities: [], // Added Array
             verified: false,
             alias: '#8942',
             credits: 500
@@ -1238,8 +1243,8 @@
             if(target) target.classList.remove('hidden');
         }
 
-        function verifyUser() {
-            const btn = event.currentTarget;
+        function verifyUser(e) {
+            const btn = e ? e.currentTarget : event.currentTarget;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin text-stone-400"></i> Verifying...';
             setTimeout(() => {
                 appState.verified = true;
@@ -1274,10 +1279,14 @@
             document.getElementById('phone-notifications').innerHTML = '';
             
             // Reset Dashboard Stats
-            document.getElementById('dash-card-status').innerText = 'Unverified';
-            document.getElementById('dash-card-status').classList.remove('text-green-400');
-            document.getElementById('dash-card-status').classList.add('text-stone-500');
-            document.getElementById('stat-credits').innerText = 500;
+            const statusEl = document.getElementById('dash-card-status');
+            if(statusEl) {
+                statusEl.innerText = 'Unverified';
+                statusEl.classList.remove('text-green-400');
+                statusEl.classList.add('text-stone-500');
+            }
+            const creditsEl = document.getElementById('stat-credits');
+            if(creditsEl) creditsEl.innerText = 500;
             
             updateDashboardPreview();
         }
@@ -1308,16 +1317,29 @@
             document.getElementById('dash-card-style').innerText = appState.style || 'Pending...';
             document.getElementById('dash-card-config').innerText = `${appState.bedrooms}bd / ${Math.floor(appState.bedrooms * 0.75) + 1}ba`;
             document.getElementById('dash-card-budget').innerText = `$${appState.budget}k`;
+            
+            // Update Amenities on Card
+            const amEl = document.getElementById('dash-card-amenities');
+            if(amEl) {
+                amEl.innerText = appState.amenities.length > 0 ? appState.amenities.join(', ') : 'None selected';
+            }
         }
 
         function revealDashboardCard() {
             const card = document.getElementById('user-card-overlay');
             const statusEl = document.getElementById('dash-card-status');
-            statusEl.innerText = "VERIFIED FUNDS";
-            statusEl.classList.remove('text-stone-500');
-            statusEl.classList.add('text-green-400');
-            card.classList.remove('translate-y-full');
-            card.classList.add('translate-y-0');
+            
+            if (statusEl) {
+                statusEl.innerText = "VERIFIED FUNDS";
+                statusEl.classList.remove('text-stone-500');
+                statusEl.classList.add('text-green-400');
+            }
+            
+            if (card) {
+                card.classList.remove('translate-y-full');
+                card.classList.add('translate-y-0');
+            }
+
             const matchCount = document.getElementById('dash-matches');
             if(matchCount) {
                 const currentMatches = parseInt(matchCount.innerText) + 1;
@@ -1402,7 +1424,7 @@
             const selected = document.querySelector('.pitch-opt.border-blue-500');
             const type = selected ? selected.getAttribute('data-type') : 'Spec';
             closePitchModal();
-            let msg = type === 'Spec' ? 'Builder sent a pitch: "Spec Home: 123 Oak St - Move in Ready"' : 'Builder sent a pitch: "Dirt Lot: Phase 2 - Custom Build Available"';
+            let msg = type === 'Spec' ? 'Builder Pitch: Spec Home (Ready in 30 Days)' : 'Builder Pitch: Custom Dirt Lot';
             notifyPhone('New Offer Received!', msg, 'fa-envelope-open-text');
         }
 
@@ -1429,11 +1451,14 @@
             notifyPhone('Profile Viewed', 'A Local Builder just unlocked your contact info.', 'fa-eye');
         }
 
+        // --- ALIVE SIMULATION ---
         function startMarketSimulation() {
             const fmt = (n) => n.toLocaleString();
             setInterval(() => {
                 const activeEl = document.getElementById('stat-active');
-                const mobileActiveEl = document.getElementById('mobile-stat-active');
+                // Check if element exists before accessing innerText
+                if (!activeEl) return;
+                
                 let current = parseInt(activeEl.innerText.replace(/,/g, ''));
                 if(Math.random() > 0.4) {
                     current += Math.floor(Math.random() * 3); 
@@ -1442,7 +1467,6 @@
                 }
                 const newText = fmt(current);
                 activeEl.innerText = newText;
-                if(mobileActiveEl) mobileActiveEl.innerText = newText;
                 
                 if(Math.random() > 0.7) {
                     addNewFeedRow();
@@ -1452,6 +1476,8 @@
         
         function addNewFeedRow() {
             const feed = document.getElementById('dashboard-feed');
+            if (!feed) return;
+            
             const styles = ['Modern', 'Farmhouse', 'Trad.', 'Contemp.'];
             const id = Math.floor(Math.random() * 8999) + 1000;
             const bd = Math.floor(Math.random() * 3) + 3;
