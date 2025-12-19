@@ -811,7 +811,8 @@
 
         function handleWaitlistSubmit(e) {
             e.preventDefault();
-            const btn = e.submitter;
+            // Fallback for submitter if triggered via Enter key
+            const btn = e.submitter || e.target.querySelector('button[type="submit"]'); 
             const originalText = btn.innerText;
             
             // Loading state
@@ -828,12 +829,17 @@
             const body = `I would like to join the waitlist.\n\nRole: ${role}\nEmail: ${email}`;
             const mailtoLink = `mailto:info@housingmarket.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-            // Simulate Network Delay then Action
-            setTimeout(() => {
-                // Open Default Mail Client
-                window.location.href = mailtoLink;
+            // Fix: Trigger mailto immediately using a temporary link to preserve user-action context
+            // (Browser security often blocks window.location inside setTimeout)
+            const link = document.createElement('a');
+            link.href = mailtoLink;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
 
-                // Show success UI
+            // Show success UI after a short visual delay
+            setTimeout(() => {
                 formState.classList.add('hidden');
                 modalFooter.classList.add('hidden');
                 successState.classList.remove('hidden');
@@ -841,7 +847,7 @@
                 // Reset button for next time
                 btn.innerText = originalText;
                 btn.disabled = false;
-            }, 800);
+            }, 1000);
         }
 
         // --- State Management ---
