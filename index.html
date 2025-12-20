@@ -692,8 +692,8 @@
         const heatMapPoints = Array.from({length: 30}, () => ({ x: Math.random(), y: Math.random(), r: 20 + Math.random() * 40 }));
         const lotPoints = Array.from({length: 5}, () => ({ x: Math.random(), y: Math.random() }));
         
-        // DOM Elements
-        const audienceElements = document.querySelectorAll('[data-audience]');
+        // DOM Elements (Cached)
+        let audienceElements;
 
         // --- Content Configuration ---
         const contentConfig = {
@@ -732,14 +732,14 @@
                 title: 'Solving the $300B<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">Housing Speculation Tax.</span>',
                 desc: 'By inverting the market from Supply-First to <strong>Demand-First</strong>, we unlock massive liquidity and zero-out customer acquisition costs.',
                 ctaText: 'See The Unit Economics',
-                conceptTitle: 'The Liquidity Engine',
-                conceptDesc: 'The housing market is illiquid because it lacks data.<br><span class="font-semibold text-stone-700">Newer is the clearinghouse that matches capital to verified demand instantly.</span>',
-                demoTitle: 'The Transaction Engine',
+                conceptTitle: 'The Capital Efficiency Shift',
+                conceptDesc: 'Speculative building kills returns via inventory carry costs.<br><span class="font-semibold text-stone-700">Newer enables "Just-in-Time" housing production by removing inventory risk.</span>',
+                demoTitle: 'The Demand Ledger',
                 testimonialTitle: 'Market Validation',
                 testimonialDesc: 'Data-driven validation of the high-velocity matching engine and liquidity model.',
                 oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400"></i></div><div><span class="font-bold text-stone-800">Capital Lockup:</span><p class="text-sm">Money stuck in finished inventory waiting for buyers.</p></div></li>',
                 newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-bolt text-blue-500"></i></div><div><span class="font-bold text-stone-900">Velocity of Money:</span><p class="text-sm">Faster turns, higher IRR, and de-risked assets.</p></div></li>`,
-                demoDesc: 'Observe the ecosystem mechanics: How <strong>User Input</strong> converts to <strong>Monetizable Data</strong> for builders.',
+                demoDesc: 'This is not a listing site; it is a live <strong>Order Book</strong>. Watch how verified demand signals are captured and monetized instantly.',
                 revenueTitle: 'Unicorn Unit Economics', revenueDesc: 'Three revenue streams create a scalable, recurring income model with high LTV.'
             }
         };
@@ -761,7 +761,6 @@
         
         const mockMemo = "Investment Thesis: Newer effectively eliminates CAC for builders by monetizing verified demand. This creates a negative working capital cycle and high LTV/CAC ratio, positioning it as a liquidity layer for the $1T new construction market.";
 
-        // Corrected Function Names to match HTML onclicks
         function generateBuyerBio() {
             const btn = document.getElementById('btn-generate-bio');
             const container = document.getElementById('ai-bio-container');
@@ -845,6 +844,25 @@
             }, 3000);
         }
 
+        function loadState() {
+            const saved = localStorage.getItem('newerState');
+            if (saved) {
+                try {
+                    appState = { ...appState, ...JSON.parse(saved) };
+                    if (appState.style) {
+                        document.querySelectorAll('.style-btn').forEach(btn => { if(btn.innerText.includes(appState.style)) btn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50'); });
+                        document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden');
+                    }
+                    if (appState.amenities) {
+                        appState.amenities.forEach(am => {
+                            document.querySelectorAll('.amenity-btn').forEach(btn => { if(btn.innerText.includes(am)) { btn.classList.add('border-blue-500', 'text-blue-600', 'bg-blue-50'); btn.classList.remove('border-stone-200'); } });
+                        });
+                    }
+                    updateDashboardPreview();
+                } catch (e) { console.error(e); }
+            }
+        }
+
         // --- Demo Flow Logic ---
         function setAudience(role) {
             // Update Buttons
@@ -922,7 +940,7 @@
         function updateRange(type, val) {
             if(type === 'bed') { appState.bedrooms = val; document.getElementById('bed-val').innerText = val; }
             if(type === 'budget') { appState.budget = val; document.getElementById('budget-val').innerText = `$${val}k`; }
-            updateDashPreview();
+            updateDashboardPreview();
         }
 
         function toggleAmenity(btn, name) {
@@ -936,7 +954,7 @@
                 // Simulate "Match Found" notification on phone
                 notifyPhone("Market Update", `3 Builders match your ${name} request.`);
             }
-            updateDashPreview();
+            updateDashboardPreview();
         }
 
         function nextStep(id) {
@@ -955,7 +973,7 @@
             }, 1500);
         }
 
-        function updateDashPreview() {
+        function updateDashboardPreview() {
             document.getElementById('dash-card-style').innerText = appState.style || 'Pending';
             document.getElementById('dash-card-config').innerText = `${appState.bedrooms}bd / ${Math.ceil(appState.bedrooms * 0.7)}ba`;
             document.getElementById('dash-card-budget').innerText = `$${appState.budget}k`;
@@ -983,6 +1001,19 @@
                 </div>
             `;
             notifyPhone("Profile Viewed", "A Builder just unlocked your contact info!");
+        }
+
+        function openPitchModal(id) {
+            const modal = document.getElementById('pitch-modal');
+            const targetId = document.getElementById('pitch-target-id');
+            if(modal && targetId) {
+                modal.classList.remove('hidden');
+                targetId.innerText = '#' + id;
+            }
+        }
+
+        function closePitchModal() {
+            document.getElementById('pitch-modal').classList.add('hidden');
         }
 
         function sendPitch() {
@@ -1014,6 +1045,8 @@
             
             // Clear notifications
             document.getElementById('phone-notifications').innerHTML = '';
+            
+            updateDashboardPreview();
         }
 
         // --- Notification System ---
@@ -1115,7 +1148,7 @@
                 document.getElementById('view-map-btn').classList.add('bg-stone-600', 'text-white'); document.getElementById('view-map-btn').classList.remove('text-stone-400');
                 document.getElementById('view-list-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-list-btn').classList.add('text-stone-400');
                 document.getElementById('view-intel-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-intel-btn').classList.add('text-stone-400');
-                drawMap();
+                requestAnimationFrame(() => drawMap()); // Ensure layout is calculated
             }
         }
 
@@ -1166,26 +1199,32 @@
         // --- Feed Simulation ---
         function addFeedItem() {
             const container = document.getElementById('dashboard-feed');
+            if(!container) return; // Safety check
+            
             const id = Math.floor(Math.random() * 8999) + 1000;
             const budget = Math.floor(Math.random() * 500) + 300;
             const item = document.createElement('div');
             item.className = 'grid grid-cols-12 gap-2 p-3 bg-stone-700/30 rounded border border-stone-700 items-center animate-[slideInRight_0.4s_ease-out] hover:bg-stone-700 transition-colors border-l-2 border-l-blue-500';
+            
+            // Use safe function call instead of inline messy JS
             item.innerHTML = `
                 <div class="col-span-2 font-mono text-blue-300 text-[10px] sm:text-xs">#${id}</div>
                 <div class="col-span-5 text-stone-300 text-[10px] sm:text-xs truncate">3bd • Modern Farmhouse</div>
                 <div class="col-span-2 text-white font-bold text-[10px] sm:text-xs">$${budget}k</div>
-                <div class="col-span-3 text-right"><button onclick="document.getElementById('pitch-modal').classList.remove('hidden'); document.getElementById('pitch-target-id').innerText='#${id}'" class="pitch-btn px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white text-[10px] rounded shadow-sm transition-colors">Pitch</button></div>
+                <div class="col-span-3 text-right">
+                    <button onclick="openPitchModal('${id}')" class="pitch-btn px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white text-[10px] rounded shadow-sm transition-colors">Pitch</button>
+                </div>
             `;
             container.prepend(item);
             if(container.children.length > 15) container.lastElementChild.remove();
         }
 
         // --- Init ---
-        let chartInstance = null;
+        let intelChartInstance = null;
         function initChart() {
-            if(chartInstance) return;
+            if(intelChartInstance) return;
             const ctx = document.getElementById('intelChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
+            intelChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
@@ -1237,12 +1276,17 @@
             });
         }
 
-        // Start loops
-        setInterval(addFeedItem, 3500); // Slower, more realistic feed
-        addFeedItem(); addFeedItem(); // Initial data
-
         document.addEventListener('DOMContentLoaded', function() {
+            // Init Audience Elements
+            audienceElements = document.querySelectorAll('[data-audience]');
             setAudience('buyer');
+            
+            // Start Feed Simulation safely
+            setInterval(addFeedItem, 3500); 
+            addFeedItem(); 
+            addFeedItem();
+            
+            startMarketSimulation();
             
             // Revenue Chart Init
             const ctx = document.getElementById('revenueChart');
@@ -1269,7 +1313,7 @@
                 });
             }
             
-            startMarketSimulation();
+            loadState();
         });
     </script>
 </body>
