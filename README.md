@@ -1,2 +1,2 @@
 # Newer
-Project Newer
+MVP Newer
