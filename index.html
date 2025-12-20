@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newer.com | The Reverse Market for New Construction</title>
+    <title>Newer.com | The Marketplace for New Construction</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -199,7 +199,7 @@
                                 </div>
                             </div>
 
-                            <!-- Step 2: Crew -->
+                            <!-- NEW: Step 2: Crew & Amenities (Combined/Sequenced) -->
                             <div id="step-2" class="step-content hidden fade-in">
                                 <h3 class="text-2xl font-bold mb-2">Who is this for?</h3>
                                 <p class="text-sm text-stone-500 mb-6">Define your space needs.</p>
@@ -290,7 +290,7 @@
                 </div>
 
                 <!-- RIGHT COLUMN: Builder Dashboard -->
-                <div class="lg:col-span-8 flex flex-col h-[680px]">
+                <div class="lg:col-span-8 flex flex-col h-auto lg:h-[680px]">
                     <div class="mb-4 text-center lg:text-left w-full pl-4">
                         <span class="text-xs font-bold uppercase text-stone-400 tracking-wider">Phase B: The Builder</span>
                         <h3 class="text-xl font-bold text-stone-800">The Bidder</h3>
@@ -298,37 +298,40 @@
                     </div>
                     <!-- Dashboard Header -->
                     <div class="bg-stone-900 text-white p-4 rounded-t-xl flex justify-between items-center shadow-lg z-10">
-                        <div class="flex items-center gap-4">
-                            <span class="font-bold tracking-wider">BUILDER TERMINAL</span>
-                            <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded border border-green-500/30 animate-pulse">LIVE</span>
+                        <div class="flex items-center gap-2 md:gap-4">
+                            <span class="font-bold tracking-wider text-sm md:text-base">BUILDER TERMINAL</span>
+                            <span class="px-2 py-0.5 bg-green-500/20 text-green-400 text-[10px] md:text-xs rounded border border-green-500/30 animate-pulse">LIVE</span>
                         </div>
                         <div class="text-xs text-stone-400 font-mono hidden lg:block">MATCHES: <span id="dash-matches" class="text-white font-bold">12</span></div>
                         <div class="flex bg-stone-800 rounded-lg p-1 border border-stone-700">
-                            <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-3 py-1 rounded text-xs font-bold bg-stone-600 text-white transition-all"><i class="fas fa-list mr-1"></i> List</button>
-                            <button onclick="toggleDashboardView('map')" id="view-map-btn" class="px-3 py-1 rounded text-xs font-bold text-stone-400 hover:text-white transition-all"><i class="fas fa-map-marker-alt mr-1"></i> Map</button>
-                            <button onclick="toggleDashboardView('intel')" id="view-intel-btn" class="px-3 py-1 rounded text-xs font-bold text-stone-400 hover:text-white transition-all"><i class="fas fa-chart-pie mr-1"></i> Intel</button>
+                            <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-2 md:px-3 py-1 rounded text-[10px] md:text-xs font-bold bg-stone-600 text-white transition-all"><i class="fas fa-list md:mr-1"></i> <span class="hidden md:inline">List</span></button>
+                            <button onclick="toggleDashboardView('map')" id="view-map-btn" class="px-2 md:px-3 py-1 rounded text-[10px] md:text-xs font-bold text-stone-400 hover:text-white transition-all"><i class="fas fa-map-marker-alt md:mr-1"></i> <span class="hidden md:inline">Map</span></button>
+                            <button onclick="toggleDashboardView('intel')" id="view-intel-btn" class="px-2 md:px-3 py-1 rounded text-[10px] md:text-xs font-bold text-stone-400 hover:text-white transition-all"><i class="fas fa-chart-pie md:mr-1"></i> <span class="hidden md:inline">Intel</span></button>
                         </div>
                     </div>
                     <!-- Dashboard Body -->
-                    <div class="bg-stone-800 flex-1 p-4 rounded-b-xl border border-stone-700 shadow-2xl relative overflow-hidden flex flex-col">
+                    <div class="bg-stone-800 flex-1 p-4 rounded-b-xl border border-stone-700 shadow-2xl relative overflow-hidden flex flex-col h-[500px] lg:h-auto">
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-xs text-stone-400 uppercase">Verified Buyers</div><div class="text-xl font-mono text-white font-bold" id="stat-active">1,248</div></div>
-                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-xs text-stone-400 uppercase">Avg Budget</div><div class="text-xl font-mono text-white font-bold" id="stat-budget">$485k</div></div>
-                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-xs text-stone-400 uppercase">Credits</div><div class="text-xl font-mono text-yellow-400 font-bold" id="stat-credits">500</div></div>
-                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-xs text-stone-400 uppercase">Unlock Rate</div><div class="text-xl font-mono text-green-400 font-bold">18.4%</div></div>
+                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-[10px] md:text-xs text-stone-400 uppercase">Verified Buyers</div><div class="text-lg md:text-xl font-mono text-white font-bold" id="stat-active">1,248</div></div>
+                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-[10px] md:text-xs text-stone-400 uppercase">Avg Budget</div><div class="text-lg md:text-xl font-mono text-white font-bold" id="stat-budget">$485k</div></div>
+                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-[10px] md:text-xs text-stone-400 uppercase">Credits</div><div class="text-lg md:text-xl font-mono text-yellow-400 font-bold" id="stat-credits">500</div></div>
+                            <div class="bg-stone-700/50 p-3 rounded-lg border border-stone-600"><div class="text-[10px] md:text-xs text-stone-400 uppercase">Unlock Rate</div><div class="text-lg md:text-xl font-mono text-green-400 font-bold">18.4%</div></div>
                         </div>
                         
+                        <!-- LIST VIEW CONTAINER -->
                         <div id="dashboard-list-view" class="flex-1 bg-stone-900/50 rounded-lg border border-stone-700 overflow-hidden flex flex-col relative transition-opacity duration-300">
+                            <!-- Adjusted Columns for Mobile Compatibility -->
                             <div class="grid grid-cols-12 gap-2 p-3 border-b border-stone-700 bg-stone-800/80 text-xs font-bold text-stone-400 uppercase">
-                                <div class="col-span-3 sm:col-span-2">Buyer ID</div>
+                                <div class="col-span-2 sm:col-span-2">ID</div>
                                 <div class="hidden sm:block sm:col-span-2">Status</div>
                                 <div class="col-span-5 sm:col-span-3">Criteria</div>
-                                <div class="col-span-4 sm:col-span-2">Budget</div>
-                                <div class="hidden sm:block sm:col-span-3 text-right">Action</div>
+                                <div class="col-span-3 sm:col-span-2">Budget</div>
+                                <div class="col-span-2 sm:col-span-3 text-right">Action</div>
                             </div>
                             <div id="dashboard-feed" class="overflow-y-auto dashboard-scroll p-2 space-y-2 relative"></div>
                         </div>
                         
+                        <!-- MAP VIEW CONTAINER -->
                         <div id="dashboard-map-view" class="absolute inset-0 top-[88px] bottom-0 bg-stone-900 rounded-lg border border-stone-700 overflow-hidden hidden transition-opacity duration-300">
                             <canvas id="demandMap" class="w-full h-full object-cover opacity-80"></canvas>
                             <div class="absolute bottom-4 right-4 bg-black/70 px-3 py-2 rounded text-xs text-white backdrop-blur">
@@ -338,8 +341,8 @@
                         </div>
 
                         <!-- INTEL VIEW -->
-                        <div id="dashboard-intel-view" class="absolute inset-0 top-[88px] bottom-0 bg-stone-900 rounded-lg border border-stone-700 overflow-hidden hidden p-6 transition-opacity duration-300">
-                            <div class="grid grid-cols-2 gap-6 h-full">
+                        <div id="dashboard-intel-view" class="absolute inset-0 top-[88px] bottom-0 bg-stone-900 rounded-lg border border-stone-700 overflow-y-auto overflow-x-hidden hidden p-6 transition-opacity duration-300">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
                                 <div>
                                     <h4 class="text-sm font-bold text-white mb-4 uppercase tracking-wider">Top Requested Features (Live)</h4>
                                     <div class="space-y-4">
@@ -352,7 +355,7 @@
                                         <p class="text-stone-300 text-xs leading-relaxed">Demand for <strong class="text-white">Home Offices</strong> has increased 12% in this zip code over the last 30 days.</p>
                                     </div>
                                 </div>
-                                <div class="bg-stone-800 rounded-xl border border-stone-700 p-2 flex flex-col justify-center">
+                                <div class="bg-stone-800 rounded-xl border border-stone-700 p-2 flex flex-col justify-center min-h-[200px]">
                                     <h4 class="text-sm font-bold text-white mb-2 uppercase tracking-wider text-center">Avg Budget Trend (90 Days)</h4>
                                     <div class="chart-container h-48 w-full"><canvas id="intelChart"></canvas></div>
                                 </div>
@@ -762,7 +765,16 @@
             const feed = document.getElementById('dashboard-feed'); if(!feed) return;
             const id = Math.floor(Math.random() * 8999) + 1000;
             const price = Math.floor(Math.random() * 400) + 350;
-            const html = `<div class="grid grid-cols-12 gap-2 p-3 bg-stone-800 rounded border border-stone-700 items-center opacity-0 feed-item-enter border-l-2 border-l-blue-500 hover:bg-stone-700/50 transition-colors"><div class="col-span-3 sm:col-span-2 font-mono text-blue-300 text-sm">#${id}</div><div class="hidden sm:block sm:col-span-2"><span class="px-2 py-0.5 bg-stone-700 text-stone-400 text-[10px] rounded">New</span></div><div class="col-span-5 sm:col-span-3 text-stone-300 text-sm">3bd • Modern</div><div class="col-span-4 sm:col-span-2 text-white font-bold text-sm">$${price}k</div><div class="hidden sm:block sm:col-span-3 text-right"><button onclick="openPitchModal('#${id}')" class="pitch-btn px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded transition-colors shadow shadow-blue-900/40">Pitch</button></div></div>`;
+            // Updated feed row layout for mobile compatibility (12 col grid)
+            const html = `<div class="grid grid-cols-12 gap-2 p-3 bg-stone-800 rounded border border-stone-700 items-center opacity-0 feed-item-enter border-l-2 border-l-blue-500 hover:bg-stone-700/50 transition-colors">
+                <div class="col-span-2 sm:col-span-2 font-mono text-blue-300 text-[10px] sm:text-sm">#${id}</div>
+                <div class="hidden sm:block sm:col-span-2"><span class="px-2 py-0.5 bg-stone-700 text-stone-400 text-[10px] rounded">New</span></div>
+                <div class="col-span-5 sm:col-span-3 text-stone-300 text-[10px] sm:text-sm truncate">3bd • Modern</div>
+                <div class="col-span-3 sm:col-span-2 text-white font-bold text-[10px] sm:text-sm">$${price}k</div>
+                <div class="col-span-2 sm:col-span-3 text-right">
+                    <button onclick="openPitchModal('#${id}')" class="pitch-btn px-2 sm:px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-[10px] sm:text-xs rounded transition-colors shadow shadow-blue-900/40">Pitch</button>
+                </div>
+            </div>`;
             feed.insertAdjacentHTML('afterbegin', html);
             if(feed.children.length > 20) feed.lastElementChild.remove();
         }
