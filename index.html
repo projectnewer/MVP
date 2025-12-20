@@ -470,13 +470,18 @@
             const formState = document.getElementById('modal-form-state');
             const successState = document.getElementById('modal-success-state');
             const modalFooter = document.getElementById('modal-footer');
+            const form = document.getElementById('waitlist-form');
             
-            if (!modal || !backdrop || !panel) return;
+            // Robust check to ensure all elements exist before interaction
+            if (!modal || !backdrop || !panel || !formState || !successState || !modalFooter || !form) {
+                console.error('Waitlist modal elements missing', { modal, backdrop, panel, formState, successState, modalFooter, form });
+                return;
+            }
 
             formState.classList.remove('hidden'); 
             successState.classList.add('hidden'); 
             modalFooter.classList.remove('hidden');
-            document.getElementById('waitlist-form').reset(); 
+            form.reset(); 
             modal.classList.remove('hidden');
             
             setTimeout(() => { 
@@ -518,13 +523,15 @@
             const successState = document.getElementById('modal-success-state');
             const modalFooter = document.getElementById('modal-footer');
 
-            setTimeout(() => { 
-                formState.classList.add('hidden'); 
-                modalFooter.classList.add('hidden'); 
-                successState.classList.remove('hidden'); 
-                btn.innerText = originalText; 
-                btn.disabled = false; 
-            }, 1000);
+            if (formState && successState && modalFooter) {
+                setTimeout(() => { 
+                    formState.classList.add('hidden'); 
+                    modalFooter.classList.add('hidden'); 
+                    successState.classList.remove('hidden'); 
+                    btn.innerText = originalText; 
+                    btn.disabled = false; 
+                }, 1000);
+            }
         }
 
         function toggleFaq(btn) {
