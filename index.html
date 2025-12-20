@@ -796,10 +796,20 @@
             document.querySelectorAll('.style-btn').forEach(btn => btn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50'));
             document.querySelectorAll('.amenity-btn').forEach(btn => { btn.classList.remove('border-blue-500', 'text-blue-600', 'bg-blue-50'); btn.classList.add('border-stone-200'); });
             document.getElementById('phone-notifications').innerHTML = '';
-            document.getElementById('dash-card-status').innerText = 'Unverified';
-            document.getElementById('dash-card-status').classList.remove('text-green-400'); document.getElementById('dash-card-status').classList.add('text-stone-500');
-            document.getElementById('stat-credits').innerText = 500;
-            document.getElementById('unlock-area').innerHTML = `<button onclick="unlockLead()" id="btn-unlock" class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded shadow-lg shadow-blue-900/20 text-sm transition-all">UNLOCK LEAD CONTACT ($50)</button>`;
+            
+            const statusEl = document.getElementById('dash-card-status');
+            if (statusEl) {
+                statusEl.innerText = 'Unverified';
+                statusEl.classList.remove('text-green-400'); 
+                statusEl.classList.add('text-stone-500');
+            }
+            
+            const creditsEl = document.getElementById('stat-credits');
+            if (creditsEl) creditsEl.innerText = 500;
+            
+            const unlockArea = document.getElementById('unlock-area');
+            if (unlockArea) unlockArea.innerHTML = `<button onclick="unlockLead()" id="btn-unlock" class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded shadow-lg shadow-blue-900/20 text-sm transition-all">UNLOCK LEAD CONTACT ($50)</button>`;
+            
             updateDashboardPreview();
         }
         function notifyPhone(title, msg, iconClass = 'fa-bell') {
@@ -818,10 +828,17 @@
             if(amEl) amEl.innerText = appState.amenities.length > 0 ? appState.amenities.join(', ') : 'None';
         }
         function revealDashboardCard() {
-            document.getElementById('dash-card-status').innerText = "VERIFIED FUNDS";
-            document.getElementById('dash-card-status').classList.replace('text-stone-500', 'text-green-400');
-            document.getElementById('user-card-overlay').classList.replace('translate-y-full', 'translate-y-0');
-            const mc = document.getElementById('dash-matches'); mc.innerText = parseInt(mc.innerText) + 1;
+            const statusEl = document.getElementById('dash-card-status');
+            if (statusEl) {
+                statusEl.innerText = "VERIFIED FUNDS";
+                statusEl.classList.replace('text-stone-500', 'text-green-400');
+            }
+            const card = document.getElementById('user-card-overlay');
+            if (card) {
+                card.classList.replace('translate-y-full', 'translate-y-0');
+            }
+            const mc = document.getElementById('dash-matches'); 
+            if(mc) mc.innerText = parseInt(mc.innerText) + 1;
         }
         function toggleDashboardView(view) {
             const btns = ['list', 'map', 'intel'];
