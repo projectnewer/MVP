@@ -494,22 +494,19 @@
 
         function closeWaitlistModal() {
             const modal = document.getElementById('waitlist-modal');
-            if (!modal) return;
-
             const backdrop = document.getElementById('modal-backdrop');
             const panel = document.getElementById('modal-panel');
+            
+            if (!modal || !backdrop || !panel) return;
 
-            if (backdrop) backdrop.classList.add('opacity-0'); 
-            if (panel) {
-                panel.classList.remove('opacity-100', 'scale-100'); 
-                panel.classList.add('opacity-0', 'scale-95');
-            }
+            backdrop.classList.add('opacity-0'); 
+            panel.classList.remove('opacity-100', 'scale-100'); 
+            panel.classList.add('opacity-0', 'scale-95');
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
         function handleWaitlistSubmit(e) {
             e.preventDefault();
-            // Safer button selection
             const btn = e.submitter || e.target.querySelector('button[type="submit"]'); 
             const originalText = btn ? btn.innerText : 'Secure My Spot'; 
             
@@ -520,18 +517,17 @@
             
             const formData = new FormData(e.target);
             const subject = "Join Waitlist - Newer.com";
-            // Fix: Use %0D%0A for robust line breaks in mailto links
             const body = `Role: ${formData.get('role')}%0D%0AEmail: ${formData.get('email')}`;
             
-            // Robust mailto trigger using hidden link
-            const mailtoLink = `mailto:info@housingmarket.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+            // Robust mailto trigger
             const link = document.createElement('a');
-            link.href = mailtoLink;
+            link.href = `mailto:info@housingmarket.com?subject=${encodeURIComponent(subject)}&body=${body}`;
             link.style.display = 'none';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
             
+            // Define elements locally to prevent ReferenceError
             const formState = document.getElementById('modal-form-state');
             const successState = document.getElementById('modal-success-state');
             const modalFooter = document.getElementById('modal-footer');
@@ -540,7 +536,6 @@
                 if (formState) formState.classList.add('hidden'); 
                 if (modalFooter) modalFooter.classList.add('hidden'); 
                 if (successState) successState.classList.remove('hidden'); 
-                
                 if (btn) {
                     btn.innerText = originalText; 
                     btn.disabled = false; 
