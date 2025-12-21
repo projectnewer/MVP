@@ -10,11 +10,52 @@
     <meta property="og:title" content="Newer | Stop Searching. Let Homes Find You.">
     <meta property="og:description" content="The first marketplace where builders bid on buyers. Join the waitlist for off-market access.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://placehold.co/1200x630/1c1917/ffffff?text=Newer+Marketplace">
+    <meta property="og:image" content="https://placehold.co/1200x630/006AFF/ffffff?text=Newer+Marketplace">
     <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Fonts: Plus Jakarta Sans (Headings/Brand) & Inter (UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS (Tailwind JIT) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        brand: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#006AFF',    // PropTech Blue
+                            dark: '#0f172a',    // Jet Black/Slate
+                            light: '#f8fafc',   // Off-white
+                            success: '#10b981', // Green
+                            accent: '#38bdf8',  // Light blue
+                            gold: '#fbbf24',    // VIP Gold
+                        }
+                    },
+                    animation: {
+                        'stamp': 'stamp-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both',
+                        'dust': 'dust-out 1s ease-out both',
+                    },
+                    keyframes: {
+                        'stamp-in': {
+                            '0%': { opacity: '0', transform: 'scale(3) rotate(-10deg)' },
+                            '100%': { opacity: '1', transform: 'scale(1) rotate(-10deg)' },
+                        },
+                        'dust-out': {
+                            '0%': { opacity: '1', transform: 'scale(1)' },
+                            '100%': { opacity: '0', transform: 'scale(2)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     
     <!-- Deferred Scripts for Performance -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -22,11 +63,34 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
+        /* Humanized Background for Hero (Step 2) */
+        .bg-hero-human {
+            background-image: url('https://images.unsplash.com/photo-1600596542815-2495db969cf7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Warmer Dark Mode for Builders (Step 2) */
+        .glass-dark {
+            background: rgba(30, 41, 59, 0.95); /* Warmer Slate 800 */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
         /* Custom Scrollbar for Dashboard */
         .dashboard-scroll::-webkit-scrollbar { width: 6px; }
-        .dashboard-scroll::-webkit-scrollbar-track { background: #1c1917; }
-        .dashboard-scroll::-webkit-scrollbar-thumb { background: #44403c; border-radius: 4px; }
-        .dashboard-scroll::-webkit-scrollbar-thumb:hover { background: #57534e; }
+        .dashboard-scroll::-webkit-scrollbar-track { background: #f1f5f9; }
+        .dashboard-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dashboard-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* Responsive Phone Frame Styling */
         .phone-frame {
@@ -35,45 +99,44 @@
             overflow: hidden;
             width: 100%;
             height: 600px;
-            border-radius: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border: 8px solid #1c1917;
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: 8px solid #1e293b; /* Warmer Frame */
         }
         
         @media (min-width: 1024px) {
             .phone-frame {
-                border: 12px solid #1c1917;
+                border: 10px solid #1e293b;
                 border-radius: 3rem;
                 width: 340px;
                 height: 700px;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             }
             .phone-notch { display: block; }
         }
 
         .phone-notch {
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 40%; height: 24px; background-color: #1c1917;
-            border-bottom-left-radius: 14px; border-bottom-right-radius: 14px; z-index: 20;
+            width: 35%; height: 26px; background-color: #1e293b;
+            border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; z-index: 20;
         }
 
-        /* Custom Range Slider - improved focus styles for a11y */
+        /* Custom Range Slider */
         input[type=range] {
             -webkit-appearance: none; width: 100%; background: transparent;
         }
         input[type=range]:focus {
-            outline: 2px solid #3b82f6; outline-offset: 2px;
+            outline: none;
         }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #1c1917; cursor: pointer; margin-top: -6px; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: #006AFF; cursor: pointer; margin-top: -7px; box-shadow: 0 2px 5px rgba(0,106,255,0.3); border: 2px solid white;
         }
         input[type=range]::-webkit-slider-runnable-track {
-            width: 100%; height: 4px; cursor: pointer; background: #e7e5e4; border-radius: 2px;
+            width: 100%; height: 4px; cursor: pointer; background: #e2e8f0; border-radius: 2px;
         }
-        input[type=range]:focus::-webkit-slider-runnable-track { background: #d6d3d1; }
+        input[type=range]:focus::-webkit-slider-runnable-track { background: #cbd5e1; }
 
         /* Animations */
-        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
         .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
@@ -81,9 +144,9 @@
 
         .action-pulse { animation: softPulse 2s infinite; }
         @keyframes softPulse {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(0, 106, 255, 0.3); } /* brand-blue */
+            70% { box-shadow: 0 0 0 10px rgba(0, 106, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 106, 255, 0); }
         }
 
         .toast-enter { animation: toastSlideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -95,6 +158,27 @@
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .animate-marquee { animation: marquee 60s linear infinite; }
 
+        /* Ticker Tooltip */
+        .ticker-item { position: relative; cursor: pointer; }
+        .ticker-item:hover::after {
+            content: "View Details";
+            white-space: pre;
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0f172a;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 50;
+            pointer-events: none;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
         .chart-container { position: relative; width: 100%; max-width: 600px; margin: 0 auto; height: 300px; max-height: 400px; }
         
         .faq-answer { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; max-height: 0; overflow: hidden; opacity: 0; }
@@ -103,277 +187,313 @@
         .faq-icon.rotate { transform: rotate(180deg); }
 
         .role-btn { transition: all 0.2s ease; }
-        .role-btn.active { background-color: #1c1917; color: white !important; border-color: #1c1917; }
-        .role-btn.active:hover { background-color: #0c0a09; color: white !important; }
-        .role-btn:not(.active):hover { background-color: #e7e5e4; color: #1c1917; }
+        .role-btn.active { background-color: #0f172a; color: white !important; border-color: #0f172a; }
+        .role-btn.active:hover { background-color: #1e293b; color: white !important; }
+        .role-btn:not(.active):hover { background-color: #f1f5f9; color: #0f172a; }
         
-        .ai-text-gradient {
-            background: linear-gradient(to right, #4f46e5, #9333ea, #db2777);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
         .ai-btn {
-            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            background: linear-gradient(135deg, #006AFF, #2563eb);
             color: white;
             border: none;
         }
-        .ai-btn:hover { background: linear-gradient(to right, #4338ca, #6d28d9); }
+        .ai-btn:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+
+        /* Stamp Effect */
+        .stamp-container {
+            position: relative;
+            display: inline-block;
+            color: #006AFF; /* brand-blue */
+            border: 4px solid #006AFF;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: 0.1em;
+            transform: rotate(-10deg);
+        }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800 font-sans antialiased pb-16 lg:pb-0 selection:bg-blue-100 selection:text-blue-900">
+<body class="bg-brand-light text-slate-800 font-sans antialiased pb-16 lg:pb-0 selection:bg-brand-blue selection:text-white">
 
     <!-- Navbar -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-stone-200 shadow-sm transition-all duration-300" aria-label="Main Navigation">
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all duration-300" aria-label="Main Navigation">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <!-- LOGO -->
-                <a href="#" class="flex items-center gap-0.5 transition-opacity hover:opacity-80 group" onclick="setAudience('buyer')" aria-label="Newer Home">
-                    <span class="text-2xl font-black tracking-tighter text-stone-900">Newer</span>
-                    <span class="w-2 h-2 bg-blue-600 rounded-full mt-2.5 group-hover:animate-pulse"></span>
+            <div class="flex justify-between h-20 items-center">
+                <!-- LOGO (Wordmark) -->
+                <a href="#" class="flex items-center gap-1 transition-opacity hover:opacity-80 group" onclick="setAudience('buyer'); window.scrollTo(0,0);" aria-label="Newer Home">
+                    <span class="text-3xl font-brand font-extrabold tracking-tighter text-brand-dark">Newer<span class="text-brand-blue">.</span></span>
                 </a>
                 
-                <div class="hidden md:flex bg-stone-100 rounded-full p-1 border border-stone-200" role="tablist" aria-label="User Persona Selection">
-                    <button onclick="setAudience('buyer')" role="tab" aria-selected="true" id="tab-buyer" class="role-btn active px-5 py-1.5 rounded-full text-sm font-semibold text-stone-500">For Buyers</button>
-                    <button onclick="setAudience('builder')" role="tab" aria-selected="false" id="tab-builder" class="role-btn px-5 py-1.5 rounded-full text-sm font-semibold text-stone-500">For Builders</button>
-                    <button onclick="setAudience('investor')" role="tab" aria-selected="false" id="tab-investor" class="role-btn px-5 py-1.5 rounded-full text-sm font-semibold text-stone-500">Investors</button>
+                <div class="hidden md:flex bg-slate-100 rounded-full p-1.5 border border-slate-200" role="tablist" aria-label="User Persona Selection">
+                    <button onclick="setAudience('buyer')" role="tab" aria-selected="true" id="tab-buyer" class="role-btn active px-6 py-2 rounded-full text-sm font-semibold transition-all">For Buyers</button>
+                    <button onclick="setAudience('builder')" role="tab" aria-selected="false" id="tab-builder" class="role-btn px-6 py-2 rounded-full text-sm font-semibold transition-all">For Builders</button>
+                    <!-- Partner button specifically handled in JS to map 'investor' role correctly -->
+                    <button onclick="setAudience('investor')" role="tab" aria-selected="false" id="tab-investor" class="role-btn px-6 py-2 rounded-full text-sm font-semibold transition-all">Partners</button>
                 </div>
 
-                <button onclick="openWaitlistModal()" class="bg-stone-900 text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-stone-800 transition-colors active:scale-95 transform duration-100 shadow-lg shadow-stone-900/10">
+                <button onclick="openWaitlistModal()" class="bg-brand-blue text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all active:scale-95 shadow-lg shadow-blue-500/20">
                     Join Waitlist
                 </button>
             </div>
-            <!-- Mobile Role Switcher -->
-            <div class="md:hidden flex justify-center py-3 space-x-2 border-t border-stone-100" role="tablist">
-                <button onclick="setAudience('buyer')" role="tab" class="role-btn active text-xs px-4 py-1.5 rounded-full border border-stone-200 font-bold">Buyers</button>
-                <button onclick="setAudience('builder')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-stone-200 font-bold">Builders</button>
-                <button onclick="setAudience('investor')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-stone-200 font-bold">Investors</button>
+            <!-- Mobile Role Switcher (Compact) -->
+            <div class="md:hidden flex justify-center py-2 space-x-2 border-t border-slate-100 bg-white/50 backdrop-blur-sm" role="tablist">
+                <button onclick="setAudience('buyer')" role="tab" class="role-btn active text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold">Buyers</button>
+                <button onclick="setAudience('builder')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold">Builders</button>
+                <button onclick="setAudience('investor')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold">Partners</button>
             </div>
         </div>
     </nav>
 
-    <!-- LIVE MARKET TICKER -->
-    <div class="w-full bg-stone-900 text-stone-400 overflow-hidden border-b border-stone-800 z-40 relative h-9 flex items-center" aria-label="Live Market Updates">
+    <!-- LIVE MARKET TICKER (Step 5: Humanized) -->
+    <div class="w-full bg-brand-dark text-slate-400 overflow-hidden border-b border-slate-800 z-40 relative h-10 flex items-center shadow-md" aria-label="Live Market Updates">
         <div class="flex whitespace-nowrap overflow-hidden absolute w-full" aria-hidden="true">
-            <div class="animate-marquee inline-block">
-                <span class="mx-8 text-xs font-mono tracking-wide"><span class="text-green-400">●</span> New Match: 4bd in Austin ($550k)</span>
-                <span class="text-stone-700">|</span>
-                <span class="mx-8 text-xs font-mono tracking-wide"><span class="text-blue-400">●</span> Pitch Accepted: Denver ($720k)</span>
-                <span class="text-stone-700">|</span>
-                <span class="mx-8 text-xs font-mono tracking-wide"><span class="text-yellow-400">●</span> Demand Spike: 3-Car Garages (78704)</span>
-                <span class="text-stone-700">|</span>
-                <span class="mx-8 text-xs font-mono tracking-wide"><span class="text-green-400">●</span> Joined: Pulte Homes</span>
-                <span class="text-stone-700">|</span>
-                <span class="mx-8 text-xs font-mono tracking-wide"><span class="text-purple-400">●</span> Match: 3bd in Dallas ($420k)</span>
-                <span class="text-stone-700">|</span>
-                <span class="mx-8 text-xs font-mono tracking-wide"><span class="text-blue-400">●</span> Offer: Custom Lot Phoenix</span>
+            <div class="animate-marquee inline-block text-xs font-medium tracking-wide">
+                <span class="mx-8 ticker-item"><span class="text-brand-success">●</span> Smith Family Matched (Austin)</span>
+                <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-brand-blue">●</span> Davis Family Matched (Denver)</span>
+                <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-yellow-400">●</span> New Builder Joined: Toll Brothers</span>
+                <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-brand-success">●</span> Chen Family Matched (Phoenix)</span>
+                <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-purple-400">●</span> 5 Buyers Waiting in 78704</span>
+                <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-brand-blue">●</span> Garcia Family Matched (Nashville)</span>
             </div>
         </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="relative pt-16 pb-20 md:pt-24 md:pb-32 overflow-hidden" aria-labelledby="hero-title">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div id="hero-badge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-[10px] md:text-xs font-bold uppercase tracking-wide mb-8">
-                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span> The Reverse Market
+    <!-- Hero Section (Adjusted Padding for layout accuracy) -->
+    <section class="relative pt-20 pb-20 md:pt-32 md:pb-40 overflow-hidden bg-hero-human scroll-mt-28" id="hero" aria-labelledby="hero-title">
+        <!-- Humanizing Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <div id="hero-badge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50/90 backdrop-blur border border-blue-100 text-brand-blue text-[10px] md:text-xs font-bold uppercase tracking-wide mb-8 shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse"></span> The Reverse Market
+                </div>
+                <h1 id="hero-title" class="text-5xl md:text-7xl font-brand font-bold text-brand-dark tracking-tight mb-6 leading-[1.1] min-h-[2.4em] drop-shadow-sm transition-all duration-300">
+                    Make the Market<br>
+                    <span class="text-brand-blue">Bid for You.</span>
+                </h1>
+                <p id="hero-desc" class="mt-4 max-w-xl text-lg md:text-xl text-slate-600 min-h-[3em] leading-relaxed font-normal bg-white/30 backdrop-blur-sm p-2 rounded-lg transition-all duration-300">
+                    Stop browsing homes that are already sold. Get pitched <strong>Exclusive Custom Lots</strong> and <strong>Pre-Construction</strong> inventory before the public ever sees them.
+                </p>
+                <div class="mt-10 flex flex-col sm:flex-row gap-4">
+                    <a href="#demo" id="hero-cta-btn" class="px-8 py-4 bg-brand-dark text-white rounded-full font-bold shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200 text-center">Start Your Bidding War</a>
+                    <a href="#concept" class="px-8 py-4 bg-white/80 backdrop-blur text-brand-dark border border-slate-200 rounded-full font-bold shadow-sm hover:bg-white transition-all duration-200 text-center">How It Works</a>
+                </div>
             </div>
-            <h1 id="hero-title" class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-stone-900 tracking-tight mb-6 leading-tight min-h-[2.4em]">
-                Make the Market<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">Bid for You.</span>
-            </h1>
-            <p id="hero-desc" class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-stone-500 min-h-[3em] leading-relaxed">
-                Stop browsing homes that are already sold. Get pitched <strong>off-market inventory</strong> and <strong>pre-construction deals</strong> before the public ever sees them.
-            </p>
-            <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#demo" id="hero-cta-btn" class="px-8 py-4 bg-stone-900 text-white rounded-xl font-bold shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-200">Start Your Bidding War</a>
-                <a href="#concept" class="px-8 py-4 bg-white text-stone-900 border border-stone-200 rounded-xl font-bold shadow-sm hover:bg-stone-50 transition-all duration-200">How It Works</a>
-            </div>
-        </div>
-        
-        <!-- Background Elements (Decorative) -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none" aria-hidden="true">
-            <div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-100/40 rounded-full blur-[100px]"></div>
-            <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-teal-100/40 rounded-full blur-[100px]"></div>
         </div>
     </section>
 
-    <!-- Concept Section -->
-    <section id="concept" class="py-16 md:py-24 bg-white border-y border-stone-100" aria-labelledby="concept-title">
+    <!-- TRUSTED BY SECTION -->
+    <section class="py-10 bg-white border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-8">Trusted By The Nation's Best Builders</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-building text-2xl"></i> LENNAR</div>
+                <div class="flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-city text-2xl"></i> TOLL BROS</div>
+                <div class="flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-home text-2xl"></i> PulteGroup</div>
+                <div class="hidden md:flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-landmark text-2xl"></i> PLAID</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept Section (Step 4: Clarify Inventory) -->
+    <section id="concept" class="py-20 md:py-28 bg-white scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 id="concept-title" class="text-3xl font-bold text-stone-900">The Power Shift</h2>
-                <p id="concept-desc" class="mt-4 text-stone-500 max-w-2xl mx-auto">
-                    The traditional market makes you beg for a viewing.<br><span class="font-semibold text-stone-700">Newer turns you into the Client, and builders into the Service Providers.</span>
+                <h2 id="concept-title" class="text-3xl md:text-4xl font-brand font-bold text-brand-dark transition-all duration-300">The Power Shift</h2>
+                <p id="concept-desc" class="mt-4 text-slate-500 max-w-2xl mx-auto text-lg transition-all duration-300">
+                    The traditional market makes you beg for a viewing.<br><span class="font-semibold text-brand-blue">Newer turns you into the VIP Client, and builders into the Service Providers.</span>
                 </p>
             </div>
             <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="p-8 rounded-3xl bg-stone-50 border border-stone-100 relative group hover:shadow-lg transition-all duration-300">
-                    <div class="absolute -top-3 left-8 bg-red-100 text-red-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide">The Old Way</div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-4 flex items-center gap-2"><i class="fas fa-search text-stone-400" aria-hidden="true"></i> Active Buyer, Passive Seller</h3>
-                    <ul id="concept-old-list" class="space-y-4 text-stone-600 text-sm"></ul>
+                <div class="p-10 rounded-3xl bg-slate-50 border border-slate-100 relative group hover:shadow-lg transition-all duration-300">
+                    <div class="absolute -top-3 left-8 bg-slate-200 text-slate-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide">The Old Way</div>
+                    <h3 class="text-2xl font-brand font-bold text-slate-800 mb-4 flex items-center gap-3"><i class="fas fa-search text-slate-400" aria-hidden="true"></i> Active Shopper</h3>
+                    <ul id="concept-old-list" class="space-y-4 text-slate-600 text-sm"></ul>
                 </div>
-                <div class="p-8 rounded-3xl bg-gradient-to-br from-blue-50 to-white border border-blue-100 shadow-xl relative group hover:shadow-2xl hover:scale-[1.02] transition-all duration-300">
-                    <div class="absolute -top-3 left-8 bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide">The Newer Way</div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-4 flex items-center gap-2"><i class="fas fa-handshake text-blue-500" aria-hidden="true"></i> Passive Buyer, Active Seller</h3>
-                    <ul id="concept-new-list" class="space-y-4 text-stone-700 text-sm"></ul>
+                <div class="p-10 rounded-3xl bg-gradient-to-br from-blue-50/50 to-white border border-blue-100 shadow-xl shadow-blue-500/5 relative group hover:shadow-2xl hover:scale-[1.01] transition-all duration-300">
+                    <div class="absolute -top-3 left-8 bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide">The Newer Way</div>
+                    <h3 class="text-2xl font-brand font-bold text-brand-dark mb-4 flex items-center gap-3"><i class="fas fa-crown text-brand-gold" aria-hidden="true"></i> VIP Client</h3>
+                    <ul id="concept-new-list" class="space-y-4 text-slate-700 text-sm"></ul>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Interactive Demo Section -->
-    <section id="demo" class="py-16 md:py-24 bg-stone-100 overflow-hidden" aria-labelledby="demo-title">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="demo" class="py-20 md:py-28 bg-slate-50 overflow-hidden relative scroll-mt-24" aria-labelledby="demo-title">
+        <!-- Abstract Background Shape -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.03]">
+            <div class="absolute top-20 right-[-100px] w-[600px] h-[600px] rounded-full bg-brand-blue blur-[100px]"></div>
+            <div class="absolute bottom-0 left-[-100px] w-[500px] h-[500px] rounded-full bg-purple-500 blur-[100px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="mb-12">
-                <h2 id="demo-title" class="text-3xl font-bold text-stone-900">Your Personal Market</h2>
-                <p id="demo-desc" class="mt-4 text-stone-600 max-w-3xl">Interact with the <strong>Buyer App</strong> (Phase A) to create demand. Watch the <strong>Builder Dashboard</strong> (Phase B) react.</p>
+                <h2 id="demo-title" class="text-3xl md:text-4xl font-brand font-bold text-brand-dark transition-all duration-300">Your Personal Market</h2>
+                <p id="demo-desc" class="mt-4 text-slate-600 max-w-3xl text-lg transition-all duration-300">Interact with the <strong>Buyer App</strong> (Phase A) to create demand. Watch the <strong>Builder Dashboard</strong> (Phase B) react.</p>
             </div>
 
-            <div class="grid lg:grid-cols-12 gap-8 lg:h-[800px]">
+            <div class="grid lg:grid-cols-12 gap-10 xl:gap-16 lg:h-[800px]">
                 <!-- LEFT COLUMN: Buyer App Simulation -->
                 <div class="lg:col-span-4 flex flex-col items-center lg:items-end">
                     <div class="mb-4 text-center lg:text-right w-full">
-                        <span class="text-xs font-bold uppercase text-stone-400 tracking-wider">Phase A: The Buyer</span>
-                        <h3 class="text-xl font-bold text-stone-800">The Asset</h3>
-                        <p class="text-sm text-stone-500">Building the "Dream Home Profile"</p>
+                        <span class="text-xs font-bold uppercase text-brand-blue tracking-wider">Phase A: The Buyer</span>
+                        <h3 class="text-xl font-bold text-brand-dark font-brand">The Dream</h3>
+                        <p class="text-sm text-slate-500">Building the "Dream Home Profile"</p>
                     </div>
                     
-                    <div class="phone-frame flex flex-col shadow-2xl relative">
+                    <div class="phone-frame flex flex-col shadow-2xl relative glass-panel bg-white">
                         <div class="phone-notch"></div>
                         <div id="phone-notifications" class="absolute top-12 left-0 right-0 px-3 z-50 pointer-events-none flex flex-col items-center space-y-2"></div>
-                        <!-- LOGO WITH DOT IN PHONE DEMO -->
-                        <div class="h-16 bg-white border-b border-stone-100 flex items-center justify-between px-6 pt-6 relative z-10 shrink-0">
-                            <div class="flex items-center gap-0.5">
-                                <span class="text-2xl font-black tracking-tighter text-stone-900">Newer</span>
-                                <span class="w-2 h-2 bg-blue-600 rounded-full mt-2.5"></span>
+                        <!-- LOGO WITH ICON IN PHONE DEMO -->
+                        <div class="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-6 pt-6 relative z-10 shrink-0">
+                            <div class="flex items-center">
+                                <span class="text-2xl font-brand font-extrabold tracking-tighter text-brand-dark">Newer<span class="text-brand-blue">.</span></span>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center"><i class="fas fa-user text-stone-400 text-xs" aria-hidden="true"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"><i class="fas fa-user text-slate-400 text-xs" aria-hidden="true"></i></div>
                         </div>
-                        <div id="buyer-screen-container" class="flex-1 p-6 overflow-y-auto bg-stone-50 relative">
+                        <div id="buyer-screen-container" class="flex-1 p-6 overflow-y-auto bg-slate-50 relative">
                             
                             <!-- Step 1: Vibe Check -->
                             <div id="step-1" class="step-content fade-in">
-                                <h3 class="text-xl font-bold mb-1">Set the mood.</h3>
-                                <p class="text-xs text-stone-500 mb-6">Which style feels like home?</p>
+                                <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">Set the mood.</h3>
+                                <p class="text-xs text-slate-500 mb-6">Which style feels like home?</p>
                                 <div class="grid grid-cols-2 gap-3">
-                                    <button onclick="selectStyle('Modern Farmhouse')" class="style-btn group p-3 bg-white rounded-xl border border-stone-200 hover:border-blue-500 hover:shadow-md transition-all text-left">
-                                        <div class="h-16 bg-stone-100 rounded-lg mb-2 flex items-center justify-center group-hover:bg-blue-100 transition-colors"><i class="fas fa-warehouse text-2xl text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i></div>
-                                        <span class="text-[10px] font-bold block text-stone-600 group-hover:text-blue-600">Modern Farmhouse</span>
+                                    <button onclick="selectStyle('Modern Farmhouse')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-warehouse text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                        <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Modern Farmhouse</span>
                                     </button>
-                                    <button onclick="selectStyle('Contemporary')" class="style-btn group p-3 bg-white rounded-xl border border-stone-200 hover:border-blue-500 hover:shadow-md transition-all text-left">
-                                        <div class="h-16 bg-stone-100 rounded-lg mb-2 flex items-center justify-center group-hover:bg-blue-100 transition-colors"><i class="fas fa-cube text-2xl text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i></div>
-                                        <span class="text-[10px] font-bold block text-stone-600 group-hover:text-blue-600">Contemporary</span>
+                                    <button onclick="selectStyle('Contemporary')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-cube text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                        <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Contemporary</span>
                                     </button>
-                                    <button onclick="selectStyle('Traditional')" class="style-btn group p-3 bg-white rounded-xl border border-stone-200 hover:border-blue-500 hover:shadow-md transition-all text-left">
-                                        <div class="h-16 bg-stone-100 rounded-lg mb-2 flex items-center justify-center group-hover:bg-blue-100 transition-colors"><i class="fas fa-landmark text-2xl text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i></div>
-                                        <span class="text-[10px] font-bold block text-stone-600 group-hover:text-blue-600">Traditional</span>
+                                    <button onclick="selectStyle('Traditional')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-landmark text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                        <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Traditional</span>
                                     </button>
-                                    <button onclick="selectStyle('Mediterranean')" class="style-btn group p-3 bg-white rounded-xl border border-stone-200 hover:border-blue-500 hover:shadow-md transition-all text-left">
-                                        <div class="h-16 bg-stone-100 rounded-lg mb-2 flex items-center justify-center group-hover:bg-blue-100 transition-colors"><i class="fas fa-sun text-2xl text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i></div>
-                                        <span class="text-[10px] font-bold block text-stone-600 group-hover:text-blue-600">Mediterranean</span>
+                                    <button onclick="selectStyle('Mediterranean')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-sun text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                        <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Mediterranean</span>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Step 2: Crew & Amenities -->
                             <div id="step-2" class="step-content hidden fade-in">
-                                <h3 class="text-xl font-bold mb-1">The Basics.</h3>
-                                <p class="text-xs text-stone-500 mb-6">Define your space needs.</p>
+                                <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">The Basics.</h3>
+                                <p class="text-xs text-slate-500 mb-6">Define your space needs.</p>
                                 <div class="space-y-6">
                                     <div>
-                                        <label class="text-[10px] font-bold uppercase text-stone-400">Persona</label>
+                                        <label class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Persona</label>
                                         <div class="flex gap-2 mt-2">
-                                            <button onclick="setPersona('Family')" class="persona-btn flex-1 py-2 bg-white border border-stone-200 rounded-lg text-xs font-bold hover:border-stone-900 transition-colors text-stone-600">Growing Family</button>
-                                            <button onclick="setPersona('Couple')" class="persona-btn flex-1 py-2 bg-white border border-stone-200 rounded-lg text-xs font-bold hover:border-stone-900 transition-colors text-stone-600">Pro Couple</button>
+                                            <button onclick="setPersona('Family')" class="persona-btn flex-1 py-2.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:border-brand-dark hover:text-brand-dark transition-colors text-slate-600">Growing Family</button>
+                                            <button onclick="setPersona('Couple')" class="persona-btn flex-1 py-2.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:border-brand-dark hover:text-brand-dark transition-colors text-slate-600">Pro Couple</button>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="flex justify-between mb-2">
-                                            <label for="demo-bedrooms" class="text-[10px] font-bold uppercase text-stone-400">Bedrooms</label>
-                                            <span id="bed-val" class="text-xs font-bold text-blue-600">3</span>
+                                            <label for="demo-bedrooms" class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Bedrooms</label>
+                                            <span id="bed-val" class="text-xs font-bold text-brand-blue">3</span>
                                         </div>
-                                        <input id="demo-bedrooms" type="range" min="2" max="6" value="3" class="w-full" oninput="updateRange('bed', this.value)" aria-valuemin="2" aria-valuemax="6" aria-valuenow="3">
+                                        <input id="demo-bedrooms" type="range" min="2" max="6" value="3" class="w-full accent-brand-blue" oninput="updateRange('bed', this.value)" aria-valuemin="2" aria-valuemax="6" aria-valuenow="3">
                                     </div>
                                     <div>
                                         <div class="flex justify-between mb-2">
-                                            <label for="demo-budget" class="text-[10px] font-bold uppercase text-stone-400">Max Budget</label>
-                                            <span id="budget-val" class="text-xs font-bold text-blue-600">$500k</span>
+                                            <label for="demo-budget" class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Max Budget</label>
+                                            <span id="budget-val" class="text-xs font-bold text-brand-blue">$500k</span>
                                         </div>
-                                        <input id="demo-budget" type="range" min="300" max="1500" step="50" value="500" class="w-full" oninput="updateRange('budget', this.value)" aria-valuemin="300" aria-valuemax="1500" aria-valuenow="500">
+                                        <input id="demo-budget" type="range" min="300" max="1500" step="50" value="500" class="w-full accent-brand-blue" oninput="updateRange('budget', this.value)" aria-valuemin="300" aria-valuemax="1500" aria-valuenow="500">
                                     </div>
-                                    <button onclick="nextStep('amenities')" class="w-full py-3 bg-stone-900 text-white rounded-xl font-bold text-sm shadow-lg shadow-stone-900/20 action-pulse hover:animate-none hover:bg-stone-800 transition-all">Next Step</button>
+                                    <button onclick="nextStep('amenities')" class="w-full py-3.5 bg-brand-dark text-white rounded-xl font-bold text-sm shadow-lg shadow-slate-900/10 action-pulse hover:animate-none hover:bg-slate-800 transition-all">Next Step</button>
                                 </div>
                             </div>
 
                             <!-- Amenities Step -->
                             <div id="step-amenities" class="step-content hidden fade-in">
-                                <h3 class="text-xl font-bold mb-1">Non-Negotiables.</h3>
-                                <p class="text-xs text-stone-500 mb-6">Select top 3 features.</p>
+                                <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">Non-Negotiables.</h3>
+                                <p class="text-xs text-slate-500 mb-6">Select top 3 features.</p>
                                 <div class="grid grid-cols-2 gap-3 mb-6">
-                                    <button onclick="toggleAmenity(this, 'Office')" class="amenity-btn p-3 rounded-xl border border-stone-200 bg-white text-stone-600 hover:border-blue-500 hover:text-blue-600 transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-laptop-house text-lg text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i><span class="text-[10px] font-bold">Home Office</span>
+                                    <button onclick="toggleAmenity(this, 'Office')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i class="fas fa-laptop-house text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">Home Office</span>
                                     </button>
-                                    <button onclick="toggleAmenity(this, '3-Car Garage')" class="amenity-btn p-3 rounded-xl border border-stone-200 bg-white text-stone-600 hover:border-blue-500 hover:text-blue-600 transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-car text-lg text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i><span class="text-[10px] font-bold">3-Car Garage</span>
+                                    <button onclick="toggleAmenity(this, '3-Car Garage')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i class="fas fa-car text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">3-Car Garage</span>
                                     </button>
-                                    <button onclick="toggleAmenity(this, 'Master Down')" class="amenity-btn p-3 rounded-xl border border-stone-200 bg-white text-stone-600 hover:border-blue-500 hover:text-blue-600 transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-bed text-lg text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i><span class="text-[10px] font-bold">Master Down</span>
+                                    <button onclick="toggleAmenity(this, 'Master Down')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i class="fas fa-bed text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">Master Down</span>
                                     </button>
-                                    <button onclick="toggleAmenity(this, 'Pool Ready')" class="amenity-btn p-3 rounded-xl border border-stone-200 bg-white text-stone-600 hover:border-blue-500 hover:text-blue-600 transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-swimming-pool text-lg text-stone-400 group-hover:text-blue-500" aria-hidden="true"></i><span class="text-[10px] font-bold">Pool Ready</span>
+                                    <button onclick="toggleAmenity(this, 'Pool Ready')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i class="fas fa-swimming-pool text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">Pool Ready</span>
                                     </button>
                                 </div>
-                                <button onclick="nextStep('3')" class="w-full py-3 bg-stone-900 text-white rounded-xl font-bold text-sm hover:bg-stone-800 transition-all">Review & Verify</button>
+                                <button onclick="nextStep('3')" class="w-full py-3.5 bg-brand-dark text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all">Get VIP Status</button>
                             </div>
 
-                            <!-- Step 3: Verification -->
+                            <!-- Step 3: VIP Access -->
                             <div id="step-3" class="step-content hidden fade-in">
-                                <h3 class="text-xl font-bold mb-1">Unlock Offers</h3>
-                                <p class="text-xs text-stone-500 mb-6">Builders prioritize verified buyers.</p>
-                                <button onclick="verifyUser(event)" class="w-full py-3 bg-white border-2 border-stone-100 rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition-all group mb-3 text-stone-600">
-                                    <i class="fas fa-university text-stone-300 group-hover:text-green-500" aria-hidden="true"></i> Connect Bank (Plaid)
+                                <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">Unlock VIP Access</h3>
+                                <p class="text-xs text-slate-500 mb-4">Builders compete for verified Gold Status buyers.</p>
+                                
+                                <div class="flex items-center justify-center gap-2 mb-6 bg-amber-50 py-2 px-4 rounded-full w-fit mx-auto border border-amber-100 shadow-sm">
+                                    <i class="fas fa-crown text-brand-gold text-xs"></i>
+                                    <span class="text-[10px] font-bold text-amber-700 uppercase tracking-wide">Gold Tier Access</span>
+                                </div>
+
+                                <button onclick="verifyUser(event)" class="w-full py-3.5 bg-white border-2 border-slate-100 rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:border-brand-gold hover:text-amber-700 hover:bg-amber-50 transition-all group mb-3 text-slate-600">
+                                    <i class="fas fa-university text-slate-300 group-hover:text-brand-gold" aria-hidden="true"></i> Enable VIP Bidding (Plaid)
                                 </button>
-                                <button onclick="verifyUser(event)" class="w-full py-3 bg-white border-2 border-stone-100 rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:border-green-500 hover:text-green-600 hover:bg-green-50 transition-all group text-stone-600">
-                                    <i class="fas fa-file-upload text-stone-300 group-hover:text-green-500" aria-hidden="true"></i> Upload Approval
+                                <button onclick="verifyUser(event)" class="w-full py-3.5 bg-white border-2 border-slate-100 rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:border-brand-gold hover:text-amber-700 hover:bg-amber-50 transition-all group text-slate-600">
+                                    <i class="fas fa-file-upload text-slate-300 group-hover:text-brand-gold" aria-hidden="true"></i> Upload Pre-Approval
                                 </button>
+                                
+                                <p class="mt-4 text-[10px] text-center text-slate-400 flex items-center justify-center gap-1">
+                                    <i class="fas fa-lock text-[8px]"></i> 256-bit Bank Grade Security
+                                </p>
                             </div>
 
                             <!-- Step 4: Complete -->
                             <div id="step-4" class="step-content hidden fade-in text-center pt-8">
-                                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce"><i class="fas fa-check text-2xl text-green-600" aria-hidden="true"></i></div>
-                                <h3 class="text-xl font-bold mb-1">You are Live!</h3>
-                                <p class="text-xs text-stone-500 mb-6">Alias: <span class="bg-stone-100 py-0.5 px-2 rounded font-mono font-bold text-stone-700">Buyer #8942</span></p>
+                                <div class="w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce shadow-lg"><i class="fas fa-crown text-2xl text-amber-600" aria-hidden="true"></i></div>
+                                <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">You are VIP!</h3>
+                                <p class="text-xs text-slate-500 mb-6">Alias: <span class="bg-slate-100 py-0.5 px-2 rounded font-mono font-bold text-slate-700">Buyer #8942</span></p>
                                 
-                                <!-- AI Feature: Buyer Bio -->
                                 <div class="mt-4 mb-6">
-                                    <div id="ai-bio-container" class="hidden p-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-indigo-100 rounded-xl text-left mb-3">
+                                    <div id="ai-bio-container" class="hidden p-3 bg-gradient-to-r from-slate-50 to-white border border-slate-200 rounded-xl text-left mb-3 shadow-sm">
                                         <div class="flex items-center gap-2 mb-2">
                                             <span class="text-base">✨</span>
-                                            <span class="text-[10px] font-bold uppercase text-indigo-600 tracking-wider">AI Generated Bio</span>
+                                            <span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider">AI Generated Bio</span>
                                         </div>
-                                        <p id="ai-bio-text" class="text-xs text-stone-700 italic leading-relaxed"></p>
+                                        <p id="ai-bio-text" class="text-xs text-slate-700 italic leading-relaxed"></p>
                                     </div>
-                                    <button onclick="generateBuyerBio()" id="btn-generate-bio" class="w-full py-2.5 bg-white border border-indigo-200 text-indigo-600 font-bold rounded-lg text-xs hover:bg-indigo-50 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                                    <button onclick="generateBuyerBio()" id="btn-generate-bio" class="w-full py-2.5 bg-white border border-slate-200 text-brand-blue font-bold rounded-lg text-xs hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 shadow-sm">
                                         <span>✨</span> Enhance Profile with AI
                                     </button>
                                 </div>
 
-                                <!-- NEW: Pitches Container -->
                                 <div id="buyer-pitches-container" class="mt-4 text-left">
-                                    <div class="p-4 rounded-xl border border-stone-100 bg-stone-50 text-center">
-                                        <p class="text-[10px] text-stone-400 italic">Waiting for builder proposals...</p>
+                                    <div class="p-4 rounded-xl border border-slate-100 bg-white text-center shadow-sm">
+                                        <p class="text-[10px] text-slate-400 italic">Waiting for builder proposals...</p>
                                         <div class="mt-2 flex justify-center gap-1">
-                                            <div class="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce"></div>
-                                            <div class="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                                            <div class="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                            <div class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce"></div>
+                                            <div class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                                            <div class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <button onclick="resetDemo()" class="mt-6 text-xs text-stone-400 hover:text-stone-600 underline">Start Over</button>
+                                <button onclick="resetDemo()" class="mt-6 text-xs text-slate-400 hover:text-slate-600 underline">Start Over</button>
                             </div>
                         </div>
-                        <div class="h-14 bg-white border-t border-stone-100 flex justify-around items-center text-stone-300 shrink-0">
-                            <i class="fas fa-home text-stone-900" aria-hidden="true"></i><i class="fas fa-heart" aria-hidden="true"></i><i class="fas fa-comment" aria-hidden="true"></i><i class="fas fa-user" aria-hidden="true"></i>
+                        <div class="h-14 bg-white border-t border-slate-100 flex justify-around items-center text-slate-300 shrink-0">
+                            <i class="fas fa-home text-brand-dark" aria-hidden="true"></i><i class="fas fa-heart" aria-hidden="true"></i><i class="fas fa-comment" aria-hidden="true"></i><i class="fas fa-user" aria-hidden="true"></i>
                         </div>
                     </div>
                 </div>
@@ -381,116 +501,119 @@
                 <!-- RIGHT COLUMN: Builder Dashboard -->
                 <div class="lg:col-span-8 flex flex-col h-[600px] lg:h-[700px]">
                     <div class="mb-4 text-center lg:text-left pl-4">
-                        <span class="text-xs font-bold uppercase text-stone-400 tracking-wider">Phase B: The Builder</span>
-                        <h3 class="text-xl font-bold text-stone-800">The Bidder</h3>
+                        <span class="text-xs font-bold uppercase text-brand-success tracking-wider">Phase B: The Builder</span>
+                        <h3 class="text-xl font-bold text-brand-dark font-brand">The Bidder</h3>
                         <p class="text-sm text-stone-500">Monitoring "Live Demand" & Pitching Inventory</p>
                     </div>
                     <!-- Dashboard Header -->
-                    <div class="bg-stone-900 text-white p-4 rounded-t-2xl flex justify-between items-center shadow-lg z-10">
+                    <div class="bg-brand-dark text-white p-4 rounded-t-2xl flex justify-between items-center shadow-lg z-10 border-b border-slate-700">
                         <div class="flex items-center gap-3">
-                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                            <span class="ml-2 font-mono font-bold text-sm tracking-wider text-stone-300 hidden md:inline">BUILDER_TERMINAL_V1</span>
-                            <span class="ml-2 px-2 py-0.5 bg-green-900 text-green-400 text-[10px] rounded border border-green-700 animate-pulse">LIVE</span>
+                            <div class="flex gap-1.5">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="ml-2 font-mono font-bold text-sm tracking-wider text-slate-300 hidden md:inline">BUILDER_TERMINAL_V1</span>
+                            <span class="ml-2 px-2 py-0.5 bg-brand-success/20 text-brand-success text-[10px] font-bold rounded border border-brand-success/30 animate-pulse">LIVE</span>
                         </div>
-                        <div class="flex bg-stone-800 rounded-lg p-1 border border-stone-700">
-                            <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-3 py-1 rounded text-xs font-bold bg-stone-600 text-white transition-all">Feed</button>
-                            <button onclick="toggleDashboardView('map')" id="view-map-btn" class="px-3 py-1 rounded text-xs font-bold text-stone-400 hover:text-white transition-all">Map</button>
-                            <button onclick="toggleDashboardView('intel')" id="view-intel-btn" class="px-3 py-1 rounded text-xs font-bold text-stone-400 hover:text-white transition-all">Intel</button>
+                        <div class="flex bg-slate-800 rounded-lg p-1 border border-slate-700">
+                            <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-3 py-1 rounded text-xs font-bold bg-brand-blue text-white transition-all">Feed</button>
+                            <button onclick="toggleDashboardView('map')" id="view-map-btn" class="px-3 py-1 rounded text-xs font-bold text-slate-400 hover:text-white transition-all">Map</button>
+                            <button onclick="toggleDashboardView('intel')" id="view-intel-btn" class="px-3 py-1 rounded text-xs font-bold text-slate-400 hover:text-white transition-all">Intel</button>
                         </div>
                     </div>
-                    <!-- Dashboard Body -->
-                    <div id="builder-dashboard-body" class="bg-stone-800 flex-1 rounded-b-2xl border-x border-b border-stone-700 shadow-2xl relative overflow-hidden flex flex-col">
-                        <div class="grid grid-cols-4 gap-px bg-stone-700 border-b border-stone-700">
-                            <div class="bg-stone-800 p-3"><div class="text-[10px] text-stone-500 uppercase font-bold">Active Demand</div><div class="text-white font-mono text-base md:text-lg font-bold" id="stat-active">1,248</div></div>
-                            <div class="bg-stone-800 p-3"><div class="text-[10px] text-stone-500 uppercase font-bold">Avg Budget</div><div class="text-white font-mono text-base md:text-lg font-bold" id="stat-budget">$485k</div></div>
-                            <div class="bg-stone-800 p-3"><div class="text-[10px] text-stone-500 uppercase font-bold">Your Credits</div><div class="text-yellow-400 font-mono text-base md:text-lg font-bold" id="stat-credits">500</div></div>
-                            <div class="bg-stone-800 p-3"><div class="text-[10px] text-stone-500 uppercase font-bold">Conv. Rate</div><div class="text-green-400 font-mono text-base md:text-lg font-bold">18.4%</div></div>
+                    <!-- Dashboard Body (Glass Dark - Warmer) -->
+                    <div id="builder-dashboard-body" class="bg-brand-dark flex-1 rounded-b-2xl border-x border-b border-slate-800 shadow-2xl relative overflow-hidden flex flex-col glass-dark">
+                        <!-- Stats Row -->
+                        <div class="grid grid-cols-4 gap-px bg-slate-800 border-b border-slate-700">
+                            <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Active Demand</div><div class="text-white font-mono text-base md:text-lg font-bold" id="stat-active">1,248</div></div>
+                            <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Avg Budget</div><div class="text-white font-mono text-base md:text-lg font-bold" id="stat-budget">$485k</div></div>
+                            <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Your Credits</div><div class="text-yellow-500 font-mono text-base md:text-lg font-bold" id="stat-credits">500</div></div>
+                            <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Conv. Rate</div><div class="text-brand-success font-mono text-base md:text-lg font-bold">18.4%</div></div>
                         </div>
                         
                         <!-- LIST VIEW CONTAINER -->
-                        <div id="dashboard-list-view" class="flex-1 min-h-0 bg-stone-900/50 flex flex-col relative transition-opacity duration-300">
-                            <div class="flex justify-between items-center p-2 bg-stone-900/80 border-b border-stone-700 text-[10px] uppercase text-stone-500 font-bold tracking-wider px-4">
+                        <div id="dashboard-list-view" class="flex-1 min-h-0 bg-slate-900/50 flex flex-col relative transition-opacity duration-300">
+                            <div class="flex justify-between items-center p-3 bg-slate-900/80 border-b border-slate-700 text-[10px] uppercase text-slate-500 font-bold tracking-wider px-4">
                                 <span>Incoming Stream</span>
-                                <span>Updates <span class="w-1.5 h-1.5 rounded-full bg-green-500 inline-block ml-1 animate-pulse"></span></span>
+                                <span>Updates <span class="w-1.5 h-1.5 rounded-full bg-brand-success inline-block ml-1 animate-pulse"></span></span>
                             </div>
-                            <div id="dashboard-feed" class="flex-1 overflow-y-auto dashboard-scroll p-2 space-y-2 relative"></div>
+                            <div id="dashboard-feed" class="flex-1 overflow-y-auto dashboard-scroll p-3 space-y-3 relative"></div>
                         </div>
                         
                         <!-- MAP VIEW CONTAINER -->
-                        <div id="dashboard-map-view" class="flex-1 min-h-0 relative bg-stone-900 overflow-hidden hidden transition-opacity duration-300">
+                        <div id="dashboard-map-view" class="flex-1 min-h-0 relative bg-slate-900 overflow-hidden hidden transition-opacity duration-300">
                             <canvas id="demandMap" class="w-full h-full object-cover opacity-80" role="img" aria-label="Heatmap of buyer demand vs available builder lots"></canvas>
                             <div class="absolute bottom-4 right-4 bg-black/70 px-3 py-2 rounded text-xs text-white backdrop-blur">
                                 <span class="w-2 h-2 rounded-full bg-red-500 inline-block mr-1"></span> High Demand
-                                <span class="w-2 h-2 rounded-full bg-blue-500 inline-block ml-2 mr-1"></span> Your Lots
+                                <span class="w-2 h-2 rounded-full bg-brand-blue inline-block ml-2 mr-1"></span> Your Lots
                             </div>
                         </div>
 
                         <!-- INTEL VIEW -->
-                        <div id="dashboard-intel-view" class="flex-1 min-h-0 bg-stone-800 overflow-y-auto hidden p-6 transition-opacity duration-300">
+                        <div id="dashboard-intel-view" class="flex-1 min-h-0 bg-brand-dark overflow-y-auto hidden p-6 transition-opacity duration-300">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-                                <div class="bg-stone-900/50 p-4 rounded-xl border border-stone-700">
-                                    <h4 class="text-xs font-bold text-stone-400 uppercase mb-4">Live Feature Demand</h4>
+                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">Live Feature Demand</h4>
                                     <div class="space-y-4">
-                                        <div><div class="flex justify-between text-xs text-stone-400 mb-1"><span>Home Office</span><span class="text-green-400">42% <i class="fas fa-arrow-up" aria-hidden="true"></i></span></div><div class="h-1.5 bg-stone-700 rounded-full"><div class="h-full bg-blue-500 rounded-full" style="width: 42%"></div></div></div>
-                                        <div><div class="flex justify-between text-xs text-stone-400 mb-1"><span>3-Car Garage</span><span class="text-stone-400">28%</span></div><div class="h-1.5 bg-stone-700 rounded-full"><div class="h-full bg-purple-500 rounded-full" style="width: 28%"></div></div></div>
-                                        <div><div class="flex justify-between text-xs text-stone-400 mb-1"><span>Pool Ready</span><span class="text-red-400">15% <i class="fas fa-arrow-down" aria-hidden="true"></i></span></div><div class="h-1.5 bg-stone-700 rounded-full"><div class="h-full bg-teal-500 rounded-full" style="width: 15%"></div></div></div>
+                                        <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>Home Office</span><span class="text-brand-success">42% <i class="fas fa-arrow-up" aria-hidden="true"></i></span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-brand-blue rounded-full" style="width: 42%"></div></div></div>
+                                        <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>3-Car Garage</span><span class="text-slate-400">28%</span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-purple-500 rounded-full" style="width: 28%"></div></div></div>
+                                        <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>Pool Ready</span><span class="text-red-400">15% <i class="fas fa-arrow-down" aria-hidden="true"></i></span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-teal-500 rounded-full" style="width: 15%"></div></div></div>
                                     </div>
                                     <div class="mt-6 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
                                         <div class="flex justify-between items-center mb-2">
                                             <div class="text-blue-400 text-[10px] font-bold uppercase"><i class="fas fa-robot mr-1" aria-hidden="true"></i> AI Insight</div>
-                                            <button onclick="generateMarketIntel()" id="btn-ai-intel" class="text-[10px] text-white bg-blue-600 px-2 py-1 rounded hover:bg-blue-500 transition-colors">Analyze</button>
+                                            <button onclick="generateMarketIntel()" id="btn-ai-intel" class="text-[10px] text-white bg-brand-blue px-2 py-1 rounded hover:bg-blue-600 transition-colors">Analyze</button>
                                         </div>
-                                        <p id="ai-intel-text" class="text-stone-400 text-xs leading-relaxed">Click Analyze to generate report.</p>
+                                        <p id="ai-intel-text" class="text-slate-400 text-xs leading-relaxed">Click Analyze to generate report.</p>
                                     </div>
                                 </div>
-                                <div class="bg-stone-900/50 p-4 rounded-xl border border-stone-700">
-                                    <h4 class="text-xs font-bold text-stone-400 uppercase mb-4">Budget Trend (90 Days)</h4>
+                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                                    <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">Budget Trend (90 Days)</h4>
                                     <div class="chart-container h-48 w-full"><canvas id="intelChart" role="img" aria-label="Line chart showing average buyer budget trends over the last 6 months"></canvas></div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Card Visualizer -->
-                        <div id="user-card-overlay" class="absolute bottom-0 left-0 right-0 bg-stone-900/95 border-t border-blue-500 p-5 transform translate-y-full transition-transform duration-500 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 backdrop-blur-sm">
+                        <div id="user-card-overlay" class="absolute bottom-0 left-0 right-0 bg-brand-dark/95 border-t border-brand-blue p-5 transform translate-y-full transition-transform duration-500 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 backdrop-blur-sm">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1"><span class="text-[10px] font-bold text-blue-400 uppercase tracking-wider">New High-Intent Match</span><span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span></div>
-                                    <h4 class="text-white font-bold text-xl">Verified Buyer #8942</h4>
+                                    <div class="flex items-center gap-2 mb-1"><span class="text-[10px] font-bold text-brand-gold uppercase tracking-wider">VIP Match Found</span><span class="w-1.5 h-1.5 bg-brand-gold rounded-full animate-pulse"></span></div>
+                                    <h4 class="text-white font-bold text-xl font-brand">VIP Buyer #8942</h4>
                                 </div>
-                                <div class="text-right"><div class="text-2xl font-bold text-green-400" id="dash-card-budget">$500k</div><div class="text-[10px] text-stone-500 uppercase">Pre-Approved</div></div>
+                                <div class="text-right"><div class="text-2xl font-bold text-brand-success" id="dash-card-budget">$500k</div><div class="text-[10px] text-slate-500 uppercase">Verified Gold</div></div>
                             </div>
                             <div class="grid grid-cols-3 gap-3 mb-4">
-                                <div class="bg-stone-800 p-2 rounded border border-stone-700"><div class="text-[10px] text-stone-500 uppercase">Style</div><div class="text-sm text-white font-medium" id="dash-card-style">Modern</div></div>
-                                <div class="bg-stone-800 p-2 rounded border border-stone-700"><div class="text-[10px] text-stone-500 uppercase">Size</div><div class="text-sm text-white font-medium" id="dash-card-config">3bd / 2ba</div></div>
-                                <div class="bg-stone-800 p-2 rounded border border-stone-700"><div class="text-[10px] text-stone-500 uppercase">Must Have</div><div class="text-sm text-white font-medium truncate" id="dash-card-amenities">...</div></div>
+                                <div class="bg-slate-800 p-2 rounded border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Style</div><div class="text-sm text-white font-medium" id="dash-card-style">Modern</div></div>
+                                <div class="bg-slate-800 p-2 rounded border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Size</div><div class="text-sm text-white font-medium" id="dash-card-config">3bd / 2ba</div></div>
+                                <div class="bg-slate-800 p-2 rounded border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Must Have</div><div class="text-sm text-white font-medium truncate" id="dash-card-amenities">...</div></div>
                             </div>
-                            <div id="unlock-area"><button onclick="unlockLead()" id="btn-unlock" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg text-sm transition-all flex items-center justify-center gap-2"><i class="fas fa-lock-open" aria-hidden="true"></i> UNLOCK CONTACT DETAILS (50 Credits)</button></div>
+                            <div id="unlock-area"><button onclick="unlockLead()" id="btn-unlock" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white font-bold rounded-lg shadow-lg text-sm transition-all flex items-center justify-center gap-2"><i class="fas fa-lock-open" aria-hidden="true"></i> UNLOCK CONTACT DETAILS (50 Credits)</button></div>
                         </div>
 
                         <!-- Pitch Modal -->
                         <div id="pitch-modal" class="absolute inset-0 bg-black/80 z-30 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-                            <div class="bg-stone-800 border border-stone-600 rounded-xl p-5 w-full max-w-sm shadow-2xl">
-                                <h4 class="text-white font-bold mb-1">Pitch Buyer <span id="pitch-target-id" class="text-blue-400 font-mono">#0000</span></h4>
-                                <p class="text-xs text-stone-400 mb-4">Select inventory type to offer.</p>
+                            <div class="bg-slate-800 border border-slate-600 rounded-xl p-5 w-full max-w-sm shadow-2xl">
+                                <h4 class="text-white font-bold mb-1 font-brand">Pitch Buyer <span id="pitch-target-id" class="text-brand-blue font-mono">#0000</span></h4>
+                                <p class="text-xs text-slate-400 mb-4">Select inventory type to offer.</p>
                                 
                                 <div class="mb-4 relative">
-                                    <textarea id="pitch-message" class="w-full bg-stone-900 border border-stone-600 text-white text-xs rounded-lg p-3 focus:border-blue-500 outline-none h-20 resize-none leading-relaxed" placeholder="Drafting pitch..."></textarea>
+                                    <textarea id="pitch-message" class="w-full bg-slate-900 border border-slate-600 text-white text-xs rounded-lg p-3 focus:border-brand-blue outline-none h-20 resize-none leading-relaxed" placeholder="Drafting pitch..."></textarea>
                                     <button onclick="generateBuilderPitch()" id="btn-ai-pitch" class="absolute bottom-2 right-2 text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-1 rounded flex items-center gap-1 transition-colors font-bold"><span>✨</span> AI Draft</button>
                                 </div>
 
                                 <div class="space-y-2 mb-4">
-                                    <button onclick="selectPitch(this, 'Spec')" class="pitch-opt w-full text-left p-3 rounded-lg bg-stone-700 border border-stone-600 hover:border-blue-500 hover:bg-stone-600 transition-all text-xs text-stone-300 group">
-                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-blue-400"><i class="fas fa-home mr-2" aria-hidden="true"></i> Inventory Home</span><span class="text-green-400">Quick Close</span></div>
+                                    <button onclick="selectPitch(this, 'Spec')" class="pitch-opt w-full text-left p-3 rounded-lg bg-slate-700 border border-slate-600 hover:border-brand-blue hover:bg-slate-600 transition-all text-xs text-slate-300 group">
+                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-brand-blue"><i class="fas fa-home mr-2" aria-hidden="true"></i> Inventory Home</span><span class="text-brand-success">Quick Close</span></div>
                                     </button>
-                                    <button onclick="selectPitch(this, 'Dirt')" class="pitch-opt w-full text-left p-3 rounded-lg bg-stone-700 border border-stone-600 hover:border-blue-500 hover:bg-stone-600 transition-all text-xs text-stone-300 group">
-                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-blue-400"><i class="fas fa-layer-group mr-2" aria-hidden="true"></i> Custom Build</span><span class="text-blue-400">High Margin</span></div>
+                                    <button onclick="selectPitch(this, 'Dirt')" class="pitch-opt w-full text-left p-3 rounded-lg bg-slate-700 border border-slate-600 hover:border-brand-blue hover:bg-slate-600 transition-all text-xs text-slate-300 group">
+                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-brand-blue"><i class="fas fa-layer-group mr-2" aria-hidden="true"></i> Custom Build</span><span class="text-blue-400">High Margin</span></div>
                                     </button>
                                 </div>
                                 <div class="flex gap-3">
-                                    <button onclick="document.getElementById('pitch-modal').classList.add('hidden')" class="flex-1 py-2.5 bg-stone-700 hover:bg-stone-600 text-stone-300 rounded-lg text-xs font-bold">Cancel</button>
-                                    <button onclick="sendPitch()" class="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold">Send Pitch</button>
+                                    <button onclick="document.getElementById('pitch-modal').classList.add('hidden')" class="flex-1 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-xs font-bold">Cancel</button>
+                                    <button onclick="sendPitch()" class="flex-1 py-2.5 bg-brand-blue hover:bg-blue-600 text-white rounded-lg text-xs font-bold">Send Pitch</button>
                                 </div>
                             </div>
                         </div>
@@ -501,68 +624,45 @@
     </section>
 
     <!-- Social Proof -->
-    <section id="testimonials" class="py-16 md:py-24 bg-white border-y border-stone-100" data-audience="buyer,builder,investor"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center mb-16"><h2 id="testimonial-title" class="text-3xl font-bold text-stone-900">Success Stories</h2><p id="testimonial-desc" class="mt-4 text-stone-500">Real results from the people changing how homes are bought and sold.</p></div><div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><div class="bg-stone-50 p-8 rounded-2xl border border-stone-100 relative" data-audience="buyer,investor"><div class="absolute -top-4 right-8 bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase">New Buyer</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-stone-300 rounded-full overflow-hidden flex items-center justify-center text-xl text-stone-500"><i class="fas fa-user" aria-hidden="true"></i></div><div><h4 class="font-bold text-stone-900">Sarah & Mark T.</h4><p class="text-xs text-stone-500">Relocating to Austin, TX</p></div></div><p class="text-stone-600 italic">"We spent 3 months driving around looking at 'Sold' signs. On Newer, we posted our budget and got a pitch for a lot that wasn't even listed yet."</p></div><div class="bg-stone-50 p-8 rounded-2xl border border-stone-100 relative" data-audience="buyer,investor"><div class="absolute -top-4 right-8 bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase">First-Time Buyer</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-stone-300 rounded-full overflow-hidden flex items-center justify-center text-xl text-stone-500"><i class="fas fa-user-graduate" aria-hidden="true"></i></div><div><h4 class="font-bold text-stone-900">Jason L.</h4><p class="text-xs text-stone-500">Denver, CO</p></div></div><p class="text-stone-600 italic">"I thought I was priced out. A builder saw my 'Verify' badge and offered me a pre-construction deal on a townhome if I could close quickly."</p></div><div class="bg-stone-900 p-8 rounded-2xl border border-stone-700 relative" data-audience="builder,investor"><div class="absolute -top-4 right-8 bg-green-900 text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase">Production Builder</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-stone-700 rounded-full overflow-hidden flex items-center justify-center text-xl text-stone-400"><i class="fas fa-hard-hat" aria-hidden="true"></i></div><div><h4 class="font-bold text-white">James R.</h4><p class="text-xs text-stone-400">VP Sales, Regional Builder</p></div></div><p class="text-stone-300 italic">"I searched Newer for buyers with a $550k budget in that zip code, found 3 matches, and pitched them. Sold it that weekend with zero marketing spend."</p></div><div class="bg-stone-900 p-8 rounded-2xl border border-stone-700 relative" data-audience="builder,investor"><div class="absolute -top-4 right-8 bg-green-900 text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase">Custom Builder</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-stone-700 rounded-full overflow-hidden flex items-center justify-center text-xl text-stone-400"><i class="fas fa-drafting-compass" aria-hidden="true"></i></div><div><h4 class="font-bold text-white">Elena V.</h4><p class="text-xs text-stone-400">Owner, Boutique Homes</p></div></div><p class="text-stone-300 italic">"The 'Lead Unlock' feature alone saved us $20k in ad spend. We connect with clients who already want a custom build in our territory."</p></div><div class="bg-purple-50 p-8 rounded-2xl border border-purple-100 relative" data-audience="investor"><div class="absolute -top-4 right-8 bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-xs font-bold uppercase">The Investor</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-purple-200 rounded-full overflow-hidden flex items-center justify-center text-xl text-purple-600"><i class="fas fa-chart-line" aria-hidden="true"></i></div><div><h4 class="font-bold text-purple-900">Marcus T.</h4><p class="text-xs text-purple-600">Partner, PropTech VC</p></div></div><p class="text-purple-800 italic">"By inverting the model, Newer solves the liquidity crisis in new construction. It's not just lead gen; it's a market maker."</p></div></div></div></section>
+    <section id="testimonials" class="py-20 md:py-28 bg-white border-y border-stone-100 scroll-mt-24" data-audience="buyer,builder,investor"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center mb-16"><h2 id="testimonial-title" class="text-4xl font-brand font-bold text-brand-dark transition-all duration-300">Success Stories</h2><p id="testimonial-desc" class="mt-4 text-slate-500 transition-all duration-300">Real results from the people changing how homes are bought and sold.</p></div><div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 relative shadow-sm hover:shadow-md transition-all" data-audience="buyer,investor"><div class="absolute -top-4 right-8 bg-blue-100 text-brand-blue px-3 py-1 rounded-full text-xs font-bold uppercase">New Buyer</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-white rounded-full overflow-hidden flex items-center justify-center text-xl text-slate-400 shadow-sm"><i class="fas fa-user" aria-hidden="true"></i></div><div><h4 class="font-bold text-brand-dark">Sarah & Mark T.</h4><p class="text-xs text-slate-500">Relocating to Austin, TX</p></div></div><p class="text-slate-600 italic">"We spent 3 months driving around looking at 'Sold' signs. On Newer, we posted our budget and got a pitch for a lot that wasn't even listed yet."</p></div><div class="bg-slate-50 p-8 rounded-2xl border border-slate-100 relative shadow-sm hover:shadow-md transition-all" data-audience="buyer,investor"><div class="absolute -top-4 right-8 bg-blue-100 text-brand-blue px-3 py-1 rounded-full text-xs font-bold uppercase">First-Time Buyer</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-white rounded-full overflow-hidden flex items-center justify-center text-xl text-slate-400 shadow-sm"><i class="fas fa-user-graduate" aria-hidden="true"></i></div><div><h4 class="font-bold text-brand-dark">Jason L.</h4><p class="text-xs text-slate-500">Denver, CO</p></div></div><p class="text-slate-600 italic">"I thought I was priced out. A builder saw my 'Verify' badge and offered me a pre-construction deal on a townhome if I could close quickly."</p></div><div class="bg-brand-dark p-8 rounded-2xl border border-slate-700 relative" data-audience="builder,investor"><div class="absolute -top-4 right-8 bg-brand-success/20 text-brand-success px-3 py-1 rounded-full text-xs font-bold uppercase border border-brand-success/30">Production Builder</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-slate-700 rounded-full overflow-hidden flex items-center justify-center text-xl text-slate-400"><i class="fas fa-hard-hat" aria-hidden="true"></i></div><div><h4 class="font-bold text-white">James R.</h4><p class="text-xs text-slate-400">VP Sales, Regional Builder</p></div></div><p class="text-slate-300 italic">"I searched Newer for buyers with a $550k budget in that zip code, found 3 matches, and pitched them. Sold it that weekend with zero marketing spend."</p></div><div class="bg-brand-dark p-8 rounded-2xl border border-slate-700 relative" data-audience="builder,investor"><div class="absolute -top-4 right-8 bg-brand-success/20 text-brand-success px-3 py-1 rounded-full text-xs font-bold uppercase border border-brand-success/30">Home Builder</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-slate-700 rounded-full overflow-hidden flex items-center justify-center text-xl text-slate-400"><i class="fas fa-drafting-compass" aria-hidden="true"></i></div><div><h4 class="font-bold text-white">Elena V.</h4><p class="text-xs text-slate-400">Owner, Boutique Homes</p></div></div><p class="text-slate-300 italic">"The 'Lead Unlock' feature alone saved us $20k in ad spend. We connect with clients who already want a custom build in our territory."</p></div><div class="bg-purple-50 p-8 rounded-2xl border border-purple-100 relative shadow-sm hover:shadow-md transition-all" data-audience="investor"><div class="absolute -top-4 right-8 bg-purple-200 text-purple-700 px-3 py-1 rounded-full text-xs font-bold uppercase">The Investor</div><div class="flex items-center gap-4 mb-6"><div class="w-12 h-12 bg-white rounded-full overflow-hidden flex items-center justify-center text-xl text-purple-600 shadow-sm"><i class="fas fa-chart-line" aria-hidden="true"></i></div><div><h4 class="font-bold text-purple-900">Marcus T.</h4><p class="text-xs text-purple-600">Partner, PropTech VC</p></div></div><p class="text-purple-800 italic">"By inverting the model, Newer solves the liquidity crisis in new construction. It's not just lead gen; it's a market maker."</p></div></div></div></section>
     
-    <section id="revenue" class="py-16 md:py-24 bg-stone-900 text-white" data-audience="builder,investor">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16"><h2 id="revenue-title" class="text-3xl font-bold">Unicorn Unit Economics</h2><p id="revenue-desc" class="mt-4 text-stone-400 max-w-2xl mx-auto">Three revenue streams create a scalable, recurring income model.</p></div>
-            <div class="grid lg:grid-cols-3 gap-8"><div class="bg-stone-800 p-8 rounded-2xl border border-stone-700 hover:border-blue-500 transition-colors"><div class="h-12 w-12 bg-stone-700 rounded-xl flex items-center justify-center mb-6 text-blue-400 text-xl"><i class="fas fa-rss" aria-hidden="true"></i></div><h3 class="text-xl font-bold mb-2">1. SaaS Subscription</h3><p class="text-stone-400 text-sm mb-4">Builders pay for access to the "Demand Feed" and market analytics.</p><div class="text-2xl font-mono font-bold text-white">$2k - $10k<span class="text-sm text-stone-500 font-normal">/mo</span></div></div><div class="bg-stone-800 p-8 rounded-2xl border border-stone-700 hover:border-blue-500 transition-colors"><div class="h-12 w-12 bg-stone-700 rounded-xl flex items-center justify-center mb-6 text-blue-400 text-xl"><i class="fas fa-lock-open" aria-hidden="true"></i></div><h3 class="text-xl font-bold mb-2">2. Unlock Fees</h3><p class="text-stone-400 text-sm mb-4">Micro-transactions. Builders pay to unlock the contact info of a matched buyer.</p><div class="text-2xl font-mono font-bold text-white">$50 - $200<span class="text-sm text-stone-500 font-normal">/lead</span></div></div><div class="bg-stone-800 p-8 rounded-2xl border border-stone-700 hover:border-blue-500 transition-colors"><div class="h-12 w-12 bg-stone-700 rounded-xl flex items-center justify-center mb-6 text-blue-400 text-xl"><i class="fas fa-percentage" aria-hidden="true"></i></div><h3 class="text-xl font-bold mb-2">3. Success Fees</h3><p class="text-stone-400 text-sm mb-4">Small take rate on the final transaction value upon closing.</p><div class="text-2xl font-mono font-bold text-white">0.5%<span class="text-sm text-stone-500 font-normal"> of Sale Price</span></div></div></div>
-            <div class="mt-16 bg-stone-800 p-6 rounded-2xl border border-stone-700" data-audience="investor">
-                <h4 class="text-lg font-bold mb-6 text-center">Projected Revenue Mix (Year 1 - Year 5)</h4>
-                <div class="flex justify-center gap-2 mb-6"><button onclick="updateRevenue('conservative')" class="scenario-btn px-4 py-2 rounded-full text-sm font-medium border border-stone-600 hover:bg-stone-700 text-stone-300 transition-colors">Conservative</button><button onclick="updateRevenue('base')" class="scenario-btn px-4 py-2 rounded-full text-sm font-medium bg-blue-600 text-white border border-blue-600 transition-colors">Base Case</button><button onclick="updateRevenue('aggressive')" class="scenario-btn px-4 py-2 rounded-full text-sm font-medium border border-stone-600 hover:bg-stone-700 text-stone-300 transition-colors">Aggressive</button></div>
-                <div class="chart-container"><canvas id="revenueChart" role="img" aria-label="Revenue Projection Bar Chart showing SaaS, Unlock, and Success Fees over 5 years"></canvas></div>
-                <div class="mt-8 border-t border-stone-700 pt-6">
-                     <div class="flex justify-between items-center mb-4">
-                        <h5 class="text-sm font-bold text-purple-400">INVESTMENT THESIS GENERATOR</h5>
-                        <button onclick="generateInvestmentMemo()" id="btn-ai-memo" class="ai-btn px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-lg hover:shadow-purple-500/20 flex items-center gap-2">
-                             <span>✨</span> Draft Deal Memo
-                        </button>
-                     </div>
-                     <div id="ai-memo-container" class="hidden bg-stone-900/50 rounded-xl p-4 border border-purple-500/30">
-                        <p id="ai-memo-text" class="text-sm text-stone-300 font-mono leading-relaxed"></p>
-                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="cta-builder" class="py-16 md:py-24 bg-blue-600" data-audience="builder,investor"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"><h2 class="text-3xl font-bold text-white mb-6">For Builders: The Infinite ROI Engine</h2><div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-10 text-white"><div class="p-4 border border-blue-400 rounded-xl bg-blue-700/30"><div class="text-3xl font-bold mb-1">0</div><div class="text-sm opacity-80">Marketing Spend</div></div><div class="p-4 border border-blue-400 rounded-xl bg-blue-700/30"><div class="text-3xl font-bold mb-1">20x</div><div class="text-sm opacity-80">Higher Conversion</div></div><div class="p-4 border border-blue-400 rounded-xl bg-blue-700/30"><div class="text-3xl font-bold mb-1">100%</div><div class="text-sm opacity-80">Verified Intent</div></div></div><button onclick="openWaitlistModal()" class="bg-white text-blue-600 px-8 py-4 rounded-full font-bold shadow-xl hover:bg-stone-100 hover:scale-105 transition-all">Request Builder Access</button></div></section>
+    <section id="cta-builder" class="py-16 md:py-24 bg-brand-blue scroll-mt-24" data-audience="builder,investor"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"><h2 class="text-3xl font-brand font-bold text-white mb-6">For Builders: The Infinite ROI Engine</h2><div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-10 text-white"><div class="p-4 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm"><div class="text-3xl font-bold mb-1">0</div><div class="text-sm opacity-80">Marketing Spend</div></div><div class="p-4 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm"><div class="text-3xl font-bold mb-1">20x</div><div class="text-sm opacity-80">Higher Conversion</div></div><div class="p-4 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm"><div class="text-3xl font-bold mb-1">100%</div><div class="text-sm opacity-80">Verified Intent</div></div></div><button onclick="openWaitlistModal()" class="bg-white text-brand-blue px-8 py-4 rounded-full font-bold shadow-xl hover:bg-stone-100 hover:scale-105 transition-all">Request Builder Access</button></div></section>
     
     <!-- NEW SEO SECTION: Ecosystem Overview (Static Text for Crawlers) -->
     <section id="ecosystem" class="py-16 md:py-24 bg-white border-t border-stone-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-stone-900">A Unified Marketplace</h2>
-                <p class="mt-4 text-stone-500 max-w-2xl mx-auto">Connecting the three pillars of the new construction economy in a single, verified ecosystem.</p>
+                <h2 class="text-3xl font-brand font-bold text-brand-dark">A Unified Marketplace</h2>
+                <p class="mt-4 text-stone-500 max-w-2xl mx-auto">Connecting the new construction economy in a single, verified ecosystem.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-12 text-left">
                 <!-- Buyers Column -->
                 <div>
-                    <h3 class="text-xl font-bold text-stone-900 mb-3">For Home Buyers</h3>
+                    <h3 class="text-xl font-bold text-brand-dark mb-3">For Home Buyers</h3>
                     <p class="text-sm text-stone-600 leading-relaxed mb-4">
-                        Newer is the premier platform for finding <strong>off-market new construction homes</strong>. Unlike traditional listings, our reverse marketplace lets you post your budget and preferences, allowing top local builders to compete for your business.
+                        Newer is the premier platform for finding <strong>new construction homes</strong>. Unlike traditional listings, our reverse marketplace lets you post your budget and preferences, allowing top local builders to compete for your business.
                     </p>
                     <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Access pre-construction deals</li>
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> No bidding wars</li>
-                        <li><i class="fas fa-check text-blue-500 mr-2"></i> Direct builder incentives</li>
+                        <li><i class="fas fa-check text-brand-blue mr-2"></i> Access pre-construction deals</li>
+                        <li><i class="fas fa-check text-brand-blue mr-2"></i> No bidding wars</li>
+                        <li><i class="fas fa-check text-brand-blue mr-2"></i> Direct builder incentives</li>
                     </ul>
                 </div>
                 <!-- Builders Column -->
                 <div>
-                    <h3 class="text-xl font-bold text-stone-900 mb-3">For Custom Builders</h3>
+                    <h3 class="text-xl font-bold text-brand-dark mb-3">For Home Builders</h3>
                     <p class="text-sm text-stone-600 leading-relaxed mb-4">
                         Eliminate speculation risk with our <strong>verified buyer demand feed</strong>. Newer provides a live order book of pre-approved clients in your zip code, reducing marketing costs to zero and ensuring faster inventory turnover.
                     </p>
                     <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> Zero marketing spend</li>
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> Verified proof of funds</li>
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> High-intent leads</li>
+                        <li><i class="fas fa-check text-brand-success mr-2"></i> Zero marketing spend</li>
+                        <li><i class="fas fa-check text-brand-success mr-2"></i> Verified proof of funds</li>
+                        <li><i class="fas fa-check text-brand-success mr-2"></i> High-intent leads</li>
                     </ul>
                 </div>
                 <!-- Investors Column -->
                 <div>
-                    <h3 class="text-xl font-bold text-stone-900 mb-3">For Real Estate Investors</h3>
+                    <h3 class="text-xl font-bold text-brand-dark mb-3">For Early Investors</h3>
                     <p class="text-sm text-stone-600 leading-relaxed mb-4">
                         Unlock liquidity in the residential construction market. Newer's data-driven approach creates a <strong>predictive construction layer</strong>, matching capital with verified demand to optimize IRR and reduce holding costs.
                     </p>
@@ -576,103 +676,103 @@
         </div>
     </section>
 
-    <section class="py-16 md:py-24 bg-stone-50 border-t border-stone-200" data-audience="buyer,builder,investor">
+    <section class="py-16 md:py-24 bg-slate-50 border-t border-slate-200" data-audience="buyer,builder,investor">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-stone-900 text-center mb-12">Frequently Asked Questions</h2>
+            <h2 class="text-3xl font-brand font-bold text-brand-dark text-center mb-12">Frequently Asked Questions</h2>
             <div class="space-y-4">
                 <!-- Buyer FAQs -->
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="buyer">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">Is my data safe with builders?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">Is my data safe with builders?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">Absolutely. Builders only see your <strong>anonymized profile</strong> (e.g., "Buyer #8942"). They only get your name if YOU decide to accept their pitch.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">Absolutely. Builders only see your <strong>anonymized profile</strong> (e.g., "Buyer #8942"). They only get your name if YOU decide to accept their pitch.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="buyer">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">Does this cost me money?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">Does this cost me money?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">No. Newer is 100% free for buyers. Builders pay for the opportunity to pitch you.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">No. Newer is 100% free for buyers. Builders pay for the opportunity to pitch you.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="buyer">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">What if I change my mind?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">What if I change my mind?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">You are in control. You can pause your profile or decline pitches at any time. There is no obligation to buy.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">You are in control. You can pause your profile or decline pitches at any time. There is no obligation to buy.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="buyer">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">Can I use my own realtor?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">Can I use my own realtor?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">Yes! You can add your agent's info to your profile so builders include them in the offer process.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">Yes! You can add your agent's info to your profile so builders include them in the offer process.</p>
                     </div>
                 </div>
 
                 <!-- Builder FAQs -->
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="builder">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="builder">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">Do I pay for leads that don't close?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">Do I pay for leads that don't close?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">The "Unlock Fee" is for the introduction to a verified buyer. We don't refund, but our conversion rate is ~15x higher than Zillow leads because intent is pre-verified.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">The "Unlock Fee" is for the introduction to a verified buyer. We don't refund, but our conversion rate is ~15x higher than Zillow leads because intent is pre-verified.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="builder">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="builder">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">How verification works?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">How verification works?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">We require soft-pull proof of funds via Plaid or a valid pre-approval letter uploaded within the last 30 days before a buyer can receive pitches.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">We require soft-pull proof of funds via Plaid or a valid pre-approval letter uploaded within the last 30 days before a buyer can receive pitches.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="builder">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="builder">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">What is the typical time-to-contract?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">What is the typical time-to-contract?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">Because intent is verified upfront, our average time from Pitch Acceptance to Contract is 7 days, versus the industry average of 45+ days.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">Because intent is verified upfront, our average time from Pitch Acceptance to Contract is 7 days, versus the industry average of 45+ days.</p>
                     </div>
                 </div>
 
                 <!-- Investor FAQs -->
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="investor">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="investor">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">How do you prevent platform leakage?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">How do you prevent platform leakage?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">Anonymity is key. Builders can't ID buyers without paying. Success fees are enforced via title company partnerships and lien recording.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">Anonymity is key. Builders can't ID buyers without unlocking the profile. We operate as a <strong>Referral Brokerage</strong>, securing our fee via a standard Commission Agreement signed upon unlocking the lead.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="investor">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="investor">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">What prevents builders from bypassing the fee?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">What prevents builders from bypassing the fee?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">We use a 'Title Lock' partnership. Our success fee is recorded as a lien released only at closing, automated via API with major title companies.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">We utilize standard <strong>Commission Instructions</strong> sent directly to the closing attorney/title company. Our fee is disbursed automatically from closing funds alongside agent commissions, requiring no manual payment from the builder.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-stone-200 overflow-hidden" data-audience="investor">
+                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="investor">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-stone-800">Is this just a lead gen agency?</span>
-                        <i class="fas fa-chevron-down text-stone-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">Is this just a lead gen agency?</span>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-stone-50">
-                        <p class="py-4 text-stone-600 text-sm">No. Lead gen is selling contact info once. We are a marketplace that monetizes the transaction AND the data stream, creating a recurring revenue moat.</p>
+                    <div class="faq-answer px-6 bg-slate-50">
+                        <p class="py-4 text-slate-600 text-sm">No. Lead gen is selling contact info once. We are a marketplace that monetizes the transaction AND the data stream, creating a recurring revenue moat.</p>
                     </div>
                 </div>
             </div>
@@ -680,71 +780,100 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-stone-900 py-12 text-stone-400">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
-            <!-- FOOTER LOGO WITH DOT -->
-            <div class="col-span-1">
-                <div class="flex items-center gap-0.5 group cursor-pointer mb-4" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Scroll to top">
-                    <span class="text-xl font-black tracking-tighter text-white">Newer</span>
-                    <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mt-1.5"></span>
+    <footer class="bg-brand-dark pt-24 pb-12 text-slate-400 border-t border-slate-800 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 lg:gap-12 mb-20">
+                <!-- Col 1: Brand -->
+                <div class="col-span-2 md:col-span-1">
+                    <div class="flex items-center gap-2 group cursor-pointer mb-8" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                        <span class="text-5xl font-brand font-extrabold tracking-tighter text-white hover:text-white/90 transition-colors">Newer<span class="text-brand-blue">.</span></span>
+                    </div>
+                    <p class="text-slate-400 mb-8 leading-relaxed pr-4 text-base">
+                        New homes find you.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" aria-label="Twitter" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all"><i class="fab fa-twitter text-lg"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all"><i class="fab fa-linkedin text-lg"></i></a>
+                        <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all"><i class="fab fa-instagram text-lg"></i></a>
+                    </div>
                 </div>
-                <p class="text-xs text-stone-500 mb-4">&copy; 2025 Newer LLC. All rights reserved.</p>
-                <div class="flex gap-4">
-                    <a href="#" aria-label="Twitter" class="hover:text-white transition-colors"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                    <a href="#" aria-label="LinkedIn" class="hover:text-white transition-colors"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
-                    <a href="#" aria-label="Instagram" class="hover:text-white transition-colors"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                
+                <!-- Col 2: Platform -->
+                <div>
+                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs">Platform</h4>
+                    <ul class="space-y-5">
+                        <li><button onclick="setAudience('buyer'); window.scrollTo(0,0);" class="hover:text-brand-blue transition-colors text-left">For Buyers</button></li>
+                        <li><button onclick="setAudience('builder'); window.scrollTo(0,0);" class="hover:text-brand-blue transition-colors text-left">For Builders</button></li>
+                        <li><button onclick="setAudience('investor'); window.scrollTo(0,0);" class="hover:text-brand-blue transition-colors text-left">Partners</button></li>
+                        <li><a href="#demo" class="hover:text-brand-blue transition-colors">Live Demo</a></li>
+                    </ul>
                 </div>
-            </div>
-            
-            <!-- About Newer (SEO Rich) -->
-            <div class="col-span-1 md:col-span-2">
-                <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">About Newer</h4>
-                <p class="text-xs text-stone-500 leading-relaxed">
-                    Newer is the first reverse marketplace for the new construction industry. We connect verified home buyers directly with custom builders and developers, facilitating off-market deals and eliminating speculation risk. By prioritizing verified demand, we reduce marketing costs and increase liquidity in residential real estate markets including Austin, Denver, Phoenix, and Nashville.
-                </p>
+
+                <!-- Col 3: Company -->
+                <div>
+                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs">Company</h4>
+                    <ul class="space-y-5">
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Press</a></li>
+                        <li><a href="mailto:hello@newer.com" class="hover:text-brand-blue transition-colors">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Legal -->
+                <div>
+                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs">Legal</h4>
+                    <ul class="space-y-5">
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-brand-blue transition-colors">Licenses</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- Links -->
-            <div class="col-span-1">
-                <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider">Contact</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><a href="mailto:hello@newer.com" class="hover:text-white transition-colors">hello@newer.com</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Press Inquiries</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Builder Partnerships</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                </ul>
+            <!-- SEO Text / Bottom Bar -->
+            <div class="border-t border-slate-800 pt-10 mt-10">
+                <div class="grid md:grid-cols-2 gap-6 items-center">
+                    <p class="text-xs text-slate-500 order-2 md:order-1">
+                        &copy; 2025 Newer LLC. All rights reserved.
+                    </p>
+                    <p class="text-xs text-slate-600 leading-relaxed order-1 md:order-2 text-left md:text-right">
+                        Newer connects verified home buyers directly with home builders, facilitating off-market deals in Houston, Dallas, Austin, and San Antonio.
+                    </p>
+                </div>
             </div>
         </div>
     </footer>
 
     <!-- Waitlist Modal -->
     <div id="waitlist-modal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-stone-900/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop" onclick="closeWaitlistModal()"></div>
+        <div class="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop" onclick="closeWaitlistModal()"></div>
         <div class="fixed inset-0 z-10 overflow-y-auto pointer-events-none">
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
                 <div class="pointer-events-auto relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all scale-95 opacity-0 sm:w-full sm:max-w-md" id="modal-panel">
-                    <button onclick="closeWaitlistModal()" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600" aria-label="Close modal"><i class="fas fa-times text-xl" aria-hidden="true"></i></button>
+                    <button onclick="closeWaitlistModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600" aria-label="Close modal"><i class="fas fa-times text-xl" aria-hidden="true"></i></button>
                     
                     <!-- Form State -->
                     <div id="modal-form-state" class="p-8">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600"><i class="fas fa-rocket" aria-hidden="true"></i></div>
-                            <h3 id="modal-title" class="text-xl font-bold text-stone-900">Get Early Access</h3>
+                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-brand-blue"><i class="fas fa-rocket" aria-hidden="true"></i></div>
+                            <h3 id="modal-title" class="text-xl font-brand font-bold text-brand-dark">Get Early Access</h3>
                         </div>
-                        <p class="text-sm text-stone-500 mb-6">Join 4,200+ buyers and builders for the launch in your city.</p>
+                        <p class="text-sm text-slate-500 mb-6">Join 4,200+ buyers and builders for the launch in your city.</p>
                         <form id="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
                             <div class="space-y-4">
-                                <div><label for="waitlist-email" class="block text-xs font-bold uppercase text-stone-500 mb-1">Email</label><input type="email" id="waitlist-email" name="email" required autocomplete="email" class="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm" placeholder="you@example.com"></div>
-                                <div><label for="waitlist-zip" class="block text-xs font-bold uppercase text-stone-500 mb-1">Zip Code</label><input type="text" id="waitlist-zip" name="zip" required autocomplete="postal-code" class="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm" placeholder="e.g. 78704"></div>
+                                <div><label for="waitlist-email" class="block text-xs font-bold uppercase text-slate-500 mb-1">Email</label><input type="email" id="waitlist-email" name="email" required autocomplete="email" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all text-sm" placeholder="you@example.com"></div>
+                                <div><label for="waitlist-zip" class="block text-xs font-bold uppercase text-slate-500 mb-1">Zip Code</label><input type="text" id="waitlist-zip" name="zip" required autocomplete="postal-code" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all text-sm" placeholder="e.g. 78704"></div>
                                 <div role="radiogroup" aria-labelledby="role-label">
-                                    <label id="role-label" class="block text-xs font-bold uppercase text-stone-500 mb-2">I am a...</label>
+                                    <label id="role-label" class="block text-xs font-bold uppercase text-slate-500 mb-2">I am a...</label>
                                     <div class="grid grid-cols-3 gap-2">
-                                        <label class="cursor-pointer"><input type="radio" name="role" value="buyer" class="peer sr-only" checked><div class="px-2 py-3 border border-stone-200 rounded-xl text-center text-xs font-bold text-stone-500 peer-checked:bg-stone-900 peer-checked:text-white peer-checked:border-stone-900 hover:bg-stone-50 transition-all">Buyer</div></label>
-                                        <label class="cursor-pointer"><input type="radio" name="role" value="builder" class="peer sr-only"><div class="px-2 py-3 border border-stone-200 rounded-xl text-center text-xs font-bold text-stone-500 peer-checked:bg-stone-900 peer-checked:text-white peer-checked:border-stone-900 hover:bg-stone-50 transition-all">Builder</div></label>
-                                        <label class="cursor-pointer"><input type="radio" name="role" value="investor" class="peer sr-only"><div class="px-2 py-3 border border-stone-200 rounded-xl text-center text-xs font-bold text-stone-500 peer-checked:bg-stone-900 peer-checked:text-white peer-checked:border-stone-900 hover:bg-stone-50 transition-all">Investor</div></label>
+                                        <label class="cursor-pointer"><input type="radio" name="role" value="buyer" class="peer sr-only" checked><div class="px-2 py-3 border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Buyer</div></label>
+                                        <label class="cursor-pointer"><input type="radio" name="role" value="builder" class="peer sr-only"><div class="px-2 py-3 border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Builder</div></label>
+                                        <label class="cursor-pointer"><input type="radio" name="role" value="investor" class="peer sr-only"><div class="px-2 py-3 border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Investor</div></label>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full bg-blue-600 text-white rounded-xl py-3 font-bold hover:bg-blue-700 transition-all shadow-lg active:scale-[0.98]">Secure My Spot</button>
+                                <button type="submit" class="w-full bg-brand-blue text-white rounded-xl py-3 font-bold hover:bg-blue-600 transition-all shadow-lg active:scale-[0.98]">Secure My Spot</button>
                             </div>
                         </form>
                     </div>
@@ -752,11 +881,11 @@
                     <!-- Success State -->
                     <div id="modal-success-state" class="hidden p-10 text-center">
                         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 text-2xl animate-bounce"><i class="fas fa-check" aria-hidden="true"></i></div>
-                        <h3 class="text-2xl font-bold text-stone-900 mb-2">You're on the list!</h3>
-                        <p class="text-stone-500 text-sm mb-8">We'll notify you when Newer launches in your chosen zip code.</p>
-                        <button type="button" onclick="closeWaitlistModal()" class="inline-flex w-full justify-center rounded-lg bg-stone-100 px-3 py-2 text-sm font-semibold text-stone-900 hover:bg-stone-200 transition-colors">Close</button>
+                        <h3 class="text-2xl font-brand font-bold text-brand-dark mb-2">You're on the list!</h3>
+                        <p class="text-slate-500 text-sm mb-8">We'll notify you when Newer launches in your chosen zip code.</p>
+                        <button type="button" onclick="closeWaitlistModal()" class="inline-flex w-full justify-center rounded-lg bg-slate-100 px-3 py-2 text-sm font-semibold text-brand-dark hover:bg-slate-200 transition-colors">Close</button>
                     </div>
-                    <div id="modal-footer" class="bg-stone-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"><p class="text-xs text-stone-400 text-center sm:text-right w-full">We respect your privacy. No spam.</p></div>
+                    <div id="modal-footer" class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"><p class="text-xs text-slate-400 text-center sm:text-right w-full">We respect your privacy. No spam.</p></div>
                 </div>
             </div>
         </div>
@@ -777,48 +906,48 @@
         // --- Content Configuration ---
         const contentConfig = {
             buyer: {
-                badge: '<span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span> The Reverse Market',
-                title: 'Make the Market<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Bid for You.</span>',
-                desc: 'Stop browsing homes that are already sold. Get pitched <strong>off-market inventory</strong> and <strong>pre-construction deals</strong> before the public ever sees them.',
+                badge: '<span class="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse"></span> The Reverse Market',
+                title: 'Make the Market<br><span class="text-brand-blue">Bid for You.</span>',
+                desc: 'Stop browsing homes that are already sold. Get pitched <strong>Exclusive Custom Lots</strong> and <strong>Pre-Construction</strong> inventory before the public ever sees them.',
                 ctaText: 'Start Your Bidding War',
                 conceptTitle: 'The Power Shift',
-                conceptDesc: 'The traditional market makes you beg for a viewing.<br><span class="font-semibold text-stone-700">Newer turns you into the Client, and builders into the Service Providers.</span>',
+                conceptDesc: 'The traditional market makes you beg for a viewing.<br><span class="font-semibold text-brand-dark">Newer turns you into the VIP Client, and builders into the Service Providers.</span>',
                 demoTitle: 'Your Personal Market',
                 testimonialTitle: 'Success Stories',
                 testimonialDesc: 'See how families are skipping the stress and getting offers directly from builders.',
-                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-stone-800">Chasing Listings:</span><p class="text-sm">Refreshing Zillow daily hoping for a match.</p></div></li>',
-                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-trophy text-blue-500" aria-hidden="true"></i></div><div><span class="font-bold text-stone-900">Being the Prize:</span><p class="text-sm">Builders bid on <em>your</em> business with incentives.</p></div></li>`,
-                demoDesc: 'Interact with the <strong>Buyer App</strong> (Phase A) to broadcast your needs. Watch the market respond.',
+                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">Chasing Listings:</span><p class="text-sm">Refreshing Zillow daily hoping for a match.</p></div></li>',
+                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-crown text-brand-gold" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">Gold Tier Status:</span><p class="text-sm">Builders bid on <em>your</em> business with incentives.</p></div></li>`,
+                demoDesc: 'Interact with the <strong>Buyer App</strong> to broadcast your needs. Watch the market respond.',
                 revenueTitle: 'Pricing', revenueDesc: 'Simple, transparent pricing.'
             },
             builder: {
-                badge: '<span class="w-1.5 h-1.5 rounded-full bg-green-600 animate-pulse"></span> Increased Absorption',
-                title: 'Stop Building Blind.<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-teal-500">Start Building Sold.</span>',
+                badge: '<span class="w-1.5 h-1.5 rounded-full bg-brand-success animate-pulse"></span> Increased Absorption',
+                title: 'Stop Building Blind.<br><span class="text-brand-success">Start Building Sold.</span>',
                 desc: 'Access a live order book of <strong>verified demand</strong>. Secure "Presold Inventory" before you break ground and eliminate the risk of rising interest rates.',
                 ctaText: 'View Live Demand Map',
                 conceptTitle: 'From Gambling to Manufacturing',
-                conceptDesc: 'Stop guessing what will sell next year.<br><span class="font-semibold text-stone-700">Newer gives you an order book of pre-approved buyers waiting for inventory.</span>',
+                conceptDesc: 'Stop guessing what will sell next year.<br><span class="font-semibold text-brand-dark">Newer gives you an order book of pre-approved buyers waiting for inventory.</span>',
                 demoTitle: 'Demand Command Center',
                 testimonialTitle: 'Builder Wins',
                 testimonialDesc: 'Real results from developers who stopped building blind and started building sold.',
-                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-stone-800">The "Spec" Gamble:</span><p class="text-sm">Building homes and praying rates don\'t rise.</p></div></li>',
-                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-chart-line text-blue-500" aria-hidden="true"></i></div><div><span class="font-bold text-stone-900">Build-to-Order:</span><p class="text-sm">Secure a buyer before you even break ground.</p></div></li>`,
-                demoDesc: 'Watch the <strong>Builder Terminal</strong> (Phase B) populate instantly as real demand flows in from the App.',
+                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">The "Spec" Gamble:</span><p class="text-sm">Building homes and praying rates don\'t rise.</p></div></li>',
+                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-chart-line text-brand-blue" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">Build-to-Order:</span><p class="text-sm">Secure a buyer before you even break ground.</p></div></li>`,
+                demoDesc: 'Watch the <strong>Builder Terminal</strong> populate instantly as real demand flows in from the App.',
                 revenueTitle: 'Transparent Pricing', revenueDesc: 'No hidden fees. A partnership model designed to align our success with yours.'
             },
             investor: {
                 badge: '<span class="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse"></span> Market Efficiency',
-                title: 'Solving Liquidity<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">for New Construction.</span>',
+                title: 'Solving Liquidity<br><span class="text-purple-600">for New Construction.</span>',
                 desc: 'By matching supply and demand <strong>before</strong> groundbreak, we create negative working capital cycles for builders and massively increase IRR.',
                 ctaText: 'Request Data Sample',
                 conceptTitle: 'The Capital Efficiency Shift',
-                conceptDesc: 'Speculative building kills returns via inventory carry costs.<br><span class="font-semibold text-stone-700">Newer enables "Just-in-Time" housing production by removing inventory risk.</span>',
+                conceptDesc: 'Speculative building kills returns via inventory carry costs.<br><span class="font-semibold text-brand-dark">Newer enables "Just-in-Time" housing production by removing inventory.</span>',
                 demoTitle: 'The Demand Ledger',
                 testimonialTitle: 'Market Validation',
                 testimonialDesc: 'Data-driven validation of the high-velocity matching engine and liquidity model.',
-                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-stone-800">Capital Lockup:</span><p class="text-sm">Money stuck in inventory waiting for buyers.</p></div></li>',
-                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-bolt text-blue-500" aria-hidden="true"></i></div><div><span class="font-bold text-stone-900">Velocity of Money:</span><p class="text-sm">Faster turns, higher IRR, and de-risked assets.</p></div></li>`,
-                demoDesc: 'Watch how verified demand signals are captured and monetized instantly in the live <strong>Order Book</strong>.',
+                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">Capital Lockup:</span><p class="text-sm">Money stuck in inventory waiting for buyers.</p></div></li>',
+                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-bolt text-brand-blue" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">Velocity of Money:</span><p class="text-sm">Faster turns, higher IRR, and de-risked assets.</p></div></li>`,
+                demoDesc: 'Watch how verified demand signals are captured and monetized in the live <strong>Order Book</strong>.',
                 revenueTitle: 'Unicorn Unit Economics', revenueDesc: 'Three revenue streams create a scalable, recurring income model with high LTV.'
             }
         };
@@ -838,8 +967,6 @@
 
         const mockIntel = "Analysis: High demand for Home Offices in this zip code suggests shifting to Plan B layouts. Recommendation: Increase spec starts on 4bd models to capture verified $500k+ buyers.";
         
-        const mockMemo = "Investment Thesis: Newer effectively eliminates CAC for builders by monetizing verified demand. This creates a negative working capital cycle and high LTV/CAC ratio, positioning it as a liquidity layer for the $1T new construction market.";
-
         function generateBuyerBio() {
             const btn = document.getElementById('btn-generate-bio');
             const container = document.getElementById('ai-bio-container');
@@ -879,20 +1006,6 @@
                 btn.innerText = 'Analyze'; btn.disabled = false;
             }, 1500);
         }
-        
-        function generateInvestmentMemo() {
-            const btn = document.getElementById('btn-ai-memo');
-            const container = document.getElementById('ai-memo-container');
-            const text = document.getElementById('ai-memo-text');
-            
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>'; btn.disabled = true;
-            
-            setTimeout(() => {
-                container.classList.remove('hidden');
-                text.innerText = mockMemo;
-                btn.innerHTML = '<span>✨</span> Regenerate'; btn.disabled = false;
-            }, 1200);
-        }
 
         // --- Helper Functions ---
         function debounce(func, wait) {
@@ -929,12 +1042,12 @@
                 try {
                     appState = { ...appState, ...JSON.parse(saved) };
                     if (appState.style) {
-                        document.querySelectorAll('.style-btn').forEach(btn => { if(btn.innerText.includes(appState.style)) btn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50'); });
+                        document.querySelectorAll('.style-btn').forEach(btn => { if(btn.innerText.includes(appState.style)) btn.classList.add('ring-2', 'ring-brand-blue', 'bg-blue-50'); });
                         document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden');
                     }
                     if (appState.amenities) {
                         appState.amenities.forEach(am => {
-                            document.querySelectorAll('.amenity-btn').forEach(btn => { if(btn.innerText.includes(am)) { btn.classList.add('border-blue-500', 'text-blue-600', 'bg-blue-50'); btn.classList.remove('border-stone-200'); } });
+                            document.querySelectorAll('.amenity-btn').forEach(btn => { if(btn.innerText.includes(am)) { btn.classList.add('border-brand-blue', 'text-brand-blue', 'bg-blue-50'); btn.classList.remove('border-stone-200'); } });
                         });
                     }
                     updateDashboardPreview();
@@ -944,18 +1057,21 @@
 
         // --- Demo Flow Logic ---
         function setAudience(role) {
-            // Update Buttons
+            // Update Buttons Logic Fixed
             document.querySelectorAll('.role-btn').forEach(btn => {
-                const isActive = (btn.innerText.toLowerCase().includes(role) || 
-                                (role === 'buyer' && btn.innerText.includes('Buyers')) || 
-                                (role === 'builder' && btn.innerText.includes('Builders')));
+                // Fixed logic: explicitly handle 'Partners' text matching 'investor' role
+                const btnText = btn.innerText.toLowerCase();
+                const isActive = (btnText.includes(role) || 
+                                (role === 'buyer' && btnText.includes('buyer')) || 
+                                (role === 'builder' && btnText.includes('builder')) ||
+                                (role === 'investor' && btnText.includes('partner'))); // Critical Fix
                 
                 if (isActive) {
-                    btn.classList.add('active', 'bg-stone-900', 'text-white', 'border-stone-900');
+                    btn.classList.add('active', 'bg-brand-dark', 'text-white', 'border-brand-dark');
                     btn.classList.remove('bg-stone-100', 'text-stone-500', 'border-stone-200');
                     btn.setAttribute('aria-selected', 'true');
                 } else {
-                    btn.classList.remove('active', 'bg-stone-900', 'text-white', 'border-stone-900');
+                    btn.classList.remove('active', 'bg-brand-dark', 'text-white', 'border-brand-dark');
                     btn.classList.add('bg-stone-100', 'text-stone-500', 'border-stone-200');
                     btn.setAttribute('aria-selected', 'false');
                 }
@@ -1004,8 +1120,8 @@
         function selectStyle(style) {
             appState.style = style;
             document.querySelectorAll('.style-btn').forEach(btn => {
-                if(btn.innerText.includes(style)) btn.classList.add('ring-2', 'ring-blue-500', 'bg-blue-50');
-                else btn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50');
+                if(btn.innerText.includes(style)) btn.classList.add('ring-2', 'ring-brand-blue', 'bg-blue-50');
+                else btn.classList.remove('ring-2', 'ring-brand-blue', 'bg-blue-50');
             });
             setTimeout(() => nextStep('2'), 400);
         }
@@ -1013,8 +1129,8 @@
         function setPersona(type) {
             appState.persona = type;
             document.querySelectorAll('.persona-btn').forEach(btn => {
-               if(btn.innerText === type) { btn.classList.add('bg-stone-900', 'text-white', 'border-stone-900'); btn.classList.remove('bg-white', 'text-stone-600'); }
-               else { btn.classList.remove('bg-stone-900', 'text-white', 'border-stone-900'); btn.classList.add('bg-white', 'text-stone-600'); }
+               if(btn.innerText === type) { btn.classList.add('bg-brand-dark', 'text-white', 'border-brand-dark'); btn.classList.remove('bg-white', 'text-slate-600'); }
+               else { btn.classList.remove('bg-brand-dark', 'text-white', 'border-brand-dark'); btn.classList.add('bg-white', 'text-slate-600'); }
             });
         }
 
@@ -1027,11 +1143,11 @@
         function toggleAmenity(btn, name) {
             if(appState.amenities.includes(name)) {
                 appState.amenities = appState.amenities.filter(a => a !== name);
-                btn.classList.remove('border-blue-500', 'text-blue-600', 'bg-blue-50');
+                btn.classList.remove('border-brand-blue', 'text-brand-blue', 'bg-blue-50');
             } else {
                 if(appState.amenities.length >= 3) return;
                 appState.amenities.push(name);
-                btn.classList.add('border-blue-500', 'text-blue-600', 'bg-blue-50');
+                btn.classList.add('border-brand-blue', 'text-brand-blue', 'bg-blue-50');
                 // Simulate "Match Found" notification on phone
                 notifyPhone("Market Update", `3 Builders match your ${name} request.`);
             }
@@ -1045,7 +1161,7 @@
 
         function verifyUser(e) {
             const btn = e.currentTarget;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Verifying...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Confirming Status...';
             
             setTimeout(() => {
                 appState.verified = true;
@@ -1062,18 +1178,18 @@
             const notification = document.createElement('div');
             notification.id = 'builder-notification-toast';
             // Positioning absolute within the relative dashboard container
-            notification.className = 'absolute top-4 left-4 right-4 bg-blue-600 text-white p-4 rounded-xl shadow-2xl z-50 cursor-pointer animate-[toastSlideDown_0.5s_ease-out] flex items-center justify-between hover:bg-blue-500 transition-colors border border-blue-400 group';
+            notification.className = 'absolute top-4 left-4 right-4 bg-brand-blue text-white p-4 rounded-xl shadow-2xl z-50 cursor-pointer animate-[toastSlideDown_0.5s_ease-out] flex items-center justify-between hover:bg-blue-700 transition-colors border border-blue-500 group';
             notification.innerHTML = `
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i class="fas fa-bolt text-white animate-pulse" aria-hidden="true"></i>
+                        <i class="fas fa-crown text-brand-gold animate-pulse" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-sm">New Verified Buyer!</h4>
-                        <p class="text-xs text-blue-100">Budget: $${appState.budget}k • ${appState.style || 'Custom'}</p>
+                        <h4 class="font-bold text-sm">New VIP Buyer!</h4>
+                        <p class="text-xs text-blue-100">Budget: $${appState.budget}k • Gold Status</p>
                     </div>
                 </div>
-                <div class="bg-white text-blue-600 text-[10px] font-bold px-3 py-1.5 rounded shadow-sm group-hover:shadow-md transition-all">VIEW</div>
+                <div class="bg-white text-brand-blue text-[10px] font-bold px-3 py-1.5 rounded shadow-sm group-hover:shadow-md transition-all">VIEW</div>
             `;
             
             notification.onclick = function() {
@@ -1110,16 +1226,16 @@
             document.getElementById('stat-credits').innerText = appState.credits;
             
             document.getElementById('unlock-area').innerHTML = `
-                <div class="bg-stone-800 rounded-lg p-3 border border-stone-600 flex flex-col gap-3">
+                <div class="bg-slate-800 rounded-lg p-3 border border-slate-600 flex flex-col gap-3">
                     <div class="flex items-center justify-between">
                         <div>
-                            <div class="text-[10px] text-stone-400 uppercase">Contact Info</div>
+                            <div class="text-[10px] text-slate-400 uppercase">Contact Info</div>
                             <div class="text-sm font-bold text-white">James Smith • (512) 555-0122</div>
-                            <div class="text-xs text-blue-400">Verified • 750+ Credit Score</div>
+                            <div class="text-xs text-brand-blue">Verified • 750+ Credit Score</div>
                         </div>
-                        <div class="w-8 h-8 bg-green-900/50 rounded-full flex items-center justify-center text-green-500"><i class="fas fa-check" aria-hidden="true"></i></div>
+                        <div class="w-8 h-8 bg-brand-success rounded-full flex items-center justify-center text-white"><i class="fas fa-check" aria-hidden="true"></i></div>
                     </div>
-                    <button onclick="openPitchModal('8942')" class="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded text-xs flex items-center justify-center gap-2 transition-colors">
+                    <button onclick="openPitchModal('8942')" class="w-full py-2 bg-brand-blue hover:bg-blue-700 text-white font-bold rounded text-xs flex items-center justify-center gap-2 transition-colors">
                         <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Pitch Now
                     </button>
                 </div>
@@ -1157,23 +1273,8 @@
         }
 
         function acceptPitch() {
-            // Trigger Confetti
-            if(typeof confetti === 'function') {
-                const phone = document.querySelector('.phone-frame');
-                const rect = phone.getBoundingClientRect();
-                
-                // Calculate center of phone relative to viewport
-                const x = (rect.left + rect.width / 2) / window.innerWidth;
-                const y = (rect.top + rect.height / 2) / window.innerHeight;
-
-                confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { x: x, y: y },
-                    zIndex: 9999,
-                    colors: ['#3b82f6', '#10b981', '#fbbf24']
-                });
-            }
+            // NEW: Replaced Confetti with Elegant CSS Animation (on the success overlay)
+            // No external JS call needed here, the overlay has CSS animations.
 
             // Create Success Overlay inside Phone
             const container = document.getElementById('buyer-screen-container');
@@ -1181,18 +1282,19 @@
             overlay.id = 'success-overlay';
             overlay.className = 'absolute inset-0 bg-white/95 backdrop-blur-sm z-50 flex flex-col items-center justify-center p-6 text-center animate-[fadeIn_0.5s_ease-out]';
             overlay.innerHTML = `
-                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6 animate-[pulse_2s_infinite]">
-                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-2xl shadow-lg shadow-green-500/30">
-                        <i class="fas fa-check"></i>
-                    </div>
+                <div class="w-24 h-24 mb-6 relative">
+                     <div class="absolute inset-0 border-4 border-brand-blue rounded-full opacity-20 animate-ping"></div>
+                     <div class="w-full h-full bg-green-50 rounded-full flex items-center justify-center border-2 border-green-100 shadow-xl">
+                        <i class="fas fa-check text-4xl text-brand-success animate-[pulse_2s_infinite]"></i>
+                     </div>
                 </div>
-                <h3 class="text-2xl font-black text-stone-900 mb-2 tracking-tight">It's a Match!</h3>
-                <p class="text-sm text-stone-500 mb-8 leading-relaxed">
+                <h3 class="text-3xl font-brand font-bold text-brand-dark mb-2 tracking-tight">It's a Match!</h3>
+                <p class="text-sm text-slate-500 mb-8 leading-relaxed">
                     Congratulations! You've accepted the pitch for <strong>The "Hilltop" Plan</strong>.
                     <br><br>
-                    <span class="block text-xs bg-stone-100 p-2 rounded text-stone-400 font-mono">Builder has been notified.</span>
+                    <span class="block text-xs bg-slate-50 border border-slate-100 p-2 rounded text-slate-400 font-mono">Builder notified. Next step: Contract.</span>
                 </p>
-                <button onclick="resetDemo()" class="w-full py-3.5 bg-stone-900 text-white rounded-xl font-bold text-sm shadow-xl hover:bg-stone-800 hover:scale-[1.02] transition-all">Start New Demo</button>
+                <button onclick="resetDemo()" class="w-full py-3.5 bg-brand-dark text-white rounded-xl font-bold text-sm shadow-xl hover:bg-slate-800 hover:scale-[1.02] transition-all">Start New Demo</button>
             `;
             container.appendChild(overlay);
             
@@ -1213,42 +1315,29 @@
 
             const saleAlert = document.createElement('div');
             saleAlert.id = 'builder-sale-overlay';
-            saleAlert.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 bg-stone-900 border-2 border-green-500 rounded-2xl shadow-[0_0_50px_rgba(34,197,94,0.3)] z-50 p-6 text-center animate-[fadeIn_0.5s_ease-out]';
+            // Using glass-dark class for uniformity
+            saleAlert.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 bg-slate-900/95 border-2 border-brand-blue rounded-2xl shadow-[0_0_50px_rgba(0,106,255,0.4)] z-50 p-6 text-center animate-[fadeIn_0.5s_ease-out] backdrop-blur-xl';
             saleAlert.innerHTML = `
-                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-green-500/50">
-                    <i class="fas fa-handshake text-white text-2xl" aria-hidden="true"></i>
+                <div class="mb-4 stamp-container animate-stamp">
+                    SOLD
                 </div>
-                <h3 class="text-2xl font-black text-white mb-1 uppercase tracking-wider">Transaction Closed</h3>
-                <p class="text-sm text-stone-400 mb-6">Unit Presold to Buyer #8942</p>
+                <h3 class="text-xl font-bold text-white mb-1 uppercase tracking-wider font-brand">Transaction Closed</h3>
+                <p class="text-xs text-slate-400 mb-6">Unit Presold to Buyer #8942</p>
                 
-                <div class="grid grid-cols-2 gap-3 mb-2">
-                    <div class="bg-stone-800 p-3 rounded-lg border border-stone-700">
-                        <div class="text-[10px] uppercase text-stone-500 font-bold">Marketing Spend</div>
-                        <div class="text-xl font-mono font-bold text-green-400">$0.00</div>
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+                        <div class="text-[10px] uppercase text-slate-500 font-bold">Marketing Spend</div>
+                        <div class="text-xl font-mono font-bold text-brand-success">$0.00</div>
                     </div>
-                    <div class="bg-stone-800 p-3 rounded-lg border border-stone-700">
-                        <div class="text-[10px] uppercase text-stone-500 font-bold">Days on Market</div>
-                        <div class="text-xl font-mono font-bold text-green-400">0</div>
+                    <div class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+                        <div class="text-[10px] uppercase text-slate-500 font-bold">Days on Market</div>
+                        <div class="text-xl font-mono font-bold text-brand-success">0</div>
                     </div>
                 </div>
-                <div class="text-xs text-stone-500 italic">"The Reverse Market" at work.</div>
+                <div class="text-[10px] text-slate-500 italic animate-dust">"The Reverse Market" at work.</div>
             `;
             
             dashboardBody.appendChild(saleAlert);
-
-            // Builder side confetti
-            if(typeof confetti === 'function') {
-                const rect = dashboardBody.getBoundingClientRect();
-                const x = (rect.left + rect.width / 2) / window.innerWidth;
-                const y = (rect.top + rect.height / 2) / window.innerHeight;
-                confetti({
-                    particleCount: 100,
-                    spread: 60,
-                    origin: { x: x, y: y },
-                    zIndex: 9999,
-                    colors: ['#22c55e', '#ffffff'] 
-                });
-            }
         }
 
         function addBuyerPitchToPhone() {
@@ -1259,24 +1348,24 @@
                 <div class="animate-[fadeIn_0.5s_ease-out]">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-[10px] font-bold uppercase text-stone-400">Incoming Matches</span>
-                        <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 rounded-full animate-pulse">1</span>
+                        <span class="bg-brand-blue text-white text-[10px] font-bold px-1.5 rounded-full animate-pulse">1</span>
                     </div>
-                    <div class="bg-white p-3 rounded-xl border border-blue-100 shadow-lg relative overflow-hidden group cursor-pointer hover:shadow-xl transition-all">
-                        <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+                    <div class="bg-white p-3 rounded-xl border border-brand-dark/10 shadow-lg relative overflow-hidden group cursor-pointer hover:shadow-xl transition-all">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-brand-blue"></div>
                         <div class="flex justify-between items-start mb-2 pl-2">
                             <div>
-                                <div class="text-[10px] font-bold text-blue-600 uppercase tracking-wider mb-0.5">Custom Pitch</div>
-                                <h4 class="font-bold text-stone-900 text-sm">The "Hilltop" Plan</h4>
+                                <div class="text-[10px] font-bold text-brand-blue uppercase tracking-wider mb-0.5">Custom Pitch</div>
+                                <h4 class="font-bold text-brand-dark text-sm font-brand">The "Hilltop" Plan</h4>
                             </div>
                             <div class="w-8 h-8 rounded-lg bg-stone-100 flex items-center justify-center text-stone-400">
                                 <i class="fas fa-home" aria-hidden="true"></i>
                             </div>
                         </div>
-                        <p class="text-[10px] text-stone-500 pl-2 mb-3 leading-relaxed">
+                        <p class="text-[10px] text-slate-500 pl-2 mb-3 leading-relaxed">
                             "Based on your budget of $${appState.budget}k, we can offer Lot 42 with the ${appState.style || 'Modern'} elevation..."
                         </p>
                         <div class="flex gap-2 pl-2">
-                            <button onclick="acceptPitch()" class="flex-1 py-1.5 bg-stone-900 text-white text-[10px] font-bold rounded-lg hover:bg-stone-800 transition-colors">Accept Pitch</button>
+                            <button onclick="acceptPitch()" class="flex-1 py-1.5 bg-brand-dark text-white text-[10px] font-bold rounded-lg hover:bg-slate-800 transition-colors">Accept Pitch</button>
                             <button class="px-3 py-1.5 bg-stone-100 text-stone-500 text-[10px] font-bold rounded-lg hover:bg-stone-200 transition-colors">Decline</button>
                         </div>
                     </div>
@@ -1300,10 +1389,10 @@
             if(builderOverlay) builderOverlay.remove();
 
             // Reset UI bits
-            document.querySelectorAll('.style-btn').forEach(btn => btn.classList.remove('ring-2', 'ring-blue-500', 'bg-blue-50'));
-            document.querySelectorAll('.amenity-btn').forEach(btn => btn.classList.remove('border-blue-500', 'text-blue-600', 'bg-blue-50'));
+            document.querySelectorAll('.style-btn').forEach(btn => btn.classList.remove('ring-2', 'ring-brand-blue', 'bg-blue-50'));
+            document.querySelectorAll('.amenity-btn').forEach(btn => btn.classList.remove('border-brand-blue', 'text-brand-blue', 'bg-blue-50'));
             document.getElementById('stat-credits').innerText = "500";
-            document.getElementById('unlock-area').innerHTML = '<button onclick="unlockLead()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg text-sm transition-all flex items-center justify-center gap-2"><i class="fas fa-lock-open" aria-hidden="true"></i> UNLOCK CONTACT DETAILS (50 Credits)</button>';
+            document.getElementById('unlock-area').innerHTML = '<button onclick="unlockLead()" id="btn-unlock" class="w-full py-3 bg-brand-blue hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg text-sm transition-all flex items-center justify-center gap-2"><i class="fas fa-lock-open" aria-hidden="true"></i> UNLOCK CONTACT DETAILS (50 Credits)</button>';
             
             // Clear notifications
             document.getElementById('phone-notifications').innerHTML = '';
@@ -1360,7 +1449,7 @@
             const ctx = canvas.getContext('2d');
             
             // Clear/Background
-            ctx.fillStyle = '#1c1917'; // stone-900
+            ctx.fillStyle = '#1e293b'; // Warmer Dark (Step 2)
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             // Draw Heatmap (Demand)
@@ -1368,8 +1457,8 @@
                 const x = p.x * canvas.width;
                 const y = p.y * canvas.height;
                 const grad = ctx.createRadialGradient(x, y, 0, x, y, p.r);
-                grad.addColorStop(0, 'rgba(239, 68, 68, 0.4)'); // red
-                grad.addColorStop(1, 'rgba(239, 68, 68, 0)');
+                grad.addColorStop(0, 'rgba(0, 106, 255, 0.4)'); // brand-blue
+                grad.addColorStop(1, 'rgba(0, 106, 255, 0)');
                 ctx.fillStyle = grad;
                 ctx.beginPath();
                 ctx.arc(x, y, p.r, 0, Math.PI * 2);
@@ -1380,13 +1469,13 @@
             lotPoints.forEach(p => {
                 const x = p.x * canvas.width;
                 const y = p.y * canvas.height;
-                ctx.fillStyle = '#3b82f6'; // blue
+                ctx.fillStyle = '#10b981'; // green/success
                 ctx.beginPath();
                 ctx.arc(x, y, 4, 0, Math.PI * 2);
                 ctx.fill();
                 
                 // Pulse effect ring
-                ctx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+                ctx.strokeStyle = 'rgba(16, 185, 129, 0.5)';
                 ctx.beginPath();
                 ctx.arc(x, y, 8, 0, Math.PI * 2);
                 ctx.stroke();
@@ -1407,31 +1496,31 @@
                 document.getElementById('dashboard-list-view').classList.remove('hidden');
                 document.getElementById('dashboard-intel-view').classList.add('hidden');
                 document.getElementById('dashboard-map-view').classList.add('hidden');
-                document.getElementById('view-list-btn').classList.add('bg-stone-600', 'text-white'); document.getElementById('view-list-btn').classList.remove('text-stone-400');
-                document.getElementById('view-intel-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-intel-btn').classList.add('text-stone-400');
-                document.getElementById('view-map-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-map-btn').classList.add('text-stone-400');
+                document.getElementById('view-list-btn').classList.add('bg-slate-600', 'text-white'); document.getElementById('view-list-btn').classList.remove('text-slate-400');
+                document.getElementById('view-intel-btn').classList.remove('bg-slate-600', 'text-white'); document.getElementById('view-intel-btn').classList.add('text-slate-400');
+                document.getElementById('view-map-btn').classList.remove('bg-slate-600', 'text-white'); document.getElementById('view-map-btn').classList.add('text-slate-400');
             } else if (view === 'intel') {
                 document.getElementById('dashboard-list-view').classList.add('hidden');
                 document.getElementById('dashboard-map-view').classList.add('hidden');
                 document.getElementById('dashboard-intel-view').classList.remove('hidden');
-                document.getElementById('view-intel-btn').classList.add('bg-stone-600', 'text-white'); document.getElementById('view-intel-btn').classList.remove('text-stone-400');
-                document.getElementById('view-list-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-list-btn').classList.add('text-stone-400');
-                document.getElementById('view-map-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-map-btn').classList.add('text-stone-400');
+                document.getElementById('view-intel-btn').classList.add('bg-slate-600', 'text-white'); document.getElementById('view-intel-btn').classList.remove('text-slate-400');
+                document.getElementById('view-list-btn').classList.remove('bg-slate-600', 'text-white'); document.getElementById('view-list-btn').classList.add('text-slate-400');
+                document.getElementById('view-map-btn').classList.remove('bg-slate-600', 'text-white'); document.getElementById('view-map-btn').classList.add('text-slate-400');
                 initChart();
             } else {
                 document.getElementById('dashboard-list-view').classList.add('hidden');
                 document.getElementById('dashboard-intel-view').classList.add('hidden');
                 document.getElementById('dashboard-map-view').classList.remove('hidden');
-                document.getElementById('view-map-btn').classList.add('bg-stone-600', 'text-white'); document.getElementById('view-map-btn').classList.remove('text-stone-400');
-                document.getElementById('view-list-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-list-btn').classList.add('text-stone-400');
-                document.getElementById('view-intel-btn').classList.remove('bg-stone-600', 'text-white'); document.getElementById('view-intel-btn').classList.add('text-stone-400');
+                document.getElementById('view-map-btn').classList.add('bg-slate-600', 'text-white'); document.getElementById('view-map-btn').classList.remove('text-slate-400');
+                document.getElementById('view-list-btn').classList.remove('bg-slate-600', 'text-white'); document.getElementById('view-list-btn').classList.add('text-slate-400');
+                document.getElementById('view-intel-btn').classList.remove('bg-slate-600', 'text-white'); document.getElementById('view-intel-btn').classList.add('text-slate-400');
                 requestAnimationFrame(() => drawMap()); // Ensure layout is calculated
             }
         }
 
         function selectPitch(el, type) {
-            document.querySelectorAll('.pitch-opt').forEach(opt => opt.classList.remove('border-blue-500', 'bg-stone-600'));
-            el.classList.add('border-blue-500', 'bg-stone-600');
+            document.querySelectorAll('.pitch-opt').forEach(opt => opt.classList.remove('border-brand-blue', 'bg-slate-600'));
+            el.classList.add('border-brand-blue', 'bg-slate-600');
         }
 
         // --- Waitlist Logic ---
@@ -1459,14 +1548,9 @@
 
         function handleWaitlistSubmit(e) {
             e.preventDefault();
-            // Confetti effect
-            if(typeof confetti === 'function') {
-                const btn = e.submitter;
-                const rect = btn.getBoundingClientRect();
-                confetti({
-                    particleCount: 150, spread: 70, origin: { x: (rect.left + rect.width/2)/window.innerWidth, y: (rect.top + rect.height/2)/window.innerHeight }
-                });
-            }
+            // Confetti removed, maybe simple pulse effect
+            const btn = e.submitter;
+            btn.classList.add('animate-pulse');
             
             // Switch to success state
             document.getElementById('modal-form-state').classList.add('hidden');
@@ -1481,15 +1565,15 @@
             const id = Math.floor(Math.random() * 8999) + 1000;
             const budget = Math.floor(Math.random() * 500) + 300;
             const item = document.createElement('div');
-            item.className = 'grid grid-cols-12 gap-2 p-3 bg-stone-700/30 rounded border border-stone-700 items-center animate-[slideInRight_0.4s_ease-out] hover:bg-stone-700 transition-colors border-l-2 border-l-blue-500';
+            item.className = 'grid grid-cols-12 gap-2 p-3 bg-slate-800/40 rounded border border-slate-700 items-center animate-[slideInRight_0.4s_ease-out] hover:bg-slate-700 transition-colors border-l-2 border-l-brand-blue h-16 min-h-[4rem]';
             
             // Use safe function call instead of inline messy JS
             item.innerHTML = `
-                <div class="col-span-2 font-mono text-blue-300 text-[10px] sm:text-xs">#${id}</div>
-                <div class="col-span-5 text-stone-300 text-[10px] sm:text-xs truncate">3bd • Modern Farmhouse</div>
+                <div class="col-span-2 font-mono text-slate-300 text-[10px] sm:text-xs">#${id}</div>
+                <div class="col-span-5 text-slate-300 text-[10px] sm:text-xs truncate">3bd • Modern Farmhouse</div>
                 <div class="col-span-2 text-white font-bold text-[10px] sm:text-xs">$${budget}k</div>
                 <div class="col-span-3 text-right">
-                    <button onclick="openPitchModal('${id}')" class="pitch-btn px-2 py-1 bg-blue-600 hover:bg-blue-500 text-white text-[10px] rounded shadow-sm transition-colors">Pitch</button>
+                    <button onclick="openPitchModal('${id}')" class="pitch-btn px-3 py-1.5 bg-brand-blue hover:bg-blue-600 text-white text-[10px] rounded shadow-sm transition-colors font-bold uppercase tracking-wider">Pitch</button>
                 </div>
             `;
             container.prepend(item);
@@ -1508,7 +1592,7 @@
                     datasets: [{
                         label: 'Avg Buyer Budget',
                         data: [420, 435, 430, 450, 465, 485],
-                        borderColor: '#3b82f6',
+                        borderColor: '#006AFF', // brand-blue
                         tension: 0.4,
                         borderWidth: 2,
                         pointRadius: 0
@@ -1527,31 +1611,7 @@
         }
 
         let revenueChartInstance = null;
-        function updateRevenue(scenario) {
-            if(!revenueChartInstance) return;
-            const scenarios = { 
-                conservative: { saas: [0.8, 2.1, 4.5, 8.0, 12.0], unlock: [0.2, 1.0, 3.5, 6.0, 9.0], success: [0.05, 0.5, 2.0, 8.0, 18.0] }, 
-                base: { saas: [1.2, 3.5, 8.0, 15.5, 24.0], unlock: [0.5, 2.1, 6.5, 12.0, 18.5], success: [0.1, 1.5, 5.0, 18.0, 42.0] }, 
-                aggressive: { saas: [2.0, 5.5, 12.0, 25.0, 45.0], unlock: [1.0, 4.0, 12.0, 25.0, 40.0], success: [0.5, 3.0, 10.0, 35.0, 85.0] } 
-            };
-            const data = scenarios[scenario];
-            revenueChartInstance.data.datasets[0].data = data.saas; 
-            revenueChartInstance.data.datasets[1].data = data.unlock; 
-            revenueChartInstance.data.datasets[2].data = data.success;
-            revenueChartInstance.update();
-            
-            document.querySelectorAll('.scenario-btn').forEach(btn => {
-                if(btn.innerText.toLowerCase().includes(scenario)) { 
-                    btn.classList.replace('border-stone-600', 'bg-blue-600'); 
-                    btn.classList.replace('text-stone-300', 'text-white'); 
-                    btn.classList.add('border-blue-600'); 
-                } else { 
-                    btn.classList.replace('bg-blue-600', 'border-stone-600'); 
-                    btn.classList.replace('text-white', 'text-stone-300'); 
-                    btn.classList.remove('border-blue-600'); 
-                }
-            });
-        }
+        // Removed updateRevenue function as chart is removed
 
         document.addEventListener('DOMContentLoaded', function() {
             // Init Audience Elements
@@ -1564,31 +1624,6 @@
             addFeedItem();
             
             startMarketSimulation();
-            
-            // Revenue Chart Init
-            const ctx = document.getElementById('revenueChart');
-            if(ctx) {
-                revenueChartInstance = new Chart(ctx.getContext('2d'), {
-                    type: 'bar', 
-                    data: { 
-                        labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'], 
-                        datasets: [
-                            { label: 'SaaS', data: [1.2, 3.5, 8.0, 15.5, 24.0], backgroundColor: '#3b82f6', stack: 'Stack 0' }, 
-                            { label: 'Unlock', data: [0.5, 2.1, 6.5, 12.0, 18.5], backgroundColor: '#10b981', stack: 'Stack 0' }, 
-                            { label: 'Success', data: [0.1, 1.5, 5.0, 18.0, 42.0], backgroundColor: '#6366f1', stack: 'Stack 0' }
-                        ] 
-                    },
-                    options: { 
-                        responsive: true, 
-                        maintainAspectRatio: false, 
-                        plugins: { legend: { position: 'bottom', labels: { color: '#9ca3af' } } }, 
-                        scales: { 
-                            y: { beginAtZero: true, grid: { color: 'rgba(75, 85, 99, 0.2)' }, ticks: { color: '#9ca3af', callback: v => '$' + v + 'M' } }, 
-                            x: { grid: { display: false }, ticks: { color: '#9ca3af' } } 
-                        } 
-                    }
-                });
-            }
             
             loadState();
         });
