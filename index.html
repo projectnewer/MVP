@@ -693,47 +693,68 @@
     </section>
     
     <!-- NEW SEO SECTION: Ecosystem Overview (Static Text for Crawlers) -->
-    <section id="ecosystem" class="py-16 md:py-24 bg-white border-t border-stone-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-brand font-bold text-brand-dark">A Unified Marketplace</h2>
-                <p class="mt-4 text-stone-500 max-w-2xl mx-auto">Connecting the new construction economy in a single, verified ecosystem.</p>
+    <section id="ecosystem" class="py-20 md:py-32 bg-slate-50 relative overflow-hidden">
+        <!-- Decorative Background -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <div class="absolute top-[10%] left-[-5%] w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-[10%] right-[-5%] w-[500px] h-[500px] bg-purple-100/40 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-brand font-bold text-brand-dark mb-6">A Unified Marketplace</h2>
+                <p class="text-lg text-slate-500 max-w-2xl mx-auto">Connecting the fragmented new construction economy into a single, verified ecosystem where value flows efficiently.</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-12 text-left">
-                <!-- Buyers Column -->
-                <div>
-                    <h3 class="text-xl font-bold text-brand-dark mb-3">For Home Buyers</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
-                        Newer is the place to find <strong>new construction homes</strong>. Unlike traditional listings, our reverse marketplace lets you post your budget and preferences, allowing top local builders to compete for your business.
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Buyers Card -->
+                <div class="group relative p-8 bg-white rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-blue to-blue-400"></div>
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl text-brand-blue mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-2xl font-brand font-bold text-brand-dark mb-4">Buyers</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Stop chasing. Newer creates a <strong>reverse marketplace</strong> where you post your budget and top builders compete for your business with off-market deals.
                     </p>
-                    <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-brand-blue mr-2"></i> Access pre-construction deals</li>
-                        <li><i class="fas fa-check text-brand-blue mr-2"></i> No bidding wars</li>
-                        <li><i class="fas fa-check text-brand-blue mr-2"></i> Direct builder incentives</li>
+                    <ul class="space-y-3 text-sm font-medium text-slate-500">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-brand-blue"></i> Access pre-construction</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-brand-blue"></i> No bidding wars</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-brand-blue"></i> Direct builder incentives</li>
                     </ul>
                 </div>
-                <!-- Builders Column -->
-                <div>
-                    <h3 class="text-xl font-bold text-brand-dark mb-3">For Home Builders</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
-                        Eliminate speculation risk with our <strong>verified buyer demand feed</strong>. Newer provides a live order book of pre-approved clients in your zip code, reducing marketing costs to zero and ensuring faster inventory turnover.
+
+                <!-- Builders Card -->
+                <div class="group relative p-8 bg-white rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-success to-emerald-400"></div>
+                    <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-2xl text-brand-success mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <h3 class="text-2xl font-brand font-bold text-brand-dark mb-4">Builders</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Eliminate speculation risk. Access a <strong>verified demand feed</strong> of pre-approved home buyers actively looking in your zip code. Reduce marketing costs to zero.
                     </p>
-                    <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-brand-success mr-2"></i> Zero marketing spend</li>
-                        <li><i class="fas fa-check text-brand-success mr-2"></i> Verified proof of funds</li>
-                        <li><i class="fas fa-check text-brand-success mr-2"></i> High-intent leads</li>
+                    <ul class="space-y-3 text-sm font-medium text-slate-500">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-brand-success"></i> Zero marketing spend</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-brand-success"></i> Verified proof of funds</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-brand-success"></i> High-intent leads</li>
                     </ul>
                 </div>
-                <!-- Investors Column -->
-                <div>
-                    <h3 class="text-xl font-bold text-brand-dark mb-3">For Early Investors</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
-                        Unlock liquidity in the residential construction market. Newer's data-driven approach creates a <strong>predictive construction layer</strong>, matching capital with verified demand to optimize IRR and reduce holding costs.
+
+                <!-- Investors Card -->
+                <div class="group relative p-8 bg-white rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 to-indigo-400"></div>
+                    <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center text-2xl text-purple-600 mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="text-2xl font-brand font-bold text-brand-dark mb-4">Partners</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">
+                        Unlock liquidity in residential construction. Our <strong>predictive construction layer</strong> matches capital with verified demand to optimize IRR.
                     </p>
-                    <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Real-time demand data</li>
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> De-risked asset classes</li>
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Scalable recurring revenue</li>
+                    <ul class="space-y-3 text-sm font-medium text-slate-500">
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-purple-600"></i> Real-time demand data</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-purple-600"></i> De-risked asset classes</li>
+                        <li class="flex items-center gap-3"><i class="fas fa-check-circle text-purple-600"></i> Recurring revenue model</li>
                     </ul>
                 </div>
             </div>
