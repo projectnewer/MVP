@@ -275,14 +275,14 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse"></span> The Reverse Market
                 </div>
                 <h1 id="hero-title" class="text-5xl md:text-7xl font-brand font-bold text-brand-dark tracking-tight mb-6 leading-[1.1] min-h-[2.4em] drop-shadow-sm transition-all duration-300">
-                    Make the Market<br>
+                    Make Builders<br>
                     <span class="text-brand-blue">Bid for You.</span>
                 </h1>
                 <p id="hero-desc" class="mt-4 max-w-xl text-lg md:text-xl text-slate-600 min-h-[3em] leading-relaxed font-normal bg-white/30 backdrop-blur-sm p-2 rounded-lg transition-all duration-300">
-                    Stop browsing homes that are already sold. Get pitched <strong>Exclusive Custom Lots</strong> and <strong>Pre-Construction</strong> inventory before the public ever sees them.
+                    Tired of losing bidding wars? Stop chasing listings. Let top builders compete for <strong>your</strong> business with off-market inventory.
                 </p>
                 <div class="mt-10 flex flex-col sm:flex-row gap-4">
-                    <a href="#demo" id="hero-cta-btn" class="px-8 py-4 bg-brand-dark text-white rounded-full font-bold shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200 text-center">Start Your Bidding War</a>
+                    <a href="#demo" id="hero-cta-btn" class="px-8 py-4 bg-brand-dark text-white rounded-full font-bold shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200 text-center">Get Access Now</a>
                     <a href="#concept" class="px-8 py-4 bg-white/80 backdrop-blur text-brand-dark border border-slate-200 rounded-full font-bold shadow-sm hover:bg-white transition-all duration-200 text-center">How It Works</a>
                 </div>
             </div>
@@ -746,7 +746,7 @@
                 <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
                         <span class="font-bold text-brand-dark">What if I change my mind?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-expanded="false"></i>
                     </button>
                     <div class="faq-answer px-6 bg-slate-50">
                         <p class="py-4 text-slate-600 text-sm">You are in control. You can pause your profile or decline pitches at any time. There is no obligation to buy.</p>
@@ -953,16 +953,16 @@
             buyer: {
                 heroImage: 'url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")', // High Contrast Modern Home
                 badge: '<span class="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse"></span> The Reverse Market',
-                title: 'Make the Market<br><span class="text-brand-blue">Bid for You.</span>',
-                desc: 'Stop browsing homes that are already sold. Get pitched <strong>Exclusive Custom Lots</strong> and <strong>Pre-Construction</strong> inventory before the public ever sees them.',
-                ctaText: 'Start Your Bidding War',
+                title: 'Make Builders<br><span class="text-brand-blue">Bid for You.</span>',
+                desc: 'Tired of losing bidding wars? Stop chasing listings. Let top builders compete for <strong>your</strong> business with off-market inventory.',
+                ctaText: 'Get Access Now',
                 conceptTitle: 'The Power Shift',
                 conceptDesc: 'The traditional market makes you beg for a viewing.<br><span class="font-semibold text-brand-dark">Newer turns you into the VIP Client, and builders into the Service Providers.</span>',
                 demoTitle: 'Your Personal Market',
                 testimonialTitle: 'Success Stories',
                 testimonialDesc: 'See how families are skipping the stress and getting offers directly from builders.',
-                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">Chasing Listings:</span><p class="text-sm">Refreshing Zillow daily hoping for a match.</p></div></li>',
-                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-crown text-brand-gold" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">Gold Tier Status:</span><p class="text-sm">Builders bid for <em>your</em> business.</p></div></li>`,
+                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">The Rat Race:</span><p class="text-sm">Refreshing Zillow daily hoping for a match.</p></div></li>',
+                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-crown text-brand-gold" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">The Power Position:</span><p class="text-sm">Builders bid for <em>your</em> business.</p></div></li>`,
                 demoDesc: 'Interact with the <strong>Buyer App</strong> to broadcast your needs. Watch the market respond.',
                 revenueTitle: 'Pricing', revenueDesc: 'Simple, transparent pricing.'
             },
@@ -1094,15 +1094,20 @@
                 if (item.roles.includes(currentRole)) {
                     const card = document.createElement('div');
                     card.className = `${item.bgClass} p-8 rounded-2xl border relative shadow-sm hover:shadow-md transition-all animate-[fadeIn_0.5s_ease-out]`;
+                    
+                    // Added Verified Deal badge next to name for credibility
+                    const verifiedBadge = `<div class="flex items-center gap-1 text-[10px] text-brand-success font-bold mt-1"><i class="fas fa-check-circle"></i> Verified Deal</div>`;
+                    
                     card.innerHTML = `
                         <div class="absolute -top-4 right-8 ${item.badgeClass} px-3 py-1 rounded-full text-xs font-bold uppercase shadow-sm border ${item.badgeClass.includes('border') ? '' : 'border-transparent'}">${item.type}</div>
                         <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-12 ${item.iconBg} rounded-full overflow-hidden flex items-center justify-center text-xl shadow-sm">
+                            <div class="w-12 h-12 ${item.iconBg} rounded-full overflow-hidden flex items-center justify-center text-xl shadow-sm shrink-0">
                                 <i class="${item.icon}" aria-hidden="true"></i>
                             </div>
                             <div>
                                 <h4 class="font-bold ${item.nameClass || 'text-brand-dark'}">${item.name}</h4>
                                 <p class="text-xs text-slate-500">${item.sub}</p>
+                                ${verifiedBadge}
                             </div>
                         </div>
                         <p class="${item.textClass} italic">${item.quote}</p>
