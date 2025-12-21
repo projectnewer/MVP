@@ -102,6 +102,8 @@
             border-radius: 2.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             border: 8px solid #1e293b; /* Warmer Frame */
+            /* Ensure content doesn't bleed on rounded corners (Safari fix) */
+            transform: translateZ(0); 
         }
         
         @media (min-width: 1024px) {
@@ -221,7 +223,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <!-- LOGO (Wordmark) -->
-                <a href="#" class="flex items-center gap-1 transition-opacity hover:opacity-80 group" onclick="setAudience('buyer'); window.scrollTo(0,0);" aria-label="Newer Home">
+                <a href="#" class="flex items-center gap-1 transition-opacity hover:opacity-80 group" onclick="setAudience('buyer'); window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Newer Home">
                     <span class="text-3xl font-brand font-extrabold tracking-tighter text-brand-dark">Newer<span class="text-brand-blue">.</span></span>
                 </a>
                 
@@ -237,9 +239,9 @@
             </div>
             <!-- Mobile Role Switcher (Compact) -->
             <div class="md:hidden flex justify-center py-2 space-x-2 border-t border-slate-100 bg-white/50 backdrop-blur-sm" role="tablist">
-                <button onclick="setAudience('buyer')" role="tab" class="role-btn active text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold">Buyers</button>
-                <button onclick="setAudience('builder')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold">Builders</button>
-                <button onclick="setAudience('investor')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold">Partners</button>
+                <button onclick="setAudience('buyer')" role="tab" class="role-btn active text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold" aria-current="true">Buyers</button>
+                <button onclick="setAudience('builder')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold" aria-current="false">Builders</button>
+                <button onclick="setAudience('investor')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold" aria-current="false">Partners</button>
             </div>
         </div>
     </nav>
@@ -1215,7 +1217,12 @@
             const saved = localStorage.getItem('newerState');
             if (saved) {
                 try {
-                    appState = { ...appState, ...JSON.parse(saved) };
+                    const parsed = JSON.parse(saved);
+                    // Simple validation to ensure it's an object before spreading
+                    if (parsed && typeof parsed === 'object') {
+                        appState = { ...appState, ...parsed };
+                    }
+                    
                     if (appState.style) {
                         document.querySelectorAll('.style-btn').forEach(btn => { if(btn.innerText.includes(appState.style)) btn.classList.add('ring-2', 'ring-brand-blue', 'bg-blue-50'); });
                         document.getElementById('step-1').classList.add('hidden'); document.getElementById('step-2').classList.remove('hidden');
@@ -1226,7 +1233,7 @@
                         });
                     }
                     updateDashboardPreview();
-                } catch (e) { console.error(e); }
+                } catch (e) { console.error("State load error:", e); }
             }
         }
 
@@ -1497,6 +1504,15 @@
             `;
             container.appendChild(overlay);
             
+            // Trigger Confetti!
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+            
             // NEW: Notify Builder
             setTimeout(triggerBuilderSaleSuccess, 1500);
         }
@@ -1537,6 +1553,16 @@
             `;
             
             dashboardBody.appendChild(saleAlert);
+            
+            // Trigger Gold Confetti!
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    colors: ['#10b981', '#fbbf24'] // Green and Gold
+                });
+            }
         }
 
         function addBuyerPitchToPhone() {
@@ -1830,9 +1856,6 @@
                 }
             });
         }
-
-        let revenueChartInstance = null;
-        // Removed updateRevenue function as chart is removed
 
         document.addEventListener('DOMContentLoaded', function() {
             // Init Audience Elements
