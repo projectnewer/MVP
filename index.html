@@ -5,18 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Newer | The Reverse Marketplace for New Construction</title>
     
+    <!-- Brand Favicon (Golden Roof v8.1) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'><path d='M5 15 L12 7 L19 15' stroke='%23FBBF24' stroke-width='3.5' stroke-linecap='square' stroke-linejoin='miter' /></svg>">
+    
     <!-- SEO & Social Metadata -->
     <meta name="description" content="Stop chasing listings. Newer connects verified buyers directly with top home builders. Get pitched exclusive off-market inventory before it hits the MLS.">
     <meta property="og:title" content="Newer | Make Builders Bid For You.">
     <meta property="og:description" content="Tired of bidding wars? Join the first reverse marketplace where builders compete for your business. Get early access to new construction homes.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://placehold.co/1200x630/006AFF/ffffff?text=Newer+Marketplace">
+    <!-- Updated Social Image with Brand Colors -->
+    <meta property="og:image" content="https://placehold.co/1200x630/006AFF/0F172A?text=Newer+Marketplace">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Fonts: Plus Jakarta Sans (Headings), Inter (UI), JetBrains Mono (Data) -->
+    <!-- Fonts: Lexend (Brand), Inter (UI), JetBrains Mono (Data) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@500&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons: Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- CSS (Tailwind JIT) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,22 +33,30 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        brand: ['Plus Jakarta Sans', 'sans-serif'],
+                        brand: ['Lexend', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
                         brand: {
-                            blue: '#006AFF',    // PropTech Blue
-                            dark: '#0f172a',    // Builder Slate
-                            light: '#f8fafc',   // Paper White
-                            success: '#10b981', // Growth Green
-                            gold: '#fbbf24',    // Verified Gold
-                            goldHover: '#d97706',
+                            blue: '#006AFF',    // PropTech Blue (Actions, Links, Trust)
+                            dark: '#0F172A',    // Builder Slate (Headings, Dark Mode)
+                            light: '#F8FAFC',   // Paper White (Backgrounds)
+                            surface: '#FFFFFF', // White cards
+                            border: '#CBD5E1',  // Slate 300
+                            success: '#10B981', // Growth Green (Success, Sales)
+                            gold: '#FBBF24',    // Verified Gold (VIP, Winners)
+                            muted: '#64748B',   // Slate 500
                         }
                     },
                     backgroundImage: {
-                        'blueprint': 'radial-gradient(#cbd5e1 1px, transparent 1px)',
-                        'blueprint-dark': 'radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)',
+                        'blueprint': 'linear-gradient(#E2E8F0 1px, transparent 1px), linear-gradient(90deg, #E2E8F0 1px, transparent 1px)',
+                        'blueprint-dark': 'radial-gradient(rgba(0, 106, 255, 0.15) 1px, transparent 1px)', // Blue dots
+                    },
+                    boxShadow: {
+                        'sharp': '4px 4px 0px 0px rgba(15, 23, 42, 0.1)',
+                        'sharp-lg': '8px 8px 0px 0px rgba(15, 23, 42, 0.1)',
+                        'sharp-blue': '4px 4px 0px 0px rgba(0, 106, 255, 0.2)',
+                        'sharp-gold': '4px 4px 0px 0px rgba(251, 191, 36, 0.3)',
                     },
                     animation: {
                         'stamp': 'stamp-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both',
@@ -76,32 +91,26 @@
 
         /* Glassmorphism Utilities */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid #E2E8F0;
+            box-shadow: 4px 4px 0px 0px rgba(15, 23, 42, 0.05);
         }
 
         .glass-card-premium {
-            background: linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 
-                0 10px 25px -5px rgba(0, 0, 0, 0.05),
-                0 8px 10px -6px rgba(0, 0, 0, 0.01),
-                inset 0 0 0 1px rgba(255,255,255,0.5);
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            box-shadow: 6px 6px 0px 0px rgba(0, 106, 255, 0.1); /* Blue Hint */
         }
         
         /* Warmer Dark Mode for Builders */
         .glass-dark {
-            background: rgba(15, 23, 42, 0.95); /* Builder Slate */
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #0F172A; /* Builder Slate */
+            border: 1px solid #1E293B;
         }
 
-        /* Shine Effect for Gold Elements */
+        /* Shine Effect */
         .shine-gold {
             position: relative;
             overflow: hidden;
@@ -116,7 +125,7 @@
             background: linear-gradient(
                 to bottom right,
                 rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.4) 50%,
+                rgba(251, 191, 36, 0.3) 50%, /* Gold Shine */
                 rgba(255, 255, 255, 0) 100%
             );
             transform: rotate(45deg) translate(-100%, -100%);
@@ -130,9 +139,9 @@
 
         /* Custom Scrollbar for Dashboard */
         .dashboard-scroll::-webkit-scrollbar { width: 6px; }
-        .dashboard-scroll::-webkit-scrollbar-track { background: #1e293b; }
-        .dashboard-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        .dashboard-scroll::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        .dashboard-scroll::-webkit-scrollbar-track { background: #1E293B; }
+        .dashboard-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 2px; }
+        .dashboard-scroll::-webkit-scrollbar-thumb:hover { background: #64748B; }
 
         /* Responsive Phone Frame Styling */
         .phone-frame {
@@ -141,16 +150,16 @@
             overflow: hidden;
             width: 100%;
             height: 600px;
-            border-radius: 2.5rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            border: 8px solid #0f172a; /* Brand Dark */
+            border-radius: 12px;
+            box-shadow: 12px 12px 0px 0px rgba(15, 23, 42, 0.2);
+            border: 4px solid #0F172A; /* Builder Slate */
             transform: translateZ(0); 
         }
         
         @media (min-width: 1024px) {
             .phone-frame {
-                border: 10px solid #0f172a;
-                border-radius: 3rem;
+                border: 8px solid #0F172A;
+                border-radius: 16px;
                 width: 340px;
                 height: 700px;
             }
@@ -159,8 +168,8 @@
 
         .phone-notch {
             position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-            width: 35%; height: 26px; background-color: #0f172a;
-            border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; z-index: 20;
+            width: 35%; height: 26px; background-color: #0F172A;
+            border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 20;
         }
 
         /* Custom Range Slider */
@@ -171,85 +180,30 @@
             outline: none;
         }
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: #006AFF; cursor: pointer; margin-top: -7px; box-shadow: 0 2px 5px rgba(0,106,255,0.3); border: 2px solid white;
+            -webkit-appearance: none; height: 16px; width: 16px; border-radius: 0; /* Square thumb */
+            background: #006AFF; cursor: pointer; margin-top: -6px; 
+            border: 2px solid #0F172A;
         }
         input[type=range]::-webkit-slider-runnable-track {
-            width: 100%; height: 4px; cursor: pointer; background: #e2e8f0; border-radius: 2px;
+            width: 100%; height: 4px; cursor: pointer; background: #CBD5E1; border-radius: 0;
         }
-        input[type=range]:focus::-webkit-slider-runnable-track { background: #cbd5e1; }
+        input[type=range]:focus::-webkit-slider-runnable-track { background: #94A3B8; }
 
-        /* Animations */
-        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .pulse-ring { animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite; }
-        @keyframes pulse-ring { 0% { transform: scale(0.33); opacity: 1; } 80%, 100% { transform: scale(1); opacity: 0; } }
-
-        .action-pulse { animation: softPulse 2s infinite; }
-        @keyframes softPulse {
-            0% { box-shadow: 0 0 0 0 rgba(0, 106, 255, 0.3); } /* brand-blue */
-            70% { box-shadow: 0 0 0 10px rgba(0, 106, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(0, 106, 255, 0); }
+        /* Global Accessibility Focus */
+        *:focus-visible {
+            outline: 2px solid #006AFF;
+            outline-offset: 2px;
         }
-
-        .toast-enter { animation: toastSlideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes toastSlideDown { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        .feed-item-enter { animation: slideInRight 0.4s ease-out forwards; }
-        @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .animate-marquee { animation: marquee 60s linear infinite; }
-
-        /* Ticker Tooltip */
-        .ticker-item { position: relative; cursor: pointer; }
-        .ticker-item:hover::after {
-            content: "View Details";
-            white-space: pre;
-            position: absolute;
-            bottom: 120%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #0f172a;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            z-index: 50;
-            pointer-events: none;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .chart-container { position: relative; width: 100%; max-width: 600px; margin: 0 auto; height: 300px; max-height: 400px; }
-        
-        .faq-answer { transition: max-height 0.3s ease-out, opacity 0.3s ease-out; max-height: 0; overflow: hidden; opacity: 0; }
-        .faq-answer.open { max-height: 200px; opacity: 1; }
-        .faq-icon { transition: transform 0.3s ease; }
-        .faq-icon.rotate { transform: rotate(180deg); }
-
-        .role-btn { transition: all 0.2s ease; }
-        .role-btn.active { background-color: #0f172a; color: white !important; border-color: #0f172a; }
-        .role-btn.active:hover { background-color: #1e293b; color: white !important; }
-        .role-btn:not(.active):hover { background-color: #f1f5f9; color: #0f172a; }
-        
-        .ai-btn {
-            background: linear-gradient(135deg, #006AFF, #2563eb);
-            color: white;
-            border: none;
-        }
-        .ai-btn:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
 
         /* Stamp Effect */
         .stamp-container {
             position: relative;
             display: inline-block;
-            color: #006AFF; /* brand-blue */
+            color: #006AFF; /* PropTech Blue */
             border: 4px solid #006AFF;
             padding: 10px 20px;
             text-transform: uppercase;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Lexend', sans-serif;
             font-weight: 800;
             font-size: 2rem;
             letter-spacing: 0.1em;
@@ -261,45 +215,73 @@
             background-position: center;
             transition: background-image 0.5s ease-in-out;
         }
+        
+        /* Markdown-like styling for AI response */
+        .ai-content h3 { font-family: 'Lexend', sans-serif; font-weight: 700; margin-bottom: 0.5rem; color: #0F172A; }
+        .ai-content ul { list-style-type: square; padding-left: 1.5rem; margin-bottom: 1rem; color: #006AFF; }
+        .ai-content li span { color: #475569; }
+        .ai-content p { margin-bottom: 1rem; color: #475569; }
+        .ai-content strong { color: #0F172A; font-weight: 600; }
+
+        /* Ticker Animation */
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-marquee { animation: marquee 40s linear infinite; }
+        
+        /* FAQ Animation */
+        .faq-answer { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; max-height: 0; overflow: hidden; opacity: 0; }
+        .faq-answer.open { max-height: 500px; opacity: 1; }
+        .faq-icon { transition: transform 0.3s ease; }
     </style>
 </head>
-<body class="bg-brand-light text-slate-800 font-sans antialiased pb-16 lg:pb-0 selection:bg-brand-blue selection:text-white">
+<body class="bg-brand-light text-brand-dark font-sans antialiased pb-16 lg:pb-0 selection:bg-brand-blue selection:text-white">
 
     <!-- Navbar -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm transition-all duration-300" aria-label="Main Navigation">
+    <nav class="sticky top-0 z-50 bg-white/95 border-b border-brand-border shadow-sm transition-all duration-300" aria-label="Main Navigation">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
-                <!-- LOGO v2.0 (Brand Kit Compliance: Dark Text + Gold Dot) -->
-                <a href="#" class="flex items-center gap-1 transition-opacity hover:opacity-80 group" onclick="setAudience('buyer'); window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Newer Home">
-                    <span class="text-3xl font-brand font-extrabold tracking-tighter text-brand-dark">Newer<span class="text-brand-gold">.</span></span>
+                <!-- LOGO v8.1 (Ticker/Exponent: Sharp Caret) -->
+                <a href="#" class="flex items-start gap-0.5 group transition-opacity hover:opacity-80" onclick="setAudience('buyer'); window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Newer Home">
+                    <span class="text-3xl font-brand font-semibold tracking-tighter text-brand-dark leading-none">NEWER</span>
+                    <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 -mt-1 -ml-0.5" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" />
+                    </svg>
                 </a>
                 
-                <div class="hidden md:flex bg-slate-100 rounded-full p-1.5 border border-slate-200" role="tablist" aria-label="User Persona Selection">
-                    <button onclick="setAudience('buyer')" role="tab" aria-selected="true" id="tab-buyer" class="role-btn active px-6 py-2 rounded-full text-sm font-semibold transition-all">For Buyers</button>
-                    <button onclick="setAudience('builder')" role="tab" aria-selected="false" id="tab-builder" class="role-btn px-6 py-2 rounded-full text-sm font-semibold transition-all">For Builders</button>
-                    <button onclick="setAudience('investor')" role="tab" aria-selected="false" id="tab-investor" class="role-btn px-6 py-2 rounded-full text-sm font-semibold transition-all">Partners</button>
+                <div class="hidden md:flex bg-slate-100/50 rounded-md p-1 border border-brand-border" role="tablist" aria-label="User Persona Selection">
+                    <button onclick="setAudience('buyer')" role="tab" aria-selected="true" id="tab-buyer" class="role-btn active px-6 py-2 rounded-sm text-sm font-semibold transition-all">For Buyers</button>
+                    <button onclick="setAudience('builder')" role="tab" aria-selected="false" id="tab-builder" class="role-btn px-6 py-2 rounded-sm text-sm font-semibold transition-all">For Builders</button>
+                    <button onclick="setAudience('investor')" role="tab" aria-selected="false" id="tab-investor" class="role-btn px-6 py-2 rounded-sm text-sm font-semibold transition-all">Partners</button>
                 </div>
 
-                <button onclick="openWaitlistModal()" class="bg-brand-blue text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-600 transition-all active:scale-95 shadow-lg shadow-blue-500/20">
+                <button onclick="openWaitlistModal()" class="bg-brand-dark text-white border border-brand-dark px-6 py-2.5 rounded-md text-sm font-bold hover:bg-brand-blue hover:border-brand-blue transition-all active:translate-y-0.5 shadow-sharp">
                     Early Access
                 </button>
             </div>
             <!-- Mobile Role Switcher (Compact) -->
-            <div class="md:hidden flex justify-center py-2 space-x-2 border-t border-slate-100 bg-white/50 backdrop-blur-sm" role="tablist">
-                <button onclick="setAudience('buyer')" role="tab" class="role-btn active text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold" aria-current="true">Buyers</button>
-                <button onclick="setAudience('builder')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold" aria-current="false">Builders</button>
-                <button onclick="setAudience('investor')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-full border border-slate-200 font-bold" aria-current="false">Partners</button>
+            <div class="md:hidden flex justify-center py-2 space-x-2 border-t border-brand-border bg-white/95" role="tablist">
+                <button onclick="setAudience('buyer')" role="tab" class="role-btn active text-xs px-4 py-1.5 rounded-sm border border-brand-border font-bold" aria-current="true">Buyers</button>
+                <button onclick="setAudience('builder')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-sm border border-brand-border font-bold" aria-current="false">Builders</button>
+                <button onclick="setAudience('investor')" role="tab" class="role-btn text-xs px-4 py-1.5 rounded-sm border border-brand-border font-bold" aria-current="false">Partners</button>
             </div>
         </div>
     </nav>
 
     <!-- LIVE MARKET TICKER -->
-    <div class="w-full bg-brand-dark text-slate-400 overflow-hidden border-b border-slate-800 z-40 relative h-10 flex items-center shadow-md" aria-label="Live Market Updates">
+    <div class="w-full bg-brand-dark text-slate-400 overflow-hidden border-b border-brand-dark z-40 relative h-10 flex items-center shadow-md" aria-label="Live Market Updates">
         <div class="flex whitespace-nowrap overflow-hidden absolute w-full" aria-hidden="true">
             <div class="animate-marquee inline-block text-xs font-mono font-medium tracking-wide">
+                <!-- Content Set 1 -->
                 <span class="mx-8 ticker-item"><span class="text-brand-success">💰</span> <strong class="text-white">$15k Incentive</strong> accepted by Buyer #8492 (Dallas)</span>
                 <span class="text-slate-700">|</span>
-                <span class="mx-8 ticker-item"><span class="text-brand-gold">🔥</span> <strong class="text-white">3 Builders</strong> bidding on Lot 4 (Austin)</span>
+                <span class="mx-8 ticker-item"><span class="text-brand-blue">🔥</span> <strong class="text-white">3 Builders</strong> bidding on Lot 4 (Austin)</span>
+                <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-brand-blue">📉</span> <strong class="text-white">Interest Rate Buy-down</strong> secured by Buyer #221 (Phoenix)</span>
+                 <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-brand-success">💰</span> <strong class="text-white">$12k Closing Costs</strong> covered by Builder #401 (San Antonio)</span>
+                <!-- Duplicate Content Set for Infinite Scroll -->
+                <span class="mx-8 ticker-item"><span class="text-brand-success">💰</span> <strong class="text-white">$15k Incentive</strong> accepted by Buyer #8492 (Dallas)</span>
+                <span class="text-slate-700">|</span>
+                <span class="mx-8 ticker-item"><span class="text-brand-blue">🔥</span> <strong class="text-white">3 Builders</strong> bidding on Lot 4 (Austin)</span>
                 <span class="text-slate-700">|</span>
                 <span class="mx-8 ticker-item"><span class="text-brand-blue">📉</span> <strong class="text-white">Interest Rate Buy-down</strong> secured by Buyer #221 (Phoenix)</span>
                  <span class="text-slate-700">|</span>
@@ -309,40 +291,40 @@
     </div>
 
     <!-- Hero Section -->
-    <section class="relative pt-20 pb-20 md:pt-32 md:pb-40 overflow-hidden scroll-mt-28" id="hero" aria-labelledby="hero-title" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');">
+    <section class="relative pt-20 pb-20 md:pt-32 md:pb-40 overflow-hidden scroll-mt-28 bg-brand-light min-h-[600px] flex items-center" id="hero" aria-labelledby="hero-title" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80');">
         <!-- Humanizing Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-r from-white via-white/75 to-transparent pointer-events-none"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-light via-brand-light/80 to-transparent pointer-events-none"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-light via-transparent to-transparent pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="max-w-3xl">
-                <div id="hero-badge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50/90 backdrop-blur border border-blue-100 text-brand-blue text-[10px] md:text-xs font-bold uppercase tracking-wide mb-8 shadow-sm">
+                <div id="hero-badge" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-white border border-brand-border text-brand-dark text-[10px] md:text-xs font-bold uppercase tracking-wide mb-8 shadow-sharp">
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse"></span> The Reverse Market
                 </div>
                 <h1 id="hero-title" class="text-5xl md:text-7xl font-brand font-bold text-brand-dark tracking-tight mb-6 leading-[1.1] min-h-[2.4em] drop-shadow-sm transition-all duration-300">
                     Don't Chase Listings.<br>
                     <span class="text-brand-blue">Order Your Home.</span>
                 </h1>
-                <p id="hero-desc" class="mt-4 max-w-xl text-lg md:text-xl text-slate-600 min-h-[3em] leading-relaxed font-normal bg-white/30 backdrop-blur-sm p-2 rounded-lg transition-all duration-300">
+                <p id="hero-desc" class="mt-4 max-w-xl text-lg md:text-xl text-slate-600 min-h-[3em] leading-relaxed font-normal bg-white/50 backdrop-blur-sm p-3 border border-brand-border rounded-md transition-all duration-300">
                     The first marketplace where verified buyers get custom pitches from top builders—before the home hits the MLS. <strong>Zero bidding wars. Direct builder pricing.</strong>
                 </p>
                 <div class="mt-10 flex flex-col sm:flex-row gap-4">
-                    <a href="#demo" id="hero-cta-btn" class="px-8 py-4 bg-brand-dark text-white rounded-full font-bold shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-200 text-center">Build My Buy Box</a>
-                    <a href="#concept" class="px-8 py-4 bg-white/80 backdrop-blur text-brand-dark border border-slate-200 rounded-full font-bold shadow-sm hover:bg-white transition-all duration-200 text-center">How It Works</a>
+                    <a href="#demo" id="hero-cta-btn" class="px-8 py-4 bg-brand-blue text-white rounded-md font-bold shadow-sharp hover:translate-y-[2px] hover:shadow-none transition-all duration-200 text-center border-2 border-brand-blue">Build My Buy Box</a>
+                    <a href="#concept" class="px-8 py-4 bg-white text-brand-dark border-2 border-brand-dark rounded-md font-bold shadow-sharp hover:translate-y-[2px] hover:shadow-none transition-all duration-200 text-center">How It Works</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- TRUSTED BY SECTION -->
-    <section class="py-10 bg-white border-b border-slate-100">
+    <section class="py-10 bg-white border-b border-brand-border">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mb-8">Designed for Top Home Builders</p>
-            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
-                <div class="flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-building text-2xl"></i> LENNAR</div>
-                <div class="flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-city text-2xl"></i> TOLL BROS</div>
-                <div class="flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-home text-2xl"></i> PulteGroup</div>
-                <div class="hidden md:flex items-center gap-2 font-brand font-bold text-xl text-slate-800"><i class="fas fa-landmark text-2xl"></i> PLAID</div>
+            <p class="text-[10px] uppercase tracking-widest text-brand-muted font-bold mb-4 font-brand">Designed for Top Builders</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                <div class="flex items-center gap-2 font-brand font-bold text-xl text-brand-dark"><i data-lucide="building" class="w-6 h-6"></i> LENNAR</div>
+                <div class="flex items-center gap-2 font-brand font-bold text-xl text-brand-dark"><i data-lucide="building-2" class="w-6 h-6"></i> TOLL BROS</div>
+                <div class="flex items-center gap-2 font-brand font-bold text-xl text-brand-dark"><i data-lucide="home" class="w-6 h-6"></i> PulteGroup</div>
+                <div class="hidden md:flex items-center gap-2 font-brand font-bold text-xl text-brand-dark"><i data-lucide="landmark" class="w-6 h-6"></i> PLAID</div>
             </div>
         </div>
     </section>
@@ -358,14 +340,14 @@
             </div>
             <!-- Grid Alignment -->
             <div class="grid md:grid-cols-2 gap-12 items-stretch">
-                <div class="p-10 rounded-3xl bg-slate-50 border border-slate-100 relative group hover:shadow-lg transition-all duration-300 h-full flex flex-col">
-                    <div class="absolute -top-3 left-8 bg-slate-200 text-slate-600 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide">The Old Way</div>
-                    <h3 class="text-2xl font-brand font-bold text-slate-800 mb-4 flex items-center gap-3"><i class="fas fa-search text-slate-400" aria-hidden="true"></i> Active Shopper</h3>
+                <div class="p-10 rounded-lg bg-brand-light border border-brand-border relative group hover:border-brand-dark transition-all duration-300 h-full flex flex-col shadow-sm">
+                    <div class="absolute -top-3 left-8 bg-slate-200 text-slate-600 px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wide border border-slate-300">The Old Way</div>
+                    <h3 class="text-2xl font-brand font-bold text-brand-dark mb-4 flex items-center gap-3"><i data-lucide="search" class="text-brand-muted w-6 h-6"></i> Active Shopper</h3>
                     <ul id="concept-old-list" class="space-y-4 text-slate-600 text-sm flex-grow"></ul>
                 </div>
-                <div class="p-10 rounded-3xl bg-gradient-to-br from-blue-50/50 to-white border border-blue-100 shadow-xl shadow-blue-500/5 relative group hover:shadow-2xl hover:scale-[1.01] transition-all duration-300 h-full flex flex-col">
-                    <div class="absolute -top-3 left-8 bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide">The Newer Way</div>
-                    <h3 class="text-2xl font-brand font-bold text-brand-dark mb-4 flex items-center gap-3"><i class="fas fa-crown text-brand-gold" aria-hidden="true"></i> VIP Client</h3>
+                <div class="p-10 rounded-lg bg-white border border-brand-blue shadow-sharp relative group hover:shadow-sharp-lg transition-all duration-300 h-full flex flex-col">
+                    <div class="absolute -top-3 left-8 bg-brand-blue text-white px-3 py-1 rounded-sm text-[10px] font-bold uppercase tracking-wide border border-brand-blue">The Newer Way</div>
+                    <h3 class="text-2xl font-brand font-bold text-brand-dark mb-4 flex items-center gap-3"><i data-lucide="crown" class="text-brand-blue w-6 h-6"></i> VIP Client</h3>
                     <ul id="concept-new-list" class="space-y-4 text-slate-700 text-sm flex-grow"></ul>
                 </div>
             </div>
@@ -373,13 +355,7 @@
     </section>
 
     <!-- Interactive Demo Section -->
-    <section id="demo" class="py-20 md:py-28 bg-slate-50 bg-blueprint-grid overflow-hidden relative scroll-mt-24" aria-labelledby="demo-title">
-        <!-- Abstract Background Shape -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.03]">
-            <div class="absolute top-20 right-[-100px] w-[600px] h-[600px] rounded-full bg-brand-blue blur-[100px]"></div>
-            <div class="absolute bottom-0 left-[-100px] w-[500px] h-[500px] rounded-full bg-purple-500 blur-[100px]"></div>
-        </div>
-
+    <section id="demo" class="py-20 md:py-28 bg-brand-light bg-blueprint overflow-hidden relative scroll-mt-24" aria-labelledby="demo-title">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="mb-12">
                 <h2 id="demo-title" class="text-3xl md:text-4xl font-brand font-bold text-brand-dark transition-all duration-300">Your Personal Market</h2>
@@ -395,37 +371,40 @@
                         <p class="text-sm text-slate-500">Building the "Dream Home Profile"</p>
                     </div>
                     
-                    <div class="phone-frame flex flex-col shadow-2xl relative glass-panel bg-white">
+                    <div class="phone-frame flex flex-col shadow-2xl relative bg-white border-brand-dark">
                         <div class="phone-notch"></div>
                         <div id="phone-notifications" class="absolute top-12 left-0 right-0 px-3 z-50 pointer-events-none flex flex-col items-center space-y-2"></div>
                         <!-- LOGO WITH ICON IN PHONE DEMO -->
-                        <div class="h-16 bg-white border-b border-slate-100 flex items-center justify-between px-6 pt-6 relative z-10 shrink-0">
-                            <div class="flex items-center">
-                                <span class="text-2xl font-brand font-extrabold tracking-tighter text-brand-dark">Newer<span class="text-brand-gold">.</span></span>
+                        <div class="h-16 bg-white border-b border-brand-border flex items-center justify-between px-6 pt-6 relative z-10 shrink-0">
+                            <div class="flex items-start gap-0.5">
+                                <span class="text-xl font-brand font-semibold tracking-tighter text-brand-dark leading-none">NEWER</span>
+                                <svg viewBox="0 0 24 24" fill="none" class="w-3 h-3 -mt-0.5 -ml-0.5" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" />
+                                </svg>
                             </div>
-                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center"><i class="fas fa-user text-slate-400 text-xs" aria-hidden="true"></i></div>
+                            <div class="w-8 h-8 rounded-sm bg-slate-100 flex items-center justify-center border border-slate-200"><i data-lucide="user" class="text-slate-400 w-4 h-4"></i></div>
                         </div>
-                        <div id="buyer-screen-container" class="flex-1 p-6 overflow-y-auto bg-slate-50 relative">
+                        <div id="buyer-screen-container" class="flex-1 p-6 overflow-y-auto bg-brand-light relative">
                             
                             <!-- Step 1: Vibe Check -->
                             <div id="step-1" class="step-content fade-in">
                                 <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">Set the mood.</h3>
                                 <p class="text-xs text-slate-500 mb-6">Which style feels like home?</p>
                                 <div class="grid grid-cols-2 gap-3">
-                                    <button onclick="selectStyle('Modern Farmhouse')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
-                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-warehouse text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                    <button onclick="selectStyle('Modern Farmhouse')" class="style-btn group p-4 bg-white rounded-lg border border-brand-border hover:border-brand-blue hover:shadow-sharp transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-md mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors border border-slate-100"><i data-lucide="warehouse" class="w-6 h-6 text-slate-400 group-hover:text-brand-blue"></i></div>
                                         <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Modern Farmhouse</span>
                                     </button>
-                                    <button onclick="selectStyle('Contemporary')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
-                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-cube text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                    <button onclick="selectStyle('Contemporary')" class="style-btn group p-4 bg-white rounded-lg border border-brand-border hover:border-brand-blue hover:shadow-sharp transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-md mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors border border-slate-100"><i data-lucide="box" class="w-6 h-6 text-slate-400 group-hover:text-brand-blue"></i></div>
                                         <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Contemporary</span>
                                     </button>
-                                    <button onclick="selectStyle('Traditional')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
-                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-landmark text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                    <button onclick="selectStyle('Traditional')" class="style-btn group p-4 bg-white rounded-lg border border-brand-border hover:border-brand-blue hover:shadow-sharp transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-md mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors border border-slate-100"><i data-lucide="landmark" class="w-6 h-6 text-slate-400 group-hover:text-brand-blue"></i></div>
                                         <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Traditional</span>
                                     </button>
-                                    <button onclick="selectStyle('Mediterranean')" class="style-btn group p-4 bg-white rounded-xl border border-slate-200 hover:border-brand-blue hover:shadow-md transition-all text-left">
-                                        <div class="h-14 bg-slate-50 rounded-lg mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors"><i class="fas fa-sun text-2xl text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i></div>
+                                    <button onclick="selectStyle('Mediterranean')" class="style-btn group p-4 bg-white rounded-lg border border-brand-border hover:border-brand-blue hover:shadow-sharp transition-all text-left">
+                                        <div class="h-14 bg-slate-50 rounded-md mb-3 flex items-center justify-center group-hover:bg-blue-50 transition-colors border border-slate-100"><i data-lucide="sun" class="w-6 h-6 text-slate-400 group-hover:text-brand-blue"></i></div>
                                         <span class="text-[10px] font-bold block text-slate-700 group-hover:text-brand-blue">Mediterranean</span>
                                     </button>
                                 </div>
@@ -439,8 +418,8 @@
                                     <div>
                                         <label class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Persona</label>
                                         <div class="flex gap-2 mt-2">
-                                            <button onclick="setPersona('Family')" class="persona-btn flex-1 py-2.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:border-brand-dark hover:text-brand-dark transition-colors text-slate-600">Growing Family</button>
-                                            <button onclick="setPersona('Couple')" class="persona-btn flex-1 py-2.5 bg-white border border-slate-200 rounded-lg text-xs font-bold hover:border-brand-dark hover:text-brand-dark transition-colors text-slate-600">Pro Couple</button>
+                                            <button onclick="setPersona('Family')" class="persona-btn flex-1 py-2.5 bg-white border border-brand-border rounded-sm text-xs font-bold hover:border-brand-dark hover:text-brand-dark transition-colors text-slate-600">Growing Family</button>
+                                            <button onclick="setPersona('Couple')" class="persona-btn flex-1 py-2.5 bg-white border border-brand-border rounded-sm text-xs font-bold hover:border-brand-dark hover:text-brand-dark transition-colors text-slate-600">Pro Couple</button>
                                         </div>
                                     </div>
                                     <div>
@@ -457,7 +436,7 @@
                                         </div>
                                         <input id="demo-budget" type="range" min="300" max="1500" step="50" value="500" class="w-full accent-brand-blue" oninput="updateRange('budget', this.value)" aria-valuemin="300" aria-valuemax="1500" aria-valuenow="500">
                                     </div>
-                                    <button onclick="nextStep('amenities')" class="w-full py-3.5 bg-brand-dark text-white rounded-xl font-bold text-sm shadow-lg shadow-slate-900/10 action-pulse hover:animate-none hover:bg-slate-800 transition-all">Next Step</button>
+                                    <button onclick="nextStep('amenities')" class="w-full py-3.5 bg-brand-dark text-white rounded-md font-bold text-sm shadow-sharp hover:translate-y-[2px] hover:shadow-none transition-all">Next Step</button>
                                 </div>
                             </div>
 
@@ -466,20 +445,20 @@
                                 <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">Non-Negotiables.</h3>
                                 <p class="text-xs text-slate-500 mb-6">Select top 3 features.</p>
                                 <div class="grid grid-cols-2 gap-3 mb-6">
-                                    <button onclick="toggleAmenity(this, 'Office')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-laptop-house text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">Home Office</span>
+                                    <button onclick="toggleAmenity(this, 'Office')" class="amenity-btn p-3 rounded-lg border border-brand-border bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i data-lucide="laptop" class="w-5 h-5 text-slate-400 group-hover:text-brand-blue"></i><span class="text-[10px] font-bold">Home Office</span>
                                     </button>
-                                    <button onclick="toggleAmenity(this, '3-Car Garage')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-car text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">3-Car Garage</span>
+                                    <button onclick="toggleAmenity(this, '3-Car Garage')" class="amenity-btn p-3 rounded-lg border border-brand-border bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i data-lucide="car" class="w-5 h-5 text-slate-400 group-hover:text-brand-blue"></i><span class="text-[10px] font-bold">3-Car Garage</span>
                                     </button>
-                                    <button onclick="toggleAmenity(this, 'Master Down')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-bed text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">Master Down</span>
+                                    <button onclick="toggleAmenity(this, 'Rate Buy-Down')" class="amenity-btn p-3 rounded-lg border border-brand-border bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i data-lucide="percent" class="w-5 h-5 text-slate-400 group-hover:text-brand-blue"></i><span class="text-[10px] font-bold">Rate Buy-Down</span>
                                     </button>
-                                    <button onclick="toggleAmenity(this, 'Pool Ready')" class="amenity-btn p-3 rounded-xl border border-slate-200 bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
-                                        <i class="fas fa-swimming-pool text-lg text-slate-400 group-hover:text-brand-blue" aria-hidden="true"></i><span class="text-[10px] font-bold">Pool Ready</span>
+                                    <button onclick="toggleAmenity(this, 'Pool Ready')" class="amenity-btn p-3 rounded-lg border border-brand-border bg-white text-slate-600 hover:border-brand-blue hover:text-brand-blue transition-all flex flex-col items-center gap-2 group">
+                                        <i data-lucide="waves" class="w-5 h-5 text-slate-400 group-hover:text-brand-blue"></i><span class="text-[10px] font-bold">Pool Ready</span>
                                     </button>
                                 </div>
-                                <button onclick="nextStep('3')" class="w-full py-3.5 bg-brand-dark text-white rounded-xl font-bold text-sm hover:bg-slate-800 transition-all">Get VIP Status</button>
+                                <button onclick="nextStep('3')" class="w-full py-3.5 bg-brand-dark text-white rounded-md font-bold text-sm shadow-sharp hover:translate-y-[2px] hover:shadow-none transition-all">Get VIP Status</button>
                             </div>
 
                             <!-- Step 3: VIP Access -->
@@ -487,44 +466,44 @@
                                 <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">Unlock VIP Access</h3>
                                 <p class="text-xs text-slate-500 mb-4">Builders compete for verified Gold Status buyers.</p>
                                 
-                                <div class="flex items-center justify-center gap-2 mb-6 bg-amber-50 py-2 px-4 rounded-full w-fit mx-auto border border-amber-100 shadow-sm shine-gold">
-                                    <i class="fas fa-crown text-brand-gold text-xs"></i>
-                                    <span class="text-[10px] font-bold text-amber-700 uppercase tracking-wide">Gold Tier Access</span>
+                                <div class="flex items-center justify-center gap-2 mb-6 bg-blue-50 py-2 px-4 rounded-sm w-fit mx-auto border border-brand-blue shadow-sm shine-gold">
+                                    <i data-lucide="crown" class="text-brand-blue w-3 h-3"></i>
+                                    <span class="text-[10px] font-bold text-brand-dark uppercase tracking-wide">Verified Access</span>
                                 </div>
 
-                                <button onclick="verifyUser(event)" class="w-full py-3.5 bg-white border-2 border-slate-100 rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:border-brand-gold hover:text-amber-700 hover:bg-amber-50 transition-all group mb-3 text-slate-600">
-                                    <i class="fas fa-university text-slate-300 group-hover:text-brand-gold" aria-hidden="true"></i> Verify Proof of Funds
+                                <button onclick="verifyUser(event)" class="w-full py-3.5 bg-white border-2 border-brand-border rounded-md font-bold text-sm flex items-center justify-center gap-3 hover:border-brand-blue hover:text-brand-blue hover:bg-blue-50 transition-all group mb-3 text-slate-600">
+                                    <i data-lucide="landmark" class="w-4 h-4 text-slate-300 group-hover:text-brand-blue"></i> Verify Proof of Funds
                                 </button>
-                                <button onclick="verifyUser(event)" class="w-full py-3.5 bg-white border-2 border-slate-100 rounded-xl font-bold text-sm flex items-center justify-center gap-3 hover:border-brand-gold hover:text-amber-700 hover:bg-amber-50 transition-all group text-slate-600">
-                                    <i class="fas fa-file-upload text-slate-300 group-hover:text-brand-gold" aria-hidden="true"></i> Upload Pre-Approval
+                                <button onclick="verifyUser(event)" class="w-full py-3.5 bg-white border-2 border-brand-border rounded-md font-bold text-sm flex items-center justify-center gap-3 hover:border-brand-blue hover:text-brand-blue hover:bg-blue-50 transition-all group text-slate-600">
+                                    <i data-lucide="upload" class="w-4 h-4 text-slate-300 group-hover:text-brand-blue"></i> Upload Pre-Approval
                                 </button>
                                 
                                 <p class="mt-4 text-[10px] text-center text-slate-400 flex items-center justify-center gap-1">
-                                    <i class="fas fa-lock text-[8px]"></i> 256-bit Bank Grade Security
+                                    <i data-lucide="lock" class="w-3 h-3"></i> 256-bit Bank Grade Security
                                 </p>
                             </div>
 
                             <!-- Step 4: Complete -->
                             <div id="step-4" class="step-content hidden fade-in text-center pt-8">
-                                <div class="w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-200 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce shadow-lg"><i class="fas fa-crown text-2xl text-amber-600" aria-hidden="true"></i></div>
+                                <div class="w-16 h-16 bg-brand-dark rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce shadow-sharp-blue border border-brand-blue"><i data-lucide="crown" class="w-8 h-8 text-brand-blue"></i></div>
                                 <h3 class="text-xl font-brand font-bold mb-1 text-brand-dark">You are VIP!</h3>
-                                <p class="text-xs text-slate-500 mb-6">Alias: <span class="bg-slate-100 py-0.5 px-2 rounded font-mono font-bold text-slate-700">Buyer #8942</span></p>
+                                <p class="text-xs text-slate-500 mb-6">Alias: <span class="bg-slate-100 py-0.5 px-2 rounded-sm font-mono font-bold text-slate-700 border border-slate-200">Buyer #8942</span></p>
                                 
                                 <div class="mt-4 mb-6">
-                                    <div id="ai-bio-container" class="hidden p-3 bg-gradient-to-r from-slate-50 to-white border border-slate-200 rounded-xl text-left mb-3 shadow-sm">
+                                    <div id="ai-bio-container" class="hidden p-3 bg-white border border-brand-border rounded-lg text-left mb-3 shadow-sm">
                                         <div class="flex items-center gap-2 mb-2">
                                             <span class="text-base">✨</span>
                                             <span class="text-[10px] font-bold uppercase text-brand-blue tracking-wider">AI Generated Bio</span>
                                         </div>
                                         <p id="ai-bio-text" class="text-xs text-slate-700 italic leading-relaxed"></p>
                                     </div>
-                                    <button onclick="generateBuyerBio()" id="btn-generate-bio" class="w-full py-2.5 bg-white border border-slate-200 text-brand-blue font-bold rounded-lg text-xs hover:bg-slate-50 transition-colors flex items-center justify-center gap-2 shadow-sm">
+                                    <button onclick="generateBuyerBio()" id="btn-generate-bio" class="w-full py-2.5 bg-white border border-brand-border text-brand-blue font-bold rounded-sm text-xs hover:bg-blue-50 hover:border-brand-blue transition-colors flex items-center justify-center gap-2 shadow-sm">
                                         <span>✨</span> Enhance Profile with AI
                                     </button>
                                 </div>
 
                                 <div id="buyer-pitches-container" class="mt-4 text-left">
-                                    <div class="p-4 rounded-xl border border-slate-100 bg-white text-center shadow-sm">
+                                    <div class="p-4 rounded-lg border border-brand-border bg-slate-50 text-center shadow-sm">
                                         <p class="text-[10px] text-slate-400 italic">Waiting for builder proposals...</p>
                                         <div class="mt-2 flex justify-center gap-1">
                                             <div class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce"></div>
@@ -537,8 +516,11 @@
                                 <button onclick="resetDemo()" class="mt-6 text-xs text-slate-400 hover:text-slate-600 underline">Start Over</button>
                             </div>
                         </div>
-                        <div class="h-14 bg-white border-t border-slate-100 flex justify-around items-center text-slate-300 shrink-0">
-                            <i class="fas fa-home text-brand-dark" aria-hidden="true"></i><i class="fas fa-heart" aria-hidden="true"></i><i class="fas fa-comment" aria-hidden="true"></i><i class="fas fa-user" aria-hidden="true"></i>
+                        <div class="h-14 bg-white border-t border-brand-border flex justify-around items-center text-slate-300 shrink-0">
+                            <i data-lucide="home" class="w-5 h-5 text-brand-dark"></i>
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                            <i data-lucide="message-square" class="w-5 h-5"></i>
+                            <i data-lucide="user" class="w-5 h-5"></i>
                         </div>
                     </div>
                 </div>
@@ -546,35 +528,38 @@
                 <!-- RIGHT COLUMN: Builder Dashboard -->
                 <div class="lg:col-span-8 flex flex-col h-[600px] lg:h-[700px]">
                     <div class="mb-4 text-center lg:text-left pl-4">
-                        <span class="text-xs font-bold uppercase text-brand-success tracking-wider">Phase B: The Builder</span>
+                        <span class="text-xs font-bold uppercase text-brand-blue tracking-wider">Phase B: The Builder</span>
                         <h3 class="text-xl font-bold text-brand-dark font-brand">The Bidder</h3>
-                        <p class="text-sm text-stone-500">Monitoring "Live Demand" & Pitching Inventory</p>
+                        <p class="text-sm text-slate-500">Monitoring "Live Demand" & Pitching Inventory</p>
                     </div>
                     <!-- Dashboard Header -->
-                    <div class="bg-brand-dark text-white p-4 rounded-t-2xl flex justify-between items-center shadow-lg z-10 border-b border-slate-700 relative overflow-hidden">
+                    <div class="bg-brand-dark text-white p-4 rounded-t-lg flex justify-between items-center shadow-lg z-10 border-b border-slate-800 relative overflow-hidden">
                         <div class="absolute inset-0 bg-blueprint-dark opacity-20"></div>
                         <div class="flex items-center gap-3 relative z-10">
                             <div class="flex gap-1.5">
-                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-red-500 border border-black/20"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 border border-black/20"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500 border border-black/20"></div>
                             </div>
-                            <span class="ml-2 font-mono font-bold text-sm tracking-wider text-slate-300 hidden md:inline">BUILDER_TERMINAL_V2</span>
-                            <span class="ml-2 px-2 py-0.5 bg-brand-success/20 text-brand-success text-[10px] font-bold rounded border border-brand-success/30 animate-pulse">LIVE</span>
+                            <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" />
+                            </svg>
+                            <span class="font-mono font-bold text-sm tracking-wider text-slate-300 hidden md:inline">BUILDER_TERMINAL_V2</span>
+                            <span class="ml-2 px-2 py-0.5 bg-brand-blue/20 text-brand-blue text-[10px] font-bold rounded-sm border border-brand-blue/30 animate-pulse">LIVE</span>
                         </div>
-                        <div class="flex bg-slate-800 rounded-lg p-1 border border-slate-700 relative z-10">
-                            <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-3 py-1 rounded text-xs font-bold bg-brand-blue text-white transition-all">Feed</button>
-                            <button onclick="toggleDashboardView('map')" id="view-map-btn" class="px-3 py-1 rounded text-xs font-bold text-slate-400 hover:text-white transition-all">Map</button>
-                            <button onclick="toggleDashboardView('intel')" id="view-intel-btn" class="px-3 py-1 rounded text-xs font-bold text-slate-400 hover:text-white transition-all">Intel</button>
+                        <div class="flex bg-slate-800 rounded-sm p-1 border border-slate-700 relative z-10">
+                            <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-3 py-1 rounded-sm text-xs font-bold bg-brand-blue text-white transition-all">Feed</button>
+                            <button onclick="toggleDashboardView('map')" id="view-map-btn" class="px-3 py-1 rounded-sm text-xs font-bold text-slate-400 hover:text-white transition-all">Map</button>
+                            <button onclick="toggleDashboardView('intel')" id="view-intel-btn" class="px-3 py-1 rounded-sm text-xs font-bold text-slate-400 hover:text-white transition-all">Intel</button>
                         </div>
                     </div>
                     <!-- Dashboard Body (Glass Dark - Warmer) -->
-                    <div id="builder-dashboard-body" class="bg-brand-dark flex-1 rounded-b-2xl border-x border-b border-slate-800 shadow-2xl relative overflow-hidden flex flex-col glass-dark">
+                    <div id="builder-dashboard-body" class="bg-brand-dark flex-1 rounded-b-lg border-x border-b border-slate-800 shadow-2xl relative overflow-hidden flex flex-col glass-dark">
                         <!-- Stats Row -->
                         <div class="grid grid-cols-4 gap-px bg-slate-800 border-b border-slate-700">
                             <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Active Demand</div><div class="text-white font-mono text-base md:text-lg font-bold" id="stat-active">1,248</div></div>
                             <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Avg Budget</div><div class="text-white font-mono text-base md:text-lg font-bold" id="stat-budget">$485k</div></div>
-                            <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Your Credits</div><div class="text-brand-gold font-mono text-base md:text-lg font-bold" id="stat-credits">500</div></div>
+                            <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Your Credits</div><div class="text-brand-blue font-mono text-base md:text-lg font-bold" id="stat-credits">500</div></div>
                             <div class="bg-brand-dark p-3"><div class="text-[10px] text-slate-500 uppercase font-bold">Conv. Rate</div><div class="text-brand-success font-mono text-base md:text-lg font-bold">18.4%</div></div>
                         </div>
                         
@@ -590,7 +575,7 @@
                         <!-- MAP VIEW CONTAINER -->
                         <div id="dashboard-map-view" class="flex-1 min-h-0 relative bg-slate-900 overflow-hidden hidden transition-opacity duration-300">
                             <canvas id="demandMap" class="w-full h-full object-cover opacity-80" role="img" aria-label="Heatmap of buyer demand vs available builder lots"></canvas>
-                            <div class="absolute bottom-4 right-4 bg-black/70 px-3 py-2 rounded text-xs text-white backdrop-blur">
+                            <div class="absolute bottom-4 right-4 bg-black/80 border border-slate-700 px-3 py-2 rounded-sm text-xs text-white backdrop-blur">
                                 <span class="w-2 h-2 rounded-full bg-red-500 inline-block mr-1"></span> High Demand
                                 <span class="w-2 h-2 rounded-full bg-brand-blue inline-block ml-2 mr-1"></span> Your Lots
                             </div>
@@ -599,22 +584,22 @@
                         <!-- INTEL VIEW -->
                         <div id="dashboard-intel-view" class="flex-1 min-h-0 bg-brand-dark overflow-y-auto hidden p-6 transition-opacity duration-300">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                                <div class="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
                                     <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">Live Feature Demand</h4>
                                     <div class="space-y-4">
-                                        <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>Home Office</span><span class="text-brand-success font-mono">42% <i class="fas fa-arrow-up" aria-hidden="true"></i></span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-brand-blue rounded-full" style="width: 42%"></div></div></div>
+                                        <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>Home Office</span><span class="text-brand-success font-mono">42% <i data-lucide="arrow-up" class="inline w-3 h-3"></i></span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-brand-blue rounded-full" style="width: 42%"></div></div></div>
                                         <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>3-Car Garage</span><span class="text-slate-400 font-mono">28%</span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-purple-500 rounded-full" style="width: 28%"></div></div></div>
-                                        <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>Pool Ready</span><span class="text-red-400 font-mono">15% <i class="fas fa-arrow-down" aria-hidden="true"></i></span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-teal-500 rounded-full" style="width: 15%"></div></div></div>
+                                        <div><div class="flex justify-between text-xs text-slate-400 mb-1"><span>Rate Buy-Down</span><span class="text-brand-success font-mono">15% <i data-lucide="arrow-up" class="inline w-3 h-3"></i></span></div><div class="h-1.5 bg-slate-700 rounded-full"><div class="h-full bg-teal-500 rounded-full" style="width: 15%"></div></div></div>
                                     </div>
-                                    <div class="mt-6 p-3 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+                                    <div class="mt-6 p-3 bg-blue-900/10 border border-blue-500/20 rounded-md">
                                         <div class="flex justify-between items-center mb-2">
-                                            <div class="text-blue-400 text-[10px] font-bold uppercase"><i class="fas fa-robot mr-1" aria-hidden="true"></i> AI Insight</div>
-                                            <button onclick="generateMarketIntel()" id="btn-ai-intel" class="text-[10px] text-white bg-brand-blue px-2 py-1 rounded hover:bg-blue-600 transition-colors">Analyze</button>
+                                            <div class="text-blue-400 text-[10px] font-bold uppercase"><i data-lucide="bot" class="inline w-3 h-3 mr-1"></i> AI Insight</div>
+                                            <button onclick="generateMarketIntel()" id="btn-ai-intel" class="text-[10px] text-brand-dark font-bold bg-brand-blue px-2 py-1 rounded-sm hover:bg-blue-600 transition-colors">Analyze</button>
                                         </div>
                                         <p id="ai-intel-text" class="text-slate-400 text-xs leading-relaxed">Click Analyze to generate report.</p>
                                     </div>
                                 </div>
-                                <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-700">
+                                <div class="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
                                     <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">Budget Trend (90 Days)</h4>
                                     <div class="chart-container h-48 w-full"><canvas id="intelChart" role="img" aria-label="Line chart showing average buyer budget trends over the last 6 months"></canvas></div>
                                 </div>
@@ -625,41 +610,41 @@
                         <div id="user-card-overlay" class="absolute bottom-0 left-0 right-0 bg-brand-dark/95 border-t border-brand-blue p-5 transform translate-y-full transition-transform duration-500 shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 backdrop-blur-sm">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1"><span class="text-[10px] font-bold text-brand-gold uppercase tracking-wider">VIP Match Found</span><span class="w-1.5 h-1.5 bg-brand-gold rounded-full animate-pulse"></span></div>
+                                    <div class="flex items-center gap-2 mb-1"><span class="text-[10px] font-bold text-brand-blue uppercase tracking-wider">VIP Match Found</span><span class="w-1.5 h-1.5 bg-brand-blue rounded-full animate-pulse"></span></div>
                                     <h4 class="text-white font-bold text-xl font-brand">VIP Buyer #8942</h4>
                                 </div>
-                                <div class="text-right"><div class="text-2xl font-bold font-mono text-brand-success" id="dash-card-budget">$500k</div><div class="text-[10px] text-slate-500 uppercase">Verified Gold</div></div>
+                                <div class="text-right"><div class="text-2xl font-bold font-mono text-brand-success" id="dash-card-budget">$500k</div><div class="text-[10px] text-slate-500 uppercase">Verified Access</div></div>
                             </div>
                             <div class="grid grid-cols-3 gap-3 mb-4">
-                                <div class="bg-slate-800 p-2 rounded border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Style</div><div class="text-sm text-white font-medium" id="dash-card-style">Modern</div></div>
-                                <div class="bg-slate-800 p-2 rounded border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Size</div><div class="text-sm text-white font-medium font-mono" id="dash-card-config">3bd / 2ba</div></div>
-                                <div class="bg-slate-800 p-2 rounded border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Must Have</div><div class="text-sm text-white font-medium truncate" id="dash-card-amenities">...</div></div>
+                                <div class="bg-slate-800 p-2 rounded-sm border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Style</div><div class="text-sm text-white font-medium" id="dash-card-style">Modern</div></div>
+                                <div class="bg-slate-800 p-2 rounded-sm border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Size</div><div class="text-sm text-white font-medium font-mono" id="dash-card-config">3bd / 2ba</div></div>
+                                <div class="bg-slate-800 p-2 rounded-sm border border-slate-700"><div class="text-[10px] text-slate-500 uppercase">Must Have</div><div class="text-sm text-white font-medium truncate" id="dash-card-amenities">...</div></div>
                             </div>
-                            <div id="unlock-area"><button onclick="unlockLead()" id="btn-unlock" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-white font-bold rounded-lg shadow-lg text-sm transition-all flex items-center justify-center gap-2"><i class="fas fa-lock-open" aria-hidden="true"></i> UNLOCK CONTACT DETAILS (50 Credits)</button></div>
+                            <div id="unlock-area"><button onclick="unlockLead()" id="btn-unlock" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-brand-dark font-bold rounded-sm shadow-sharp-blue text-sm transition-all flex items-center justify-center gap-2"><i data-lucide="lock-open" class="w-4 h-4"></i> UNLOCK CONTACT DETAILS (50 Credits)</button></div>
                         </div>
 
                         <!-- Pitch Modal -->
                         <div id="pitch-modal" class="absolute inset-0 bg-black/80 z-30 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-                            <div class="bg-slate-800 border border-slate-600 rounded-xl p-5 w-full max-w-sm shadow-2xl">
-                                <h4 class="text-white font-bold mb-1 font-brand">Pitch Buyer <span id="pitch-target-id" class="text-brand-blue font-mono">#0000</span></h4>
-                                <p class="text-xs text-slate-400 mb-4">Select inventory type to offer.</p>
+                            <div class="bg-slate-800 border border-slate-600 rounded-lg p-5 w-full max-w-sm shadow-2xl">
+                                <h4 class="text-white font-bold mb-1 font-brand">Match Inventory to Buyer <span id="pitch-target-id" class="text-brand-blue font-mono">#0000</span></h4>
+                                <p class="text-xs text-slate-400 mb-4">Select standing inventory to offer.</p>
                                 
                                 <div class="mb-4 relative">
-                                    <textarea id="pitch-message" class="w-full bg-slate-900 border border-slate-600 text-white text-xs rounded-lg p-3 focus:border-brand-blue outline-none h-20 resize-none leading-relaxed" placeholder="Drafting pitch..."></textarea>
-                                    <button onclick="generateBuilderPitch()" id="btn-ai-pitch" class="absolute bottom-2 right-2 text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white px-2 py-1 rounded flex items-center gap-1 transition-colors font-bold"><span>✨</span> AI Draft</button>
+                                    <textarea id="pitch-message" class="w-full bg-slate-900 border border-slate-600 text-white text-xs rounded-sm p-3 focus:border-brand-blue outline-none h-20 resize-none leading-relaxed" placeholder="Drafting pitch..."></textarea>
+                                    <button onclick="generateBuilderPitch()" id="btn-ai-pitch" class="absolute bottom-2 right-2 text-[10px] bg-brand-blue hover:bg-blue-600 text-brand-dark px-2 py-1 rounded-sm flex items-center gap-1 transition-colors font-bold"><span>✨</span> AI Draft</button>
                                 </div>
 
                                 <div class="space-y-2 mb-4">
-                                    <button onclick="selectPitch(this, 'Spec')" class="pitch-opt w-full text-left p-3 rounded-lg bg-slate-700 border border-slate-600 hover:border-brand-blue hover:bg-slate-600 transition-all text-xs text-slate-300 group">
-                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-brand-blue"><i class="fas fa-home mr-2" aria-hidden="true"></i> Inventory Home</span><span class="text-brand-success font-mono">Quick Close</span></div>
+                                    <button onclick="selectPitch(this, 'Spec')" class="pitch-opt w-full text-left p-3 rounded-sm bg-slate-700 border border-slate-600 hover:border-brand-blue hover:bg-slate-600 transition-all text-xs text-slate-300 group">
+                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-brand-blue"><i data-lucide="home" class="inline w-3 h-3 mr-2"></i> Move-In Ready (QMI)</span><span class="text-brand-success font-mono">Immediate Close</span></div>
                                     </button>
-                                    <button onclick="selectPitch(this, 'Dirt')" class="pitch-opt w-full text-left p-3 rounded-lg bg-slate-700 border border-slate-600 hover:border-brand-blue hover:bg-slate-600 transition-all text-xs text-slate-300 group">
-                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-brand-blue"><i class="fas fa-layer-group mr-2" aria-hidden="true"></i> Custom Build</span><span class="text-blue-400 font-mono">High Margin</span></div>
+                                    <button onclick="selectPitch(this, 'Dirt')" class="pitch-opt w-full text-left p-3 rounded-sm bg-slate-700 border border-slate-600 hover:border-brand-blue hover:bg-slate-600 transition-all text-xs text-slate-300 group">
+                                        <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-brand-blue"><i data-lucide="layers" class="inline w-3 h-3 mr-2"></i> Custom Build</span><span class="text-blue-400 font-mono">High Margin</span></div>
                                     </button>
                                 </div>
                                 <div class="flex gap-3">
-                                    <button onclick="document.getElementById('pitch-modal').classList.add('hidden')" class="flex-1 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-xs font-bold">Cancel</button>
-                                    <button onclick="sendPitch()" class="flex-1 py-2.5 bg-brand-blue hover:bg-blue-600 text-white rounded-lg text-xs font-bold">Send Pitch</button>
+                                    <button onclick="document.getElementById('pitch-modal').classList.add('hidden')" class="flex-1 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-sm text-xs font-bold">Cancel</button>
+                                    <button onclick="sendPitch()" class="flex-1 py-2.5 bg-brand-blue hover:bg-blue-600 text-brand-dark rounded-sm text-xs font-bold">Send Offer</button>
                                 </div>
                             </div>
                         </div>
@@ -670,7 +655,7 @@
     </section>
 
     <!-- Social Proof (Dynamic Content) -->
-    <section id="testimonials" class="py-20 md:py-28 bg-white border-y border-stone-100 scroll-mt-24">
+    <section id="testimonials" class="py-20 md:py-28 bg-white border-y border-brand-border scroll-mt-24">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 id="testimonial-title" class="text-4xl font-brand font-bold text-brand-dark transition-all duration-300">Success Stories</h2>
@@ -684,7 +669,7 @@
     </section>
     
     <!-- Revenue / Economics Section (Restored & Optimized per Rec 3) -->
-    <section id="revenue" class="py-20 md:py-28 bg-slate-900 text-white scroll-mt-24" data-audience="investor">
+    <section id="revenue" class="py-20 md:py-28 bg-brand-dark text-white scroll-mt-24" data-audience="investor">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 id="revenue-title" class="text-3xl md:text-4xl font-brand font-bold text-white">Partnership Pricing</h2>
@@ -692,22 +677,22 @@
             </div>
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Stream 1 (Updated) -->
-                <div class="p-8 rounded-2xl bg-slate-800 border border-slate-700 relative hover:border-brand-blue transition-all group">
-                    <div class="absolute -top-4 left-8 bg-blue-900 text-blue-200 px-3 py-1 rounded-full text-xs font-bold uppercase group-hover:bg-brand-blue group-hover:text-white transition-colors">Low Friction</div>
+                <div class="p-8 rounded-lg bg-slate-800 border border-slate-700 relative hover:border-brand-blue transition-all group">
+                    <div class="absolute -top-4 left-8 bg-blue-900 text-blue-200 px-3 py-1 rounded-sm text-xs font-bold uppercase group-hover:bg-brand-blue group-hover:text-brand-dark transition-colors">Low Friction</div>
                     <h3 class="text-2xl font-bold mb-2 font-brand">Access Fee</h3>
                     <div class="text-4xl font-mono font-bold text-white mb-4">$0<span class="text-lg text-slate-500 font-normal">/mo</span></div>
                     <p class="text-slate-400 text-sm leading-relaxed">List inventory and view heatmaps for free. No monthly retainers. Get addicted to the data.</p>
                 </div>
                 <!-- Stream 2 (Updated) -->
-                <div class="p-8 rounded-2xl bg-slate-800 border border-slate-700 relative hover:border-brand-success transition-all group">
-                    <div class="absolute -top-4 left-8 bg-green-900 text-green-200 px-3 py-1 rounded-full text-xs font-bold uppercase group-hover:bg-brand-success group-hover:text-white transition-colors">Pay For Performance</div>
+                <div class="p-8 rounded-lg bg-slate-800 border border-slate-700 relative hover:border-brand-success transition-all group">
+                    <div class="absolute -top-4 left-8 bg-green-900 text-green-200 px-3 py-1 rounded-sm text-xs font-bold uppercase group-hover:bg-brand-success group-hover:text-brand-dark transition-colors">Pay For Performance</div>
                     <h3 class="text-2xl font-bold mb-2 font-brand">Pay Per Match</h3>
                     <div class="text-4xl font-mono font-bold text-white mb-4">$150<span class="text-lg text-slate-500 font-normal">/match</span></div>
                     <p class="text-slate-400 text-sm leading-relaxed">Only pay when you match with a verified, Gold-Tier buyer. Zero risk marketing spend.</p>
                 </div>
                 <!-- Stream 3 -->
-                <div class="p-8 rounded-2xl bg-slate-800 border border-slate-700 relative hover:border-purple-500 transition-all group">
-                    <div class="absolute -top-4 left-8 bg-purple-900 text-purple-200 px-3 py-1 rounded-full text-xs font-bold uppercase group-hover:bg-purple-600 group-hover:text-white transition-colors">High Margin</div>
+                <div class="p-8 rounded-lg bg-slate-800 border border-slate-700 relative hover:border-purple-500 transition-all group">
+                    <div class="absolute -top-4 left-8 bg-purple-900 text-purple-200 px-3 py-1 rounded-sm text-xs font-bold uppercase group-hover:bg-purple-600 group-hover:text-white transition-colors">High Margin</div>
                     <h3 class="text-2xl font-bold mb-2 font-brand">Success Fee</h3>
                     <div class="text-4xl font-mono font-bold text-white mb-4">0.5%<span class="text-lg text-slate-500 font-normal">/deal</span></div>
                     <p class="text-slate-400 text-sm leading-relaxed">Transaction fee collected automatically at closing via standard commission instructions.</p>
@@ -717,171 +702,199 @@
     </section>
 
     <!-- Updated CTA Builder Section per Rec 2 -->
-    <section id="cta-builder" class="py-16 md:py-24 bg-brand-blue scroll-mt-24" data-audience="builder,investor">
+    <section id="cta-builder" class="py-16 md:py-24 bg-brand-dark border-t border-brand-blue scroll-mt-24" data-audience="builder,investor">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl font-brand font-bold text-white mb-6">Eliminate Spec Risk. Build on Contract.</h2>
             <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-10 text-white">
-                <div class="p-4 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm">
-                    <div class="text-3xl font-bold font-mono mb-1">0</div>
+                <div class="p-4 border border-brand-blue/30 rounded-lg bg-brand-blue/10 backdrop-blur-sm">
+                    <div class="text-3xl font-bold font-mono mb-1 text-brand-blue">0</div>
                     <div class="text-sm opacity-80">Days on Market (DOM)</div>
                 </div>
-                <div class="p-4 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm">
-                    <div class="text-3xl font-bold font-mono mb-1">100%</div>
+                <div class="p-4 border border-brand-blue/30 rounded-lg bg-brand-blue/10 backdrop-blur-sm">
+                    <div class="text-3xl font-bold font-mono mb-1 text-brand-blue">100%</div>
                     <div class="text-sm opacity-80">Reduced Carry Costs</div>
                 </div>
-                <div class="p-4 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm">
-                    <div class="text-3xl font-bold font-mono mb-1">100%</div>
+                <div class="p-4 border border-brand-blue/30 rounded-lg bg-brand-blue/10 backdrop-blur-sm">
+                    <div class="text-3xl font-bold font-mono mb-1 text-brand-blue">100%</div>
                     <div class="text-sm opacity-80">Verified Intent</div>
                 </div>
             </div>
-            <button onclick="openWaitlistModal()" class="bg-white text-brand-blue px-8 py-4 rounded-full font-bold shadow-xl hover:bg-stone-100 hover:scale-105 transition-all">Request Builder Access</button>
+            <button onclick="openWaitlistModal()" class="bg-brand-blue text-brand-dark px-8 py-4 rounded-md font-bold shadow-sharp hover:translate-y-[2px] hover:shadow-none transition-all border-2 border-brand-blue">Request Builder Access</button>
         </div>
     </section>
     
     <!-- NEW SEO SECTION: Ecosystem Overview (Static Text for Crawlers) -->
-    <section id="ecosystem" class="py-16 md:py-24 bg-white border-t border-stone-200">
+    <section id="ecosystem" class="py-16 md:py-24 bg-white border-t border-brand-border">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-brand font-bold text-brand-dark">A Unified Marketplace</h2>
-                <p class="mt-4 text-stone-500 max-w-2xl mx-auto">Connecting the new construction economy in a single, verified ecosystem.</p>
+                <p class="mt-4 text-slate-500 max-w-2xl mx-auto">Connecting the new construction economy in a single, verified ecosystem.</p>
             </div>
             <div class="grid md:grid-cols-3 gap-12 text-left">
                 <!-- Buyers Column -->
                 <div>
                     <h3 class="text-xl font-bold text-brand-dark mb-3">For Home Buyers</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
                         Newer is the place to find <strong>new construction homes</strong>. Unlike traditional listings, our reverse marketplace lets you post your budget and preferences, allowing top local builders to compete for your business.
                     </p>
-                    <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-brand-blue mr-2"></i> Access pre-construction deals</li>
-                        <li><i class="fas fa-check text-brand-blue mr-2"></i> No bidding wars</li>
-                        <li><i class="fas fa-check text-brand-blue mr-2"></i> Direct builder incentives</li>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>
+                            <!-- Gold Roof Icon as Bullet -->
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            Access pre-construction deals
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            No bidding wars
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            Direct builder incentives
+                        </li>
                     </ul>
                 </div>
                 <!-- Builders Column -->
                 <div>
                     <h3 class="text-xl font-bold text-brand-dark mb-3">For Home Builders</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
                         Eliminate speculation risk with our <strong>verified buyer demand feed</strong>. Newer provides a live order book of pre-approved clients in your zip code, reducing marketing costs to zero and ensuring faster inventory turnover.
                     </p>
-                    <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-brand-success mr-2"></i> Zero marketing spend</li>
-                        <li><i class="fas fa-check text-brand-success mr-2"></i> Verified proof of funds</li>
-                        <li><i class="fas fa-check text-brand-success mr-2"></i> High-intent leads</li>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            Zero marketing spend
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            Verified proof of funds
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            High-intent leads
+                        </li>
                     </ul>
                 </div>
                 <!-- Investors Column -->
                 <div>
                     <h3 class="text-xl font-bold text-brand-dark mb-3">For Early Investors</h3>
-                    <p class="text-sm text-stone-600 leading-relaxed mb-4">
+                    <p class="text-sm text-slate-600 leading-relaxed mb-4">
                         Unlock liquidity in the residential construction market. Newer's data-driven approach creates a <strong>predictive construction layer</strong>, matching capital with verified demand to optimize IRR and reduce holding costs.
                     </p>
-                    <ul class="text-sm text-stone-500 space-y-2">
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Real-time demand data</li>
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> De-risked asset classes</li>
-                        <li><i class="fas fa-check text-purple-500 mr-2"></i> Scalable recurring revenue</li>
+                    <ul class="text-sm text-slate-500 space-y-2">
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            Real-time demand data
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            De-risked asset classes
+                        </li>
+                        <li>
+                            <svg viewBox="0 0 24 24" fill="none" class="inline w-4 h-4 text-brand-gold mr-2" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg>
+                            Scalable recurring revenue
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-16 md:py-24 bg-slate-50 border-t border-slate-200" data-audience="buyer,builder,investor">
+    <section class="py-16 md:py-24 bg-brand-light border-t border-brand-border" data-audience="buyer,builder,investor">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-brand font-bold text-brand-dark text-center mb-12">Frequently Asked Questions</h2>
             <div class="space-y-4">
-                <!-- Buyer FAQs -->
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
+                <!-- UPDATED FAQs for SEO Gaps -->
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-brand-dark">Is my data safe with builders?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">What warranties come with Newer homes?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
-                        <p class="py-4 text-slate-600 text-sm">Absolutely. Builders only see your <strong>anonymized profile</strong> (e.g., "Buyer #8942"). They only get your name if YOU decide to accept their pitch.</p>
+                    <div class="faq-answer px-6 bg-brand-light">
+                        <p class="py-4 text-slate-600 text-sm">All builders on Newer must provide a minimum <strong>1-2-10 Year Warranty</strong> (1 year workmanship, 2 years systems, 10 years structural). We verify builder insurance and track quality ratings to protect you from "lemon" homes.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-brand-dark">Does this cost me money?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">Can I request interest rate buy-downs in my bid?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
-                        <p class="py-4 text-slate-600 text-sm">No. Newer is 100% free for buyers. Builders pay for the opportunity to pitch you.</p>
+                    <div class="faq-answer px-6 bg-brand-light">
+                        <p class="py-4 text-slate-600 text-sm">Yes. In your "Buy Box" profile, you can specify financing needs. Many builders on Newer offer <strong>in-house lending incentives</strong>, including permanent rate buy-downs (e.g., 2-1 buydowns) and closing cost credits to lower your monthly payment.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-brand-dark">What if I change my mind?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-expanded="false"></i>
+                        <span class="font-bold text-brand-dark">How do I choose the specific lot or neighborhood?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
-                        <p class="py-4 text-slate-600 text-sm">You are in control. You can pause your profile or decline pitches at any time. There is no obligation to buy.</p>
+                    <div class="faq-answer px-6 bg-brand-light">
+                        <p class="py-4 text-slate-600 text-sm">You aren't bidding blind. You can set a <strong>Geofence</strong> for your desired school districts or neighborhoods. Builders respond with specific lots (e.g., "Lot 42, Cul-de-sac") that match your location criteria.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="buyer">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="buyer">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
-                        <span class="font-bold text-brand-dark">Can I use my own realtor?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <span class="font-bold text-brand-dark">What protections do I have against construction delays?</span>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
-                        <p class="py-4 text-slate-600 text-sm">Yes! You can add your agent's info to your profile so builders include them in the offer process.</p>
+                    <div class="faq-answer px-6 bg-brand-light">
+                        <p class="py-4 text-slate-600 text-sm">Newer contracts include clear <strong>Timeline Guarantees</strong>. Many listings are "Quick Move-In" (QMI) with guaranteed completion dates. For custom builds, we enforce milestone updates to ensure transparency.</p>
                     </div>
                 </div>
 
-                <!-- Builder FAQs -->
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="builder">
+                <!-- Existing Builder FAQs -->
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="builder">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
                         <span class="font-bold text-brand-dark">Do I pay for leads that don't close?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
+                    <div class="faq-answer px-6 bg-brand-light">
                         <p class="py-4 text-slate-600 text-sm">The "Unlock Fee" is for the introduction to a verified buyer. We don't refund, but our conversion rate is ~15x higher than Zillow leads because intent is pre-verified.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="builder">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="builder">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
                         <span class="font-bold text-brand-dark">How verification works?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
+                    <div class="faq-answer px-6 bg-brand-light">
                         <p class="py-4 text-slate-600 text-sm">We require soft-pull proof of funds via Plaid or a valid pre-approval letter uploaded within the last 30 days before a buyer can receive pitches.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="builder">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="builder">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
                         <span class="font-bold text-brand-dark">What is the typical time-to-contract?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
+                    <div class="faq-answer px-6 bg-brand-light">
                         <p class="py-4 text-slate-600 text-sm">Because intent is verified upfront, our average time from Pitch Acceptance to Contract is 7 days, versus the industry average of 45+ days.</p>
                     </div>
                 </div>
 
                 <!-- Investor FAQs -->
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="investor">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="investor">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
                         <span class="font-bold text-brand-dark">How do you prevent platform leakage?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
+                    <div class="faq-answer px-6 bg-brand-light">
                         <p class="py-4 text-slate-600 text-sm">Anonymity is key. Builders can't ID buyers without paying. Success fees are enforced via title company partnerships and lien recording.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="investor">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="investor">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
                         <span class="font-bold text-brand-dark">What prevents builders from bypassing the fee?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
+                    <div class="faq-answer px-6 bg-brand-light">
                         <p class="py-4 text-slate-600 text-sm">We operate on a standard <strong>Referral Commission</strong> model utilizing binding <strong>Commission Instructions</strong> sent to the title company, ensuring our fee is paid automatically from closing funds.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm" data-audience="investor">
+                <div class="bg-white rounded-lg border border-brand-border overflow-hidden shadow-sm" data-audience="investor">
                     <button class="w-full px-6 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)" aria-expanded="false">
                         <span class="font-bold text-brand-dark">Is this just a lead gen agency?</span>
-                        <i class="fas fa-chevron-down text-slate-400 faq-icon" aria-hidden="true"></i>
+                        <i data-lucide="chevron-down" class="text-slate-400 faq-icon w-5 h-5"></i>
                     </button>
-                    <div class="faq-answer px-6 bg-slate-50">
+                    <div class="faq-answer px-6 bg-brand-light">
                         <p class="py-4 text-slate-600 text-sm">No. Lead gen is selling contact info once. We are a marketplace that monetizes the transaction AND the data stream, creating a recurring revenue moat.</p>
                     </div>
                 </div>
@@ -895,23 +908,26 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-8 lg:gap-12 mb-12">
                 <!-- Col 1: Brand -->
                 <div class="col-span-2 md:col-span-1">
-                    <div class="flex items-center gap-2 group cursor-pointer mb-8" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                         <!-- LOGO v2.0 Dark Mode (Brand Kit Compliance) -->
-                        <span class="text-5xl font-brand font-extrabold tracking-tighter text-white hover:text-white/90 transition-colors">Newer<span class="text-brand-gold">.</span></span>
+                    <div class="flex items-start gap-0.5 group cursor-pointer mb-8" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                         <!-- LOGO v8.1 Footer Mode -->
+                        <span class="text-3xl font-brand font-semibold tracking-tighter text-white hover:text-white/90 transition-colors leading-none">NEWER</span>
+                        <svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 -mt-1 -ml-0.5" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" />
+                        </svg>
                     </div>
                     <p class="text-slate-400 mb-8 leading-relaxed pr-4 text-base">
-                        New homes find you.
+                        Real Estate. Reversed.
                     </p>
                     <div class="flex gap-4">
-                        <a href="#" aria-label="Twitter" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all"><i class="fab fa-twitter text-lg"></i></a>
-                        <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all"><i class="fab fa-linkedin text-lg"></i></a>
-                        <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all"><i class="fab fa-instagram text-lg"></i></a>
+                        <a href="#" aria-label="Twitter" class="w-10 h-10 rounded-sm bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-brand-dark transition-all"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="w-10 h-10 rounded-sm bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-brand-dark transition-all"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                        <a href="#" aria-label="Instagram" class="w-10 h-10 rounded-sm bg-slate-800 flex items-center justify-center hover:bg-brand-blue hover:text-brand-dark transition-all"><i data-lucide="instagram" class="w-5 h-5"></i></a>
                     </div>
                 </div>
                 
                 <!-- Col 2: Platform -->
                 <div>
-                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs">Platform</h4>
+                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs font-brand">Platform</h4>
                     <ul class="space-y-5">
                         <li><button onclick="setAudience('buyer'); window.scrollTo(0,0);" class="hover:text-brand-blue transition-colors text-left">For Buyers</button></li>
                         <li><button onclick="setAudience('builder'); window.scrollTo(0,0);" class="hover:text-brand-blue transition-colors text-left">For Builders</button></li>
@@ -922,7 +938,7 @@
 
                 <!-- Col 3: Company -->
                 <div>
-                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs">Company</h4>
+                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs font-brand">Company</h4>
                     <ul class="space-y-5">
                         <li><a href="#" class="hover:text-brand-blue transition-colors">About Us</a></li>
                         <li><a href="#testimonials" class="hover:text-brand-blue transition-colors">Success Stories</a></li>
@@ -934,7 +950,7 @@
 
                 <!-- Col 4: Legal -->
                 <div>
-                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs">Legal</h4>
+                    <h4 class="text-white font-bold mb-8 uppercase tracking-wider text-xs font-brand">Legal</h4>
                     <ul class="space-y-5">
                         <li><a href="#" class="hover:text-brand-blue transition-colors">Privacy Policy</a></li>
                         <li><a href="#" class="hover:text-brand-blue transition-colors">Terms of Service</a></li>
@@ -950,7 +966,7 @@
                     <div class="text-xs text-slate-500 order-2 md:order-1 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-6">
                         <span>&copy; 2025 Newer LLC. All rights reserved.</span>
                         <div class="flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity" title="Equal Housing Opportunity">
-                            <i class="fas fa-home"></i>
+                            <i data-lucide="home" class="w-3 h-3"></i>
                             <span class="text-[10px]">Equal Housing Opportunity</span>
                         </div>
                     </div>
@@ -964,44 +980,49 @@
 
     <!-- Waitlist Modal -->
     <div id="waitlist-modal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-brand-dark/60 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop" onclick="closeWaitlistModal()"></div>
+        <div class="fixed inset-0 bg-brand-dark/80 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop" onclick="closeWaitlistModal()"></div>
         <div class="fixed inset-0 z-10 overflow-y-auto pointer-events-none">
             <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div class="pointer-events-auto relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all scale-95 opacity-0 sm:w-full sm:max-w-md" id="modal-panel">
-                    <button onclick="closeWaitlistModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600" aria-label="Close modal"><i class="fas fa-times text-xl" aria-hidden="true"></i></button>
+                <div class="pointer-events-auto relative transform overflow-hidden rounded-lg bg-white text-left shadow-2xl transition-all scale-95 opacity-0 sm:w-full sm:max-w-md border-2 border-brand-dark" id="modal-panel">
+                    <button onclick="closeWaitlistModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600" aria-label="Close modal"><i data-lucide="x" class="w-5 h-5"></i></button>
                     
                     <!-- Form State -->
                     <div id="modal-form-state" class="p-8">
                         <div class="flex items-center gap-3 mb-6">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-brand-blue"><i class="fas fa-rocket" aria-hidden="true"></i></div>
+                            <div class="w-10 h-10 rounded-sm bg-blue-50 flex items-center justify-center text-brand-blue border border-blue-200">
+                                <!-- Replaced Rocket with Gold Roof Icon Ticker Style -->
+                                <svg viewBox="0 0 24 24" fill="none" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 15 L12 7 L19 15" stroke="#006AFF" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" />
+                                </svg>
+                            </div>
                             <h3 id="modal-title" class="text-xl font-brand font-bold text-brand-dark">Get Early Access</h3>
                         </div>
                         <p class="text-sm text-slate-500 mb-6">Join 4,200+ buyers and builders for the Newer launch in your city. Check your email for VIP confirmation.</p>
                         <form id="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
                             <div class="space-y-4">
-                                <div><label for="waitlist-email" class="block text-xs font-bold uppercase text-slate-500 mb-1">Email</label><input type="email" id="waitlist-email" name="email" required autocomplete="email" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all text-sm" placeholder="you@example.com"></div>
-                                <div><label for="waitlist-zip" class="block text-xs font-bold uppercase text-slate-500 mb-1">Zip Code</label><input type="text" id="waitlist-zip" name="zip" required autocomplete="postal-code" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all text-sm" placeholder="e.g. 78704"></div>
+                                <div><label for="waitlist-email" class="block text-xs font-bold uppercase text-slate-500 mb-1 font-brand">Email</label><input type="email" id="waitlist-email" name="email" required autocomplete="email" class="w-full px-4 py-3 bg-brand-light border border-brand-border rounded-sm focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all text-sm" placeholder="you@example.com"></div>
+                                <div><label for="waitlist-zip" class="block text-xs font-bold uppercase text-slate-500 mb-1 font-brand">Zip Code</label><input type="text" id="waitlist-zip" name="zip" required autocomplete="postal-code" class="w-full px-4 py-3 bg-brand-light border border-brand-border rounded-sm focus:outline-none focus:ring-2 focus:ring-brand-blue transition-all text-sm" placeholder="e.g. 78704"></div>
                                 <div role="radiogroup" aria-labelledby="role-label">
-                                    <label id="role-label" class="block text-xs font-bold uppercase text-slate-500 mb-2">I am a...</label>
+                                    <label id="role-label" class="block text-xs font-bold uppercase text-slate-500 mb-2 font-brand">I am a...</label>
                                     <div class="grid grid-cols-3 gap-2">
-                                        <label class="cursor-pointer"><input type="radio" name="role" value="buyer" class="peer sr-only" checked><div class="px-2 py-3 border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Buyer</div></label>
-                                        <label class="cursor-pointer"><input type="radio" name="role" value="builder" class="peer sr-only"><div class="px-2 py-3 border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Builder</div></label>
-                                        <label class="cursor-pointer"><input type="radio" name="role" value="investor" class="peer sr-only"><div class="px-2 py-3 border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Investor</div></label>
+                                        <label class="cursor-pointer"><input type="radio" name="role" value="buyer" class="peer sr-only" checked><div class="px-2 py-3 border border-brand-border rounded-sm text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Buyer</div></label>
+                                        <label class="cursor-pointer"><input type="radio" name="role" value="builder" class="peer sr-only"><div class="px-2 py-3 border border-brand-border rounded-sm text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Builder</div></label>
+                                        <label class="cursor-pointer"><input type="radio" name="role" value="investor" class="peer sr-only"><div class="px-2 py-3 border border-brand-border rounded-sm text-center text-xs font-bold text-slate-500 peer-checked:bg-brand-dark peer-checked:text-white peer-checked:border-brand-dark hover:bg-slate-50 transition-all">Investor</div></label>
                                     </div>
                                 </div>
-                                <button type="submit" class="w-full bg-brand-blue text-white rounded-xl py-3 font-bold hover:bg-blue-600 transition-all shadow-lg active:scale-[0.98]">Secure My Spot</button>
+                                <button type="submit" class="w-full bg-brand-blue text-white rounded-sm py-3 font-bold hover:bg-blue-600 transition-all shadow-sharp active:translate-y-[2px] active:shadow-none border-2 border-brand-blue text-brand-dark">Secure My Spot</button>
                             </div>
                         </form>
                     </div>
 
                     <!-- Success State -->
                     <div id="modal-success-state" class="hidden p-10 text-center">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-500 text-2xl animate-bounce"><i class="fas fa-check" aria-hidden="true"></i></div>
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-brand-success text-2xl animate-bounce border border-green-200"><i data-lucide="check" class="w-8 h-8"></i></div>
                         <h3 class="text-2xl font-brand font-bold text-brand-dark mb-2">You're on the list!</h3>
                         <p class="text-slate-500 text-sm mb-8">We'll notify you when Newer launches in your chosen zip code.</p>
-                        <button type="button" onclick="closeWaitlistModal()" class="inline-flex w-full justify-center rounded-lg bg-slate-100 px-3 py-2 text-sm font-semibold text-brand-dark hover:bg-slate-200 transition-colors">Close</button>
+                        <button type="button" onclick="closeWaitlistModal()" class="inline-flex w-full justify-center rounded-sm bg-brand-light px-3 py-2 text-sm font-semibold text-brand-dark hover:bg-slate-200 transition-colors border border-brand-border">Close</button>
                     </div>
-                    <div id="modal-footer" class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"><p class="text-xs text-slate-400 text-center sm:text-right w-full">We respect your privacy. No spam.</p></div>
+                    <div id="modal-footer" class="bg-brand-light px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-brand-border"><p class="text-xs text-slate-400 text-center sm:text-right w-full">We respect your privacy. No spam.</p></div>
                 </div>
             </div>
         </div>
@@ -1019,10 +1040,22 @@
         // DOM Elements (Cached)
         let audienceElements;
 
+        // --- Helper for Lazy Loading Scripts ---
+        function loadScript(src, callback) {
+            if (document.querySelector(`script[src="${src}"]`)) {
+                if (callback) callback();
+                return;
+            }
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = () => { if (callback) callback(); };
+            document.head.appendChild(script);
+        }
+
         // --- Content Configuration ---
         const contentConfig = {
             buyer: {
-                heroImage: 'url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")', // High Contrast Modern Home
+                heroImage: 'url("https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80")', // Optimized & Sized
                 badge: '<span class="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse"></span> The Reverse Market',
                 // Updated per Recommendation 1
                 title: 'Don\'t Chase Listings.<br><span class="text-brand-blue">Order Your Home.</span>',
@@ -1033,16 +1066,16 @@
                 demoTitle: 'Your Personal Market',
                 testimonialTitle: 'Success Stories',
                 testimonialDesc: 'See how families are skipping the stress and getting offers directly from builders.',
-                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">The Rat Race:</span><p class="text-sm">Refreshing Zillow daily hoping for a match.</p></div></li>',
-                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-crown text-brand-gold" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">The Power Position:</span><p class="text-sm">Builders bid for <em>your</em> business.</p></div></li>`,
+                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i data-lucide="x" class="w-5 h-5 text-red-400"></i></div><div><span class="font-bold text-slate-800">The Rat Race:</span><p class="text-sm">Refreshing Zillow daily hoping for a match.</p></div></li>',
+                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 text-brand-gold" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg></div><div><span class="font-bold text-brand-dark">The Power Position:</span><p class="text-sm">Builders bid for <em>your</em> business.</p></div></li>`,
                 demoDesc: 'Interact with the <strong>Buyer App</strong> to broadcast your needs. Watch the market respond.',
                 revenueTitle: 'Partnership Pricing', revenueDesc: 'Remove the barrier to entry. Build liquidity first.'
             },
             builder: {
-                heroImage: 'url("https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")', // Construction Site
+                heroImage: 'url("https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80")', // Row of homes - Sized
                 badge: '<span class="w-1.5 h-1.5 rounded-full bg-brand-success animate-pulse"></span> Increased Absorption',
-                title: 'Stop Building Blind.<br><span class="text-brand-success">Start Building Sold.</span>',
-                desc: 'Access a live order book of <strong>verified demand</strong>. Secure "Presold Inventory" before you break ground and eliminate the risk of rising interest rates.',
+                title: 'Match Inventory<br><span class="text-brand-success">To Verified Buyers.</span>',
+                desc: 'Access a live order book of <strong>verified demand</strong>. Match your standing spec homes to active buyers and eliminate carry costs instantly.',
                 ctaText: 'View Live Demand Map',
                 // Updated per Recommendation 2
                 conceptTitle: 'Eliminate Spec Risk',
@@ -1050,13 +1083,13 @@
                 demoTitle: 'Demand Command Center',
                 testimonialTitle: 'Builder Wins',
                 testimonialDesc: 'Real results from developers who stopped building blind and started building sold.',
-                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">The "Spec" Gamble:</span><p class="text-sm">Building homes and praying rates don\'t rise.</p></div></li>',
-                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-chart-line text-brand-blue" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">Build-to-Order:</span><p class="text-sm">Secure a buyer before you break ground.</p></div></li>`,
+                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i data-lucide="x" class="w-5 h-5 text-red-400"></i></div><div><span class="font-bold text-slate-800">The "Spec" Gamble:</span><p class="text-sm">Building homes and praying rates don\'t rise.</p></div></li>',
+                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 text-brand-gold" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg></div><div><span class="font-bold text-brand-dark">Active Liquidity:</span><p class="text-sm">Match QMI homes to buyers instantly.</p></div></li>`,
                 demoDesc: 'Watch the <strong>Builder Terminal</strong> populate instantly as real demand flows in from the App.',
                 revenueTitle: 'Partnership Pricing', revenueDesc: 'No hidden fees. A partnership model designed to align our success with yours.'
             },
             investor: {
-                heroImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80")', // City Skyline/Finance
+                heroImage: 'url("https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80")', // Optimized & Sized
                 badge: '<span class="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse"></span> Market Efficiency',
                 title: 'Solving Liquidity<br><span class="text-purple-600">for New Construction.</span>',
                 desc: 'By matching supply and demand <strong>before</strong> groundbreak, we create negative working capital cycles for builders and massively increase IRR.',
@@ -1066,8 +1099,8 @@
                 demoTitle: 'The Liquidity Engine',
                 testimonialTitle: 'Market Validation',
                 testimonialDesc: 'Data-driven validation of the high-velocity matching engine and liquidity model.',
-                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-times text-red-400" aria-hidden="true"></i></div><div><span class="font-bold text-slate-800">Capital Lockup:</span><p class="text-sm">Money stuck in inventory waiting for buyers.</p></div></li>',
-                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i class="fas fa-bolt text-brand-blue" aria-hidden="true"></i></div><div><span class="font-bold text-brand-dark">Velocity of Money:</span><p class="text-sm">Faster turns and de-risked assets.</p></div></li>`,
+                oldList: '<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><i data-lucide="x" class="w-5 h-5 text-red-400"></i></div><div><span class="font-bold text-slate-800">Capital Lockup:</span><p class="text-sm">Money stuck in inventory waiting for buyers.</p></div></li>',
+                newList: `<li class="flex items-start gap-3"><div class="mt-1 min-w-[20px]"><svg viewBox="0 0 24 24" fill="none" class="w-5 h-5 text-brand-gold" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="#FBBF24" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg></div><div><span class="font-bold text-brand-dark">Velocity of Money:</span><p class="text-sm">Faster turns and de-risked assets.</p></div></li>`,
                 demoDesc: 'Watch verified demand monetize instantly in the live <strong>Order Book</strong>.',
                 revenueTitle: 'Unicorn Unit Economics', revenueDesc: 'Revenue streams create a scalable, recurring income model with high LTV.'
             }
@@ -1093,10 +1126,10 @@
             {
                 roles: ['buyer', 'investor'],
                 type: 'New Buyer',
-                bgClass: 'bg-slate-50 border-slate-100',
-                badgeClass: 'bg-blue-100 text-brand-blue',
-                icon: 'fas fa-user',
-                iconBg: 'bg-white text-slate-400',
+                bgClass: 'bg-slate-50 border-slate-200',
+                badgeClass: 'bg-blue-100 text-brand-blue border border-blue-200',
+                icon: 'user',
+                iconBg: 'bg-white text-slate-400 border border-slate-200',
                 name: 'Sarah & Mark T.',
                 sub: 'Relocating to Austin, TX',
                 quote: '"We spent 3 months driving around looking at \'Sold\' signs. On Newer, we posted our budget and got a pitch for a lot that wasn\'t even listed yet."',
@@ -1105,10 +1138,10 @@
             {
                 roles: ['buyer', 'investor'],
                 type: 'First-Time Buyer',
-                bgClass: 'bg-slate-50 border-slate-100',
-                badgeClass: 'bg-blue-100 text-brand-blue',
-                icon: 'fas fa-user-graduate',
-                iconBg: 'bg-white text-slate-400',
+                bgClass: 'bg-slate-50 border-slate-200',
+                badgeClass: 'bg-blue-100 text-brand-blue border border-blue-200',
+                icon: 'graduation-cap',
+                iconBg: 'bg-white text-slate-400 border border-slate-200',
                 name: 'Jason L.',
                 sub: 'Denver, CO',
                 quote: '"I thought I was priced out. A builder saw my \'Verify\' badge and offered me a pre-construction deal on a townhome if I could close quickly."',
@@ -1119,7 +1152,7 @@
                 type: 'Production Builder',
                 bgClass: 'bg-brand-dark border-slate-700',
                 badgeClass: 'bg-brand-success text-brand-dark border-brand-success', // High Contrast
-                icon: 'fas fa-hard-hat',
+                icon: 'hard-hat',
                 iconBg: 'bg-slate-700 text-slate-400',
                 name: 'James R.',
                 sub: 'VP Sales, Regional Builder',
@@ -1132,7 +1165,7 @@
                 type: 'Home Builder',
                 bgClass: 'bg-brand-dark border-slate-700',
                 badgeClass: 'bg-brand-success text-brand-dark border-brand-success', // High Contrast
-                icon: 'fas fa-drafting-compass',
+                icon: 'compass',
                 iconBg: 'bg-slate-700 text-slate-400',
                 name: 'Elena V.',
                 sub: 'Owner, Boutique Homes',
@@ -1145,8 +1178,8 @@
                 type: 'The Investor',
                 bgClass: 'bg-purple-50 border-purple-100',
                 badgeClass: 'bg-purple-200 text-purple-700',
-                icon: 'fas fa-chart-line',
-                iconBg: 'bg-white text-purple-600',
+                icon: 'line-chart',
+                iconBg: 'bg-white text-purple-600 border border-purple-100',
                 name: 'Marcus T.',
                 sub: 'Partner, PropTech VC',
                 quote: '"By inverting the model, Newer solves the liquidity crisis in new construction. It\'s not just lead gen; it\'s a market maker."',
@@ -1166,28 +1199,30 @@
                 // If item's roles include the current role, render it
                 if (item.roles.includes(currentRole)) {
                     const card = document.createElement('div');
-                    card.className = `${item.bgClass} p-8 rounded-2xl border relative shadow-sm hover:shadow-md transition-all animate-[fadeIn_0.5s_ease-out]`;
+                    card.className = `${item.bgClass} p-8 rounded-lg border relative shadow-sm hover:shadow-sharp transition-all animate-[fadeIn_0.5s_ease-out]`;
                     
                     // Added Verified Deal badge next to name for credibility
-                    const verifiedBadge = `<div class="flex items-center gap-1 text-[10px] text-brand-success font-bold mt-1"><i class="fas fa-check-circle"></i> Verified Deal</div>`;
+                    const verifiedBadge = `<div class="flex items-center gap-1 text-[10px] text-brand-success font-bold mt-1 font-mono"><svg viewBox="0 0 24 24" fill="none" class="w-4 h-4 text-brand-success" xmlns="http://www.w3.org/2000/svg"><path d="M5 15 L12 7 L19 15" stroke="currentColor" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter" /></svg> Verified Deal</div>`;
                     
                     card.innerHTML = `
-                        <div class="absolute -top-4 right-8 ${item.badgeClass} px-3 py-1 rounded-full text-xs font-bold uppercase shadow-sm border ${item.badgeClass.includes('border') ? '' : 'border-transparent'}">${item.type}</div>
+                        <div class="absolute -top-4 right-8 ${item.badgeClass} px-3 py-1 rounded-sm text-xs font-bold uppercase shadow-sm border ${item.badgeClass.includes('border') ? '' : 'border-transparent'}">${item.type}</div>
                         <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-12 ${item.iconBg} rounded-full overflow-hidden flex items-center justify-center text-xl shadow-sm shrink-0">
-                                <i class="${item.icon}" aria-hidden="true"></i>
+                            <div class="w-12 h-12 ${item.iconBg} rounded-sm overflow-hidden flex items-center justify-center text-xl shadow-sm shrink-0">
+                                <i data-lucide="${item.icon}" class="w-5 h-5"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold ${item.nameClass || 'text-brand-dark'}">${item.name}</h4>
-                                <p class="text-xs text-slate-500">${item.sub}</p>
+                                <h4 class="font-bold ${item.nameClass || 'text-brand-dark'} font-brand">${item.name}</h4>
+                                <p class="text-xs text-slate-500 font-sans">${item.sub}</p>
                                 ${verifiedBadge}
                             </div>
                         </div>
-                        <p class="${item.textClass} italic">${item.quote}</p>
+                        <p class="${item.textClass} italic font-sans">${item.quote}</p>
                     `;
                     container.appendChild(card);
                 }
             });
+            // Re-run lucide icons for newly added content
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function generateBuyerBio() {
@@ -1195,7 +1230,8 @@
             const container = document.getElementById('ai-bio-container');
             const text = document.getElementById('ai-bio-text');
             
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Generating...'; btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Generating...'; btn.disabled = true;
+            lucide.createIcons();
             
             setTimeout(() => {
                 const randomBio = mockBios[Math.floor(Math.random() * mockBios.length)];
@@ -1209,7 +1245,8 @@
             const btn = document.getElementById('btn-ai-pitch');
             const area = document.getElementById('pitch-message');
             
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>'; btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i>'; btn.disabled = true;
+            lucide.createIcons();
             
             setTimeout(() => {
                 area.value = mockPitches[Math.floor(Math.random() * mockPitches.length)];
@@ -1245,8 +1282,13 @@
             const icon = btn.querySelector('.faq-icon');
             const isExpanded = btn.getAttribute('aria-expanded') === 'true';
             btn.setAttribute('aria-expanded', !isExpanded);
-            if(answer.classList.contains('open')) { answer.classList.remove('open'); icon.classList.remove('rotate'); } 
-            else { answer.classList.add('open'); icon.classList.add('rotate'); }
+            if(answer.classList.contains('open')) { 
+                answer.classList.remove('open'); 
+                icon.style.transform = 'rotate(0deg)';
+            } else { 
+                answer.classList.add('open'); 
+                icon.style.transform = 'rotate(180deg)';
+            }
         }
 
         function startMarketSimulation() {
@@ -1285,6 +1327,15 @@
 
         // --- Demo Flow Logic ---
         function setAudience(role) {
+            // Update URL State
+            try {
+                const url = new URL(window.location);
+                url.searchParams.set('audience', role);
+                window.history.pushState({}, '', url);
+            } catch (e) {
+                console.warn('History API not supported in this environment');
+            }
+
             // Update Buttons Logic Fixed
             document.querySelectorAll('.role-btn').forEach(btn => {
                 // Fixed logic: explicitly handle 'Partners' text matching 'investor' role
@@ -1296,11 +1347,11 @@
                 
                 if (isActive) {
                     btn.classList.add('active', 'bg-brand-dark', 'text-white', 'border-brand-dark');
-                    btn.classList.remove('bg-stone-100', 'text-stone-500', 'border-stone-200');
+                    btn.classList.remove('bg-brand-light', 'text-slate-500', 'border-brand-border');
                     btn.setAttribute('aria-selected', 'true');
                 } else {
                     btn.classList.remove('active', 'bg-brand-dark', 'text-white', 'border-brand-dark');
-                    btn.classList.add('bg-stone-100', 'text-stone-500', 'border-stone-200');
+                    btn.classList.add('bg-brand-light', 'text-slate-500', 'border-brand-border');
                     btn.setAttribute('aria-selected', 'false');
                 }
             });
@@ -1357,6 +1408,7 @@
 
             // Trigger Dynamic Testimonial Render
             renderTestimonials(role);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function selectStyle(style) {
@@ -1403,7 +1455,8 @@
 
         function verifyUser(e) {
             const btn = e.currentTarget;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Confirming Status...';
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Confirming Status...';
+            lucide.createIcons();
             
             setTimeout(() => {
                 appState.verified = true;
@@ -1420,18 +1473,18 @@
             const notification = document.createElement('div');
             notification.id = 'builder-notification-toast';
             // Positioning absolute within the relative dashboard container
-            notification.className = 'absolute top-4 left-4 right-4 bg-brand-blue text-white p-4 rounded-xl shadow-2xl z-50 cursor-pointer animate-[toastSlideDown_0.5s_ease-out] flex items-center justify-between hover:bg-blue-700 transition-colors border border-blue-500 group';
+            notification.className = 'absolute top-4 left-4 right-4 bg-brand-blue text-brand-dark p-4 rounded-lg shadow-sharp-blue z-50 cursor-pointer animate-[toastSlideDown_0.5s_ease-out] flex items-center justify-between hover:bg-blue-600 transition-colors border-2 border-brand-dark group';
             notification.innerHTML = `
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                        <i class="fas fa-crown text-brand-gold animate-pulse" aria-hidden="true"></i>
+                        <i data-lucide="crown" class="w-5 h-5 text-brand-dark animate-pulse"></i>
                     </div>
                     <div>
-                        <h4 class="font-bold text-sm">New VIP Buyer!</h4>
-                        <p class="text-xs text-blue-100 font-mono">Budget: $${appState.budget}k • Gold Status</p>
+                        <h4 class="font-bold text-sm font-brand">New VIP Buyer!</h4>
+                        <p class="text-xs text-brand-dark font-mono">Budget: $${appState.budget}k • Gold Status</p>
                     </div>
                 </div>
-                <div class="bg-white text-brand-blue text-[10px] font-bold px-3 py-1.5 rounded shadow-sm group-hover:shadow-md transition-all">VIEW</div>
+                <div class="bg-brand-dark text-white text-[10px] font-bold px-3 py-1.5 rounded-sm shadow-sm group-hover:shadow-md transition-all">VIEW</div>
             `;
             
             notification.onclick = function() {
@@ -1441,6 +1494,7 @@
             };
             
             dashboardBody.appendChild(notification);
+            lucide.createIcons();
         }
 
         function updateDashboardPreview() {
@@ -1476,20 +1530,21 @@
             const unlockArea = document.getElementById('unlock-area');
             if(unlockArea) {
                 unlockArea.innerHTML = `
-                    <div class="bg-slate-800 rounded-lg p-3 border border-slate-600 flex flex-col gap-3">
+                    <div class="bg-slate-800 rounded-sm p-3 border border-slate-600 flex flex-col gap-3">
                         <div class="flex items-center justify-between">
                             <div>
                                 <div class="text-[10px] text-slate-400 uppercase">Contact Info</div>
                                 <div class="text-sm font-bold text-white">James Smith • (512) 555-0122</div>
                                 <div class="text-xs text-brand-blue">Verified • 750+ Credit Score</div>
                             </div>
-                            <div class="w-8 h-8 bg-brand-success rounded-full flex items-center justify-center text-white"><i class="fas fa-check" aria-hidden="true"></i></div>
+                            <div class="w-8 h-8 bg-brand-success rounded-full flex items-center justify-center text-brand-dark"><i data-lucide="check" class="w-4 h-4"></i></div>
                         </div>
-                        <button onclick="openPitchModal('8942')" class="w-full py-2 bg-brand-blue hover:bg-blue-700 text-white font-bold rounded text-xs flex items-center justify-center gap-2 transition-colors">
-                            <i class="fas fa-paper-plane" aria-hidden="true"></i> Send Pitch Now
+                        <button onclick="openPitchModal('8942')" class="w-full py-2 bg-brand-blue hover:bg-blue-600 text-brand-dark font-bold rounded-sm text-xs flex items-center justify-center gap-2 transition-colors">
+                            <i data-lucide="send" class="w-3 h-3"></i> Send Pitch Now
                         </button>
                     </div>
                 `;
+                lucide.createIcons();
             }
             notifyPhone("Profile Viewed", "A Builder just unlocked your contact info!");
         }
@@ -1519,7 +1574,7 @@
             const firstPitchBtn = document.querySelector('.pitch-btn');
             if(firstPitchBtn) {
                 firstPitchBtn.innerText = "Sent";
-                firstPitchBtn.classList.remove('bg-blue-600', 'hover:bg-blue-500', 'text-white');
+                firstPitchBtn.classList.remove('bg-brand-blue', 'hover:bg-blue-600', 'text-brand-dark');
                 firstPitchBtn.classList.add('bg-green-600', 'text-white', 'cursor-default');
                 firstPitchBtn.disabled = true;
             }
@@ -1537,30 +1592,34 @@
                 <div class="w-24 h-24 mb-6 relative">
                      <div class="absolute inset-0 border-4 border-brand-blue rounded-full opacity-20 animate-ping"></div>
                      <div class="w-full h-full bg-green-50 rounded-full flex items-center justify-center border-2 border-green-100 shadow-xl">
-                        <i class="fas fa-check text-4xl text-brand-success animate-[pulse_2s_infinite]"></i>
+                        <i data-lucide="check" class="w-10 h-10 text-brand-success animate-[pulse_2s_infinite]"></i>
                      </div>
                 </div>
                 <h3 class="text-3xl font-brand font-bold text-brand-dark mb-2 tracking-tight">It's a Match!</h3>
                 <p class="text-sm text-slate-500 mb-8 leading-relaxed">
                     Congratulations! You've accepted the pitch for <strong>The "Hilltop" Plan</strong>.
                     <br><br>
-                    <span class="block text-xs bg-slate-50 border border-slate-100 p-2 rounded text-slate-400 font-mono">Builder notified. Next step: Contract.</span>
+                    <span class="block text-xs bg-slate-50 border border-brand-border p-2 rounded-sm text-slate-400 font-mono">Builder notified. Next step: Contract.</span>
                 </p>
-                <button onclick="resetDemo()" class="w-full py-3.5 bg-brand-dark text-white rounded-xl font-bold text-sm shadow-xl hover:bg-slate-800 hover:scale-[1.02] transition-all">Start New Demo</button>
+                <button onclick="resetDemo()" class="w-full py-3.5 bg-brand-dark text-white rounded-md font-bold text-sm shadow-sharp hover:translate-y-[2px] hover:shadow-none transition-all">Start New Demo</button>
             `;
             container.appendChild(overlay);
             
-            // Trigger Confetti!
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
-            }
+            // Lazy load Confetti only on success
+            loadScript("https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js", () => {
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#006AFF', '#FBBF24'] // PropTech Blue and Verified Gold
+                    });
+                }
+            });
             
             // NEW: Notify Builder
             setTimeout(triggerBuilderSaleSuccess, 1500);
+            lucide.createIcons();
         }
         
         function triggerBuilderSaleSuccess() {
@@ -1577,7 +1636,7 @@
             const saleAlert = document.createElement('div');
             saleAlert.id = 'builder-sale-overlay';
             // Using glass-dark class for uniformity
-            saleAlert.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 bg-slate-900/95 border-2 border-brand-blue rounded-2xl shadow-[0_0_50px_rgba(0,106,255,0.4)] z-50 p-6 text-center animate-[fadeIn_0.5s_ease-out] backdrop-blur-xl';
+            saleAlert.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 bg-brand-dark/95 border-2 border-brand-blue rounded-lg shadow-sharp-blue z-50 p-6 text-center animate-[fadeIn_0.5s_ease-out] backdrop-blur-xl';
             saleAlert.innerHTML = `
                 <div class="mb-4 stamp-container animate-stamp">
                     SOLD
@@ -1586,11 +1645,11 @@
                 <p class="text-xs text-slate-400 mb-6">Unit Presold to Buyer #8942</p>
                 
                 <div class="grid grid-cols-2 gap-3 mb-4">
-                    <div class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+                    <div class="bg-slate-800 p-3 rounded-sm border border-slate-700">
                         <div class="text-[10px] uppercase text-slate-500 font-bold">Marketing Spend</div>
                         <div class="text-xl font-mono font-bold text-brand-success">$0.00</div>
                     </div>
-                    <div class="bg-slate-800 p-3 rounded-lg border border-slate-700">
+                    <div class="bg-slate-800 p-3 rounded-sm border border-slate-700">
                         <div class="text-[10px] uppercase text-slate-500 font-bold">Days on Market</div>
                         <div class="text-xl font-mono font-bold text-brand-success">0</div>
                     </div>
@@ -1601,14 +1660,16 @@
             dashboardBody.appendChild(saleAlert);
             
             // Trigger Gold Confetti!
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 150,
-                    spread: 100,
-                    origin: { y: 0.6 },
-                    colors: ['#10b981', '#fbbf24'] // Green and Gold
-                });
-            }
+            loadScript("https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js", () => {
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 150,
+                        spread: 100,
+                        origin: { y: 0.6 },
+                        colors: ['#006AFF', '#FBBF24'] // PropTech Blue and Verified Gold
+                    });
+                }
+            });
         }
 
         function addBuyerPitchToPhone() {
@@ -1618,30 +1679,31 @@
             container.innerHTML = `
                 <div class="animate-[fadeIn_0.5s_ease-out]">
                     <div class="flex items-center justify-between mb-2">
-                        <span class="text-[10px] font-bold uppercase text-stone-400">Incoming Matches</span>
-                        <span class="bg-brand-blue text-white text-[10px] font-bold px-1.5 rounded-full animate-pulse">1</span>
+                        <span class="text-[10px] font-bold uppercase text-slate-400">Incoming Matches</span>
+                        <span class="bg-brand-blue text-brand-dark text-[10px] font-bold px-1.5 rounded-sm animate-pulse">1</span>
                     </div>
-                    <div class="bg-white p-3 rounded-xl border border-brand-dark/10 shadow-lg relative overflow-hidden group cursor-pointer hover:shadow-xl transition-all">
+                    <div class="bg-white p-3 rounded-lg border border-brand-dark/10 shadow-sharp relative overflow-hidden group cursor-pointer hover:shadow-none hover:translate-y-[2px] transition-all">
                         <div class="absolute top-0 left-0 w-1 h-full bg-brand-blue"></div>
                         <div class="flex justify-between items-start mb-2 pl-2">
                             <div>
                                 <div class="text-[10px] font-bold text-brand-blue uppercase tracking-wider mb-0.5">Custom Pitch</div>
                                 <h4 class="font-bold text-brand-dark text-sm font-brand">The "Hilltop" Plan</h4>
                             </div>
-                            <div class="w-8 h-8 rounded-lg bg-stone-100 flex items-center justify-center text-stone-400">
-                                <i class="fas fa-home" aria-hidden="true"></i>
+                            <div class="w-8 h-8 rounded-sm bg-slate-100 flex items-center justify-center text-slate-400">
+                                <i data-lucide="home" class="w-4 h-4"></i>
                             </div>
                         </div>
                         <p class="text-[10px] text-slate-500 pl-2 mb-3 leading-relaxed">
                             "Based on your budget of $${appState.budget}k, we can offer Lot 42 with the ${appState.style || 'Modern'} elevation..."
                         </p>
                         <div class="flex gap-2 pl-2">
-                            <button onclick="acceptPitch()" class="flex-1 py-1.5 bg-brand-dark text-white text-[10px] font-bold rounded-lg hover:bg-slate-800 transition-colors">Accept Pitch</button>
-                            <button class="px-3 py-1.5 bg-stone-100 text-stone-500 text-[10px] font-bold rounded-lg hover:bg-stone-200 transition-colors">Decline</button>
+                            <button onclick="acceptPitch()" class="flex-1 py-1.5 bg-brand-dark text-white text-[10px] font-bold rounded-sm hover:bg-slate-800 transition-colors">Accept Pitch</button>
+                            <button class="px-3 py-1.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-sm hover:bg-slate-200 transition-colors">Decline</button>
                         </div>
                     </div>
                 </div>
             `;
+            lucide.createIcons();
         }
 
         function resetDemo() {
@@ -1670,7 +1732,8 @@
             if(creditsEl) creditsEl.innerText = "500";
             
             const unlockArea = document.getElementById('unlock-area');
-            if(unlockArea) unlockArea.innerHTML = '<button onclick="unlockLead()" id="btn-unlock" class="w-full py-3 bg-brand-blue hover:bg-blue-700 text-white font-bold rounded-lg shadow-lg text-sm transition-all flex items-center justify-center gap-2"><i class="fas fa-lock-open" aria-hidden="true"></i> UNLOCK CONTACT DETAILS (50 Credits)</button>';
+            if(unlockArea) unlockArea.innerHTML = '<button onclick="unlockLead()" id="btn-unlock" class="w-full py-3 bg-brand-blue hover:bg-blue-600 text-brand-dark font-bold rounded-sm shadow-sharp-blue text-sm transition-all flex items-center justify-center gap-2"><i data-lucide="lock-open" class="w-4 h-4"></i> UNLOCK CONTACT DETAILS (50 Credits)</button>';
+            lucide.createIcons();
             
             // Clear notifications
             const noteContainer = document.getElementById('phone-notifications');
@@ -1680,12 +1743,12 @@
             const pitchContainer = document.getElementById('buyer-pitches-container');
             if(pitchContainer) {
                 pitchContainer.innerHTML = `
-                    <div class="p-4 rounded-xl border border-stone-100 bg-stone-50 text-center">
-                        <p class="text-[10px] text-stone-400 italic">Waiting for builder proposals...</p>
+                    <div class="p-4 rounded-lg border border-slate-100 bg-slate-50 text-center">
+                        <p class="text-[10px] text-slate-400 italic">Waiting for builder proposals...</p>
                         <div class="mt-2 flex justify-center gap-1">
-                            <div class="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce"></div>
-                            <div class="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                            <div class="w-1.5 h-1.5 bg-stone-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                            <div class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce"></div>
+                            <div class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                            <div class="w-1.5 h-1.5 bg-slate-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
                         </div>
                     </div>
                 `;
@@ -1700,12 +1763,13 @@
             if(!container) return;
             
             const el = document.createElement('div');
-            el.className = 'w-full bg-white/95 backdrop-blur shadow-lg rounded-xl p-3 border border-stone-100 flex items-start gap-3 transform translate-y-[-10px] opacity-0 transition-all duration-300';
+            el.className = 'w-full bg-white/95 backdrop-blur shadow-lg rounded-lg p-3 border border-slate-100 flex items-start gap-3 transform translate-y-[-10px] opacity-0 transition-all duration-300';
             el.innerHTML = `
-                <div class="w-8 h-8 rounded-full bg-blue-100 shrink-0 flex items-center justify-center text-blue-600 text-xs"><i class="fas fa-bell" aria-hidden="true"></i></div>
+                <div class="w-8 h-8 rounded-full bg-blue-100 shrink-0 flex items-center justify-center text-blue-600 text-xs"><i data-lucide="bell" class="w-4 h-4"></i></div>
                 <div><h4 class="text-xs font-bold text-stone-900">${title}</h4><p class="text-[10px] text-stone-500 leading-tight mt-0.5">${msg}</p></div>
             `;
             container.appendChild(el);
+            lucide.createIcons();
             
             // Animation In
             requestAnimationFrame(() => { el.classList.remove('translate-y-[-10px]', 'opacity-0'); });
@@ -1730,7 +1794,7 @@
             const ctx = canvas.getContext('2d');
             
             // Clear/Background
-            ctx.fillStyle = '#0f172a'; // Builder Slate
+            ctx.fillStyle = '#0F172A'; // Builder Slate
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             // Draw Heatmap (Demand)
@@ -1750,7 +1814,7 @@
             lotPoints.forEach(p => {
                 const x = p.x * canvas.width;
                 const y = p.y * canvas.height;
-                ctx.fillStyle = '#10b981'; // green/success
+                ctx.fillStyle = '#10B981'; // success emerald
                 ctx.beginPath();
                 ctx.arc(x, y, 4, 0, Math.PI * 2);
                 ctx.fill();
@@ -1783,7 +1847,7 @@
 
             // Reset all buttons first to remove lingering active classes
             [listBtn, mapBtn, intelBtn].forEach(btn => {
-                btn.classList.remove('bg-brand-blue', 'bg-slate-600', 'text-white');
+                btn.classList.remove('bg-brand-blue', 'bg-slate-600', 'text-brand-dark', 'text-white');
                 btn.classList.add('text-slate-400');
             });
 
@@ -1795,12 +1859,15 @@
             if(view === 'list') {
                 listView.classList.remove('hidden');
                 listBtn.classList.remove('text-slate-400');
-                listBtn.classList.add('bg-brand-blue', 'text-white');
+                listBtn.classList.add('bg-brand-blue', 'text-brand-dark');
             } else if (view === 'intel') {
                 intelView.classList.remove('hidden');
                 intelBtn.classList.remove('text-slate-400');
                 intelBtn.classList.add('bg-slate-600', 'text-white');
-                initChart();
+                // Lazy Load Chart.js
+                loadScript("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js", () => {
+                    initChart();
+                });
             } else {
                 mapView.classList.remove('hidden');
                 mapBtn.classList.remove('text-slate-400');
@@ -1857,7 +1924,7 @@
             const id = Math.floor(Math.random() * 8999) + 1000;
             const budget = Math.floor(Math.random() * 500) + 300;
             const item = document.createElement('div');
-            item.className = 'grid grid-cols-12 gap-2 p-3 bg-slate-800/40 rounded border border-slate-700 items-center animate-[slideInRight_0.4s_ease-out] hover:bg-slate-700 transition-colors border-l-2 border-l-brand-blue h-16 min-h-[4rem]';
+            item.className = 'grid grid-cols-12 gap-2 p-3 bg-slate-800/40 rounded-sm border border-slate-700 items-center animate-[slideInRight_0.4s_ease-out] hover:bg-slate-700 transition-colors border-l-2 border-l-brand-blue h-16 min-h-[4rem]';
             
             // Use safe function call instead of inline messy JS
             item.innerHTML = `
@@ -1865,7 +1932,7 @@
                 <div class="col-span-5 text-slate-300 text-[10px] sm:text-xs truncate">3bd • Modern Farmhouse</div>
                 <div class="col-span-2 text-white font-mono font-bold text-[10px] sm:text-xs">$${budget}k</div>
                 <div class="col-span-3 text-right">
-                    <button onclick="openPitchModal('${id}')" class="pitch-btn px-3 py-1.5 bg-brand-blue hover:bg-blue-600 text-white text-[10px] rounded shadow-sm transition-colors font-bold uppercase tracking-wider">Pitch</button>
+                    <button onclick="openPitchModal('${id}')" class="pitch-btn px-3 py-1.5 bg-brand-blue hover:bg-blue-400 text-brand-dark text-[10px] rounded-sm shadow-sm transition-colors font-bold uppercase tracking-wider">Pitch</button>
                 </div>
             `;
             container.prepend(item);
@@ -1903,9 +1970,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // State Persistence (Check URL Param)
+            const params = new URLSearchParams(window.location.search);
+            const initialRole = params.get('audience') || 'buyer';
+
             // Init Audience Elements
             audienceElements = document.querySelectorAll('[data-audience]');
-            setAudience('buyer');
+            setAudience(initialRole);
             
             // Start Feed Simulation safely
             setInterval(addFeedItem, 3500); 
@@ -1915,6 +1986,9 @@
             startMarketSimulation();
             
             loadState();
+            
+            // Init Icons on load
+            lucide.createIcons();
         });
     </script>
 </body>
