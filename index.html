@@ -8,12 +8,12 @@
     <!-- Brand Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'><path d='M20 80 V35 L50 20 L50 55 L20 80 Z' fill='%2300C2B2' stroke='%2300C2B2' stroke-width='4' stroke-linejoin='round' /><path d='M80 20 V65 L50 80 L50 45 L80 20 Z' fill='%2300C2B2' stroke='%2300C2B2' stroke-width='4' stroke-linejoin='round' /></svg>">
     
-    <!-- SEO Meta (Dual Persona) -->
+    <!-- SEO Meta -->
     <meta name="description" content="Newer is the Reverse Real Estate Marketplace. Buyers: Skip the search and make builders bid. Builders: Eliminate spec risk and build pre-sold with verified demand.">
     <meta name="keywords" content="PropTech, New Construction, Home Builder, Off-Market Real Estate, Reverse Marketplace, Fintech Mortgage, Build Pre-Sold">
     
-    <!-- Font: Outfit -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font: Outfit (Brand) + JetBrains Mono (Data) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
     <!-- Icons: Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -27,6 +27,7 @@
                 extend: {
                     fontFamily: {
                         sans: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
                         brand: {
@@ -35,18 +36,23 @@
                             concrete: '#F3F4F6',
                             gold: '#FBBF24',
                             border: '#E5E7EB',
-                            muted: '#9CA3AF'
+                            muted: '#9CA3AF',
+                            success: '#10B981',
+                            danger: '#EF4444'
                         }
                     },
                     boxShadow: {
                         'soft': '0 10px 40px -10px rgba(0,0,0,0.08)',
                         'glow': '0 0 20px rgba(0, 194, 178, 0.4)',
-                        'glow-gold': '0 0 20px rgba(251, 191, 36, 0.4)',
+                        'glow-gold': '0 0 30px rgba(251, 191, 36, 0.3)',
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
-                        'marquee': 'marquee 30s linear infinite',
+                        'marquee': 'marquee 40s linear infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'stamp': 'stamp-in 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both',
+                        'fade-in': 'fade-in 0.5s ease-out forwards',
+                        'typing': 'typing 1s infinite',
                     },
                     keyframes: {
                         float: {
@@ -55,7 +61,19 @@
                         },
                         marquee: {
                             '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(-50%)' }, 
+                        },
+                        'stamp-in': {
+                            '0%': { opacity: '0', transform: 'scale(3) rotate(-10deg)' },
+                            '100%': { opacity: '1', transform: 'scale(1) rotate(-10deg)' },
+                        },
+                        'fade-in': {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        'typing': {
+                            '0%, 100%': { opacity: '0.3' },
+                            '50%': { opacity: '1' },
                         }
                     }
                 }
@@ -154,10 +172,40 @@
         }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #E5E7EB; border-radius: 2px; }
 
-        .faq-answer { transition: max-height 0.4s ease, opacity 0.4s ease; max-height: 0; overflow: hidden; opacity: 0; }
-        .faq-answer.open { max-height: 500px; opacity: 1; }
-        
         .theme-transition { transition: all 0.5s ease; }
+
+        /* Stamp Effect */
+        .stamp-container {
+            border: 4px solid #10B981;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 2rem;
+            color: #10B981;
+            transform: rotate(-10deg);
+            display: inline-block;
+        }
+        
+        /* Receipt Styles */
+        .receipt-edge {
+            background-image: radial-gradient(circle at 10px 0, transparent 6px, white 7px);
+            background-size: 20px 10px;
+            background-repeat: repeat-x;
+            height: 10px;
+            width: 100%;
+            transform: rotate(180deg);
+        }
+        .dark .receipt-edge {
+            background-image: radial-gradient(circle at 10px 0, transparent 6px, #1F2937 7px);
+        }
+
+        /* AI Typing Dot */
+        .dot-typing {
+            width: 6px; height: 6px; border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+        .dot-typing:nth-child(1) { animation-delay: -0.32s; }
+        .dot-typing:nth-child(2) { animation-delay: -0.16s; }
     </style>
 </head>
 <body class="bg-brand-concrete text-brand-charcoal dark:bg-brand-charcoal dark:text-gray-100 font-sans antialiased pb-32 lg:pb-0 transition-colors duration-500 relative">
@@ -171,13 +219,7 @@
             <div class="flex justify-between h-20 items-center">
                 <!-- LOGO -->
                 <a href="#" class="flex items-baseline logo-gap group" onclick="setAudience('buyer'); window.scrollTo({top: 0, behavior: 'smooth'});">
-                    <div class="h-[1.5em] flex items-end">
-                        <svg class="h-full w-auto block transition-transform group-hover:scale-105" viewBox="0 0 100 100" fill="none">
-                            <path id="nav-logo-path-1" d="M20 80 V35 L50 20 L50 55 L20 80 Z" fill="#00C2B2" stroke="#00C2B2" stroke-width="4" stroke-linejoin="round" class="theme-transition"/>
-                            <path id="nav-logo-path-2" d="M80 20 V65 L50 80 L50 45 L80 20 Z" fill="#00C2B2" stroke="#00C2B2" stroke-width="4" stroke-linejoin="round" class="theme-transition"/>
-                        </svg>
-                    </div>
-                    <span class="text-2xl font-extrabold tracking-tight leading-none text-brand-charcoal dark:text-white transition-colors ml-1">Newer</span>
+                    <span class="text-2xl font-extrabold tracking-tight leading-none text-brand-charcoal dark:text-white transition-colors">Newer<span id="nav-logo-dot" class="text-brand-teal transition-colors">.</span></span>
                 </a>
                 
                 <!-- Desktop Animated Toggle -->
@@ -200,6 +242,11 @@
     <div class="w-full bg-brand-charcoal dark:bg-black text-gray-400 overflow-hidden z-40 relative h-10 flex items-center border-b border-brand-charcoal dark:border-gray-800 transition-colors">
         <div class="flex whitespace-nowrap overflow-hidden absolute w-full">
             <div class="animate-marquee inline-block text-xs font-bold tracking-wide">
+                <span class="mx-8"><span class="text-brand-teal dark:text-brand-gold">●</span> <strong class="text-white">New Permit</strong> issued in 78704</span>
+                <span class="mx-8"><span class="text-brand-teal dark:text-brand-gold">●</span> <strong class="text-white">3 Builders</strong> bidding on Lot 4</span>
+                <span class="mx-8"><span class="text-brand-teal dark:text-brand-gold">●</span> <strong class="text-white">Rate Buy-down</strong> secured by Buyer #221</span>
+                <span class="mx-8"><span class="text-brand-teal dark:text-brand-gold">●</span> <strong class="text-white">$15k Incentive</strong> accepted by Buyer #8492</span>
+                <!-- Duplicates for seamless loop -->
                 <span class="mx-8"><span class="text-brand-teal dark:text-brand-gold">●</span> <strong class="text-white">New Permit</strong> issued in 78704</span>
                 <span class="mx-8"><span class="text-brand-teal dark:text-brand-gold">●</span> <strong class="text-white">3 Builders</strong> bidding on Lot 4</span>
                 <span class="mx-8"><span class="text-brand-teal dark:text-brand-gold">●</span> <strong class="text-white">Rate Buy-down</strong> secured by Buyer #221</span>
@@ -263,38 +310,13 @@
         </div>
     </section>
 
-    <!-- 1-2-3 How it Works (New Addition) -->
-    <section id="how-it-works" class="py-16 bg-brand-concrete/30 dark:bg-gray-900/30 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal-on-scroll">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="p-6">
-                    <div class="w-12 h-12 rounded-full bg-brand-teal/10 dark:bg-brand-gold/10 text-brand-teal dark:text-brand-gold font-bold text-xl flex items-center justify-center mx-auto mb-4 border border-brand-teal/20 dark:border-brand-gold/20">1</div>
-                    <h3 class="font-bold text-lg text-brand-charcoal dark:text-white mb-2" id="step-1-title">Define</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400" id="step-1-desc">Set your style, budget, and must-haves.</p>
-                </div>
-                <div class="p-6 relative">
-                    <div class="hidden md:block absolute top-1/2 -left-4 w-8 border-t-2 border-dashed border-gray-300 dark:border-gray-700"></div>
-                    <div class="w-12 h-12 rounded-full bg-brand-teal/10 dark:bg-brand-gold/10 text-brand-teal dark:text-brand-gold font-bold text-xl flex items-center justify-center mx-auto mb-4 border border-brand-teal/20 dark:border-brand-gold/20">2</div>
-                    <h3 class="font-bold text-lg text-brand-charcoal dark:text-white mb-2" id="step-2-title">Verify</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400" id="step-2-desc">Prove you are real to unlock VIP status.</p>
-                </div>
-                <div class="p-6 relative">
-                    <div class="hidden md:block absolute top-1/2 -left-4 w-8 border-t-2 border-dashed border-gray-300 dark:border-gray-700"></div>
-                    <div class="w-12 h-12 rounded-full bg-brand-teal/10 dark:bg-brand-gold/10 text-brand-teal dark:text-brand-gold font-bold text-xl flex items-center justify-center mx-auto mb-4 border border-brand-teal/20 dark:border-brand-gold/20">3</div>
-                    <h3 class="font-bold text-lg text-brand-charcoal dark:text-white mb-2" id="step-3-title">Receive</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400" id="step-3-desc">Builders compete for your business.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Concept Section -->
-    <section id="concept" class="py-24 bg-brand-concrete/50 dark:bg-gray-900/50 transition-colors scroll-mt-28">
+    <!-- Concept Section (The Why - Now First) -->
+    <section id="concept" class="py-24 bg-brand-concrete/30 dark:bg-gray-900/50 transition-colors scroll-mt-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal-on-scroll">
                 <h2 id="concept-title" class="text-3xl md:text-4xl font-extrabold text-brand-charcoal dark:text-white transition-colors">The Power Shift</h2>
                 <p id="concept-desc" class="mt-4 text-gray-500 dark:text-gray-300 max-w-2xl mx-auto text-lg transition-colors">
-                    We flipped the model. <span class="text-brand-teal font-bold" id="concept-highlight">Stop begging. Become the Client.</span>
+                    We flipped the model. <span class="text-brand-teal font-bold" id="concept-highlight">Become the Client.</span>
                 </p>
             </div>
             <div class="grid md:grid-cols-2 gap-8 items-stretch">
@@ -326,8 +348,62 @@
         </div>
     </section>
 
+    <!-- 1-2-3 How it Works (The How - Now Second) -->
+    <section id="how-it-works" class="py-24 bg-white dark:bg-brand-charcoal/20 transition-colors relative overflow-hidden">
+        <!-- Subtle Grid Background -->
+        <div class="absolute inset-0 opacity-30 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20 reveal-on-scroll">
+                <span id="process-kicker" class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500">The Process</span>
+                <h2 id="process-title" class="text-3xl font-extrabold text-brand-charcoal dark:text-white mt-3">Demand. Verify. Receive.</h2>
+            </div>
+
+            <div class="relative grid md:grid-cols-3 gap-8 reveal-on-scroll">
+                <!-- Connector Line (Desktop Only) -->
+                <div class="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gray-100 dark:bg-gray-700 -z-10"></div>
+
+                <!-- STEP 1 -->
+                <div class="group relative bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-brand-border dark:border-gray-700 hover:-translate-y-1">
+                    <div id="step-1-badge" class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-brand-teal text-white flex items-center justify-center font-bold text-lg shadow-lg ring-4 ring-white dark:ring-gray-900 transition-colors">1</div>
+                    <div class="mt-6 text-center">
+                        <div class="mb-5 inline-flex p-4 rounded-2xl bg-brand-concrete dark:bg-gray-700 text-brand-teal dark:text-brand-gold transition-colors">
+                            <i id="step-1-icon" data-lucide="sliders-horizontal" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-charcoal dark:text-white mb-3" id="step-1-title">Define</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed" id="step-1-desc">Set your style, budget, and must-haves.</p>
+                    </div>
+                </div>
+
+                <!-- STEP 2 -->
+                <div class="group relative bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-brand-border dark:border-gray-700 hover:-translate-y-1" style="transition-delay: 100ms;">
+                    <div id="step-2-badge" class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-brand-teal text-white flex items-center justify-center font-bold text-lg shadow-lg ring-4 ring-white dark:ring-gray-900 transition-colors">2</div>
+                    <div class="mt-6 text-center">
+                        <div class="mb-5 inline-flex p-4 rounded-2xl bg-brand-concrete dark:bg-gray-700 text-brand-teal dark:text-brand-gold transition-colors">
+                            <i id="step-2-icon" data-lucide="shield-check" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-charcoal dark:text-white mb-3" id="step-2-title">Verify</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed" id="step-2-desc">Prove you are real to unlock VIP status.</p>
+                    </div>
+                </div>
+
+                <!-- STEP 3 -->
+                <div class="group relative bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-brand-border dark:border-gray-700 hover:-translate-y-1" style="transition-delay: 200ms;">
+                    <div id="step-3-badge" class="absolute -top-6 left-1/2 transform -translate-x-1/2 w-12 h-12 rounded-full bg-brand-teal text-white flex items-center justify-center font-bold text-lg shadow-lg ring-4 ring-white dark:ring-gray-900 transition-colors">3</div>
+                    <div class="mt-6 text-center">
+                        <div class="mb-5 inline-flex p-4 rounded-2xl bg-brand-concrete dark:bg-gray-700 text-brand-teal dark:text-brand-gold transition-colors">
+                            <i id="step-3-icon" data-lucide="gift" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-brand-charcoal dark:text-white mb-3" id="step-3-title">Receive</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed" id="step-3-desc">Builders compete for your business.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Interactive Demo Section -->
-    <section id="demo" class="py-24 bg-white/50 dark:bg-brand-charcoal/50 relative overflow-hidden transition-colors scroll-mt-28" aria-labelledby="demo-title">
+    <section id="demo" class="py-24 bg-brand-concrete/30 dark:bg-brand-charcoal/50 relative overflow-hidden transition-colors scroll-mt-28" aria-labelledby="demo-title">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="mb-16 text-center reveal-on-scroll">
                 <h2 id="demo-title" class="text-3xl md:text-4xl font-extrabold text-brand-charcoal dark:text-white transition-colors">Your Personal Market</h2>
@@ -337,16 +413,11 @@
             <div class="grid lg:grid-cols-12 gap-12 reveal-on-scroll">
                 <!-- LEFT: Buyer App -->
                 <div class="lg:col-span-4 flex flex-col items-center">
-                    <div class="w-full max-w-[350px] bg-white md:rounded-[3rem] md:border-8 md:border-brand-charcoal border-0 shadow-2xl overflow-hidden h-[700px] relative">
+                    <div id="phone-container" class="w-full max-w-[350px] bg-white md:rounded-[3rem] md:border-8 md:border-brand-charcoal border-0 shadow-2xl overflow-hidden h-[700px] relative">
                         <div class="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-brand-charcoal rounded-b-2xl z-20"></div>
                         <!-- App Header -->
                         <div class="h-20 bg-white border-b border-brand-border flex items-end justify-between px-6 pb-3 pt-8">
-                            <div class="h-[1.5em] flex items-end">
-                                <svg class="h-full w-auto block" viewBox="0 0 100 100" fill="none">
-                                    <path id="app-logo-path-1" d="M20 80 V35 L50 20 L50 55 L20 80 Z" fill="#00C2B2" stroke="#00C2B2" stroke-width="4" stroke-linejoin="round"/>
-                                    <path id="app-logo-path-2" d="M80 20 V65 L50 80 L50 45 L80 20 Z" fill="#00C2B2" stroke="#00C2B2" stroke-width="4" stroke-linejoin="round"/>
-                                </svg>
-                            </div>
+                            <span class="text-xl font-extrabold tracking-tight leading-none text-brand-charcoal">Newer<span class="text-brand-teal">.</span></span>
                             <div class="w-8 h-8 rounded-full bg-brand-concrete flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-brand-charcoal"></i></div>
                         </div>
                         <!-- App Body -->
@@ -408,7 +479,7 @@
                                 </div>
                                 <button onclick="nextStep('3')" class="w-full py-4 bg-brand-charcoal text-white rounded-xl font-bold text-sm shadow-lg">Get VIP Status</button>
                             </div>
-                            <!-- STEP 3: Verify (UPDATED COPY) -->
+                            <!-- STEP 3: Verify -->
                             <div id="step-3" class="step-content hidden fade-in">
                                 <h3 class="text-xl font-bold text-brand-charcoal mb-1">Get Taken Seriously.</h3>
                                 <p class="text-xs text-gray-400 mb-6 font-bold uppercase tracking-wide">Verification stops you from being ignored.</p>
@@ -426,20 +497,37 @@
                             </div>
                             
                             <!-- STEP 4: Success/Dashboard -->
-                            <div id="step-4" class="step-content hidden fade-in text-center pt-10">
-                                <div class="w-20 h-20 bg-brand-charcoal rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl border-4 border-brand-teal">
-                                    <i data-lucide="check" class="w-10 h-10 text-brand-teal"></i>
+                            <div id="step-4" class="step-content hidden fade-in text-center pt-8">
+                                <div class="w-16 h-16 bg-brand-charcoal rounded-full flex items-center justify-center mx-auto mb-4 shadow-xl border-4 border-brand-teal animate-bounce">
+                                    <i data-lucide="crown" class="w-8 h-8 text-brand-teal"></i>
                                 </div>
-                                <h3 class="text-xl font-bold text-brand-charcoal mb-1">Profile Complete!</h3>
-                                <p class="text-xs text-gray-500 mb-6">3 Builders in Austin match your criteria.</p>
+                                <h3 class="text-xl font-bold text-brand-charcoal mb-1">You are VIP!</h3>
+                                <p class="text-xs text-gray-500 mb-6">Alias: <span class="font-mono font-bold bg-white px-2 py-1 rounded border border-gray-200">Buyer #8942</span></p>
 
-                                <form onsubmit="event.preventDefault(); this.innerHTML='<div class=\'text-brand-teal font-bold py-8 text-sm\'>Matches Sent to Your Email!</div>'" class="px-4">
-                                    <input type="email" placeholder="Enter email to see matches" class="w-full mb-3 px-4 py-3 rounded-xl border border-gray-200 text-sm font-bold focus:ring-2 focus:ring-brand-teal outline-none text-brand-charcoal" required>
-                                    <button type="submit" class="w-full py-3 bg-brand-teal text-white rounded-xl font-bold shadow-lg animate-pulse hover:bg-brand-charcoal transition-colors">
-                                        View My Matches
+                                <!-- AI Bio Section -->
+                                <div class="mb-6 px-1">
+                                    <div id="ai-bio-container" class="hidden p-3 bg-white border border-brand-teal/20 rounded-xl text-left mb-3 shadow-sm">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="text-xs font-bold uppercase text-brand-teal tracking-wider">AI Bio</span>
+                                        </div>
+                                        <p id="ai-bio-text" class="text-xs text-gray-600 italic leading-relaxed"></p>
+                                    </div>
+                                    <button onclick="generateBuyerBio()" id="btn-generate-bio" class="w-full py-2.5 bg-white border border-brand-border text-brand-teal font-bold rounded-xl text-xs hover:bg-brand-teal/5 hover:border-brand-teal transition-colors flex items-center justify-center gap-2 shadow-sm">
+                                        <span>✨</span> Enhance Profile with AI
                                     </button>
-                                </form>
-                                <p class="mt-4 text-[10px] text-gray-400">No spam. Unsubscribe anytime.</p>
+                                </div>
+
+                                <div id="buyer-pitches-container" class="mt-4 text-left">
+                                    <div class="p-4 rounded-xl border border-dashed border-gray-300 bg-gray-50 text-center">
+                                        <p class="text-[10px] text-gray-400 italic">Waiting for builder proposals...</p>
+                                        <div class="mt-2 flex justify-center gap-1">
+                                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce"></div>
+                                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                                            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button onclick="resetDemo()" class="mt-6 text-xs text-gray-400 hover:text-brand-teal underline">Reset Demo</button>
                             </div>
                         </div>
                         <!-- App Footer -->
@@ -457,12 +545,13 @@
                         <span class="text-xs font-bold uppercase text-yellow-600 dark:text-brand-gold tracking-widest">Builder View</span>
                         <h3 class="text-xl font-bold text-brand-charcoal dark:text-white">Demand Command Center</h3>
                     </div>
-                    <div class="flex-1 bg-brand-charcoal rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-800 relative">
+                    <div id="builder-dashboard-container" class="flex-1 bg-brand-charcoal rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-800 relative">
                         <!-- Top Bar -->
                         <div class="h-16 bg-gray-900 border-b border-gray-800 flex items-center justify-between px-6">
                             <div class="flex items-center gap-3">
                                 <div class="flex gap-1.5"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
                                 <span class="ml-4 font-mono text-xs text-gray-500">TERMINAL_V2</span>
+                                <span class="px-2 py-0.5 bg-brand-teal/20 text-brand-teal text-[10px] font-bold rounded animate-pulse">LIVE</span>
                             </div>
                             <div class="flex bg-gray-800 rounded-lg p-1">
                                 <button onclick="toggleDashboardView('list')" id="view-list-btn" class="px-4 py-1.5 rounded-md text-xs font-bold bg-brand-gold text-brand-charcoal transition-all">Feed</button>
@@ -472,13 +561,13 @@
                         </div>
                         <!-- Stats Bar with Animated Counters -->
                         <div class="grid grid-cols-4 border-b border-gray-800 bg-gray-900/50">
-                            <div class="p-4 border-r border-gray-800"><div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Active Buyers</div><div class="text-xl font-mono font-bold text-white counter" data-target="1248">0</div></div>
+                            <div class="p-4 border-r border-gray-800"><div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Active Buyers</div><div class="text-xl font-mono font-bold text-white counter" data-target="1248" id="stat-active">0</div></div>
                             <div class="p-4 border-r border-gray-800"><div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Avg Budget</div><div class="text-xl font-mono font-bold text-brand-gold">$485k</div></div>
                             <div class="p-4 border-r border-gray-800"><div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Credits</div><div class="text-xl font-mono font-bold text-white" id="stat-credits">500</div></div>
                             <div class="p-4"><div class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Conversion</div><div class="text-xl font-mono font-bold text-green-400">18.4%</div></div>
                         </div>
                         <!-- Content Area -->
-                        <div class="flex-1 relative bg-brand-charcoal overflow-hidden">
+                        <div id="builder-dashboard-body" class="flex-1 relative bg-brand-charcoal overflow-hidden">
                             <!-- List View -->
                             <div id="dashboard-list-view" class="absolute inset-0 overflow-y-auto p-4 space-y-2"></div>
                             
@@ -507,7 +596,7 @@
                                 </div>
                             </div>
 
-                            <!-- CARD OVERLAY (Restored for notifyBuilder logic) -->
+                            <!-- CARD OVERLAY -->
                             <div id="user-card-overlay" class="absolute bottom-0 left-0 right-0 bg-gray-900/95 border-t border-brand-gold p-6 transform translate-y-full transition-transform duration-500 backdrop-blur-md z-20">
                                 <div class="flex justify-between items-start mb-4">
                                     <div><div class="flex items-center gap-2 mb-1"><span class="w-2 h-2 bg-brand-gold rounded-full animate-pulse"></span><span class="text-xs font-bold text-brand-gold uppercase">Match Found</span></div><h4 class="text-white font-bold text-xl">VIP Buyer #8942</h4></div>
@@ -518,8 +607,34 @@
                                     <div class="bg-gray-800 p-3 rounded-xl"><div class="text-[10px] text-gray-500 uppercase font-bold">Specs</div><div class="text-white font-bold text-sm" id="dash-card-config">3bd / 2ba</div></div>
                                     <div class="bg-gray-800 p-3 rounded-xl"><div class="text-[10px] text-gray-500 uppercase font-bold">Must Have</div><div class="text-white font-bold text-sm truncate" id="dash-card-amenities">...</div></div>
                                 </div>
-                                <button onclick="unlockLead()" id="btn-unlock" class="w-full py-4 bg-brand-gold text-brand-charcoal font-bold rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2"><i data-lucide="lock-open" class="w-4 h-4"></i> UNLOCK CONTACT (50 Credits)</button>
+                                <div id="unlock-area">
+                                    <button onclick="unlockLead()" id="btn-unlock" class="w-full py-4 bg-brand-gold text-brand-charcoal font-bold rounded-xl hover:bg-white transition-colors flex items-center justify-center gap-2"><i data-lucide="lock-open" class="w-4 h-4"></i> UNLOCK & PITCH (50 Credits)</button>
+                                </div>
                             </div>
+
+                            <!-- PITCH MODAL -->
+                            <div id="pitch-modal" class="absolute inset-0 bg-black/80 z-30 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+                                <div class="bg-gray-800 border border-gray-600 rounded-2xl p-6 w-full max-w-sm shadow-2xl">
+                                    <h4 class="text-white font-bold mb-1 text-lg">Match Inventory to Buyer <span class="text-brand-gold font-mono">#8942</span></h4>
+                                    <p class="text-xs text-gray-400 mb-4">Select standing inventory to offer.</p>
+                                    
+                                    <div class="mb-4 relative">
+                                        <textarea id="pitch-message" class="w-full bg-gray-900 border border-gray-600 text-white text-xs rounded-xl p-3 focus:border-brand-gold outline-none h-24 resize-none leading-relaxed" placeholder="Drafting pitch..."></textarea>
+                                        <button onclick="generateBuilderPitch()" id="btn-ai-pitch" class="absolute bottom-2 right-2 text-[10px] bg-brand-gold hover:bg-white text-brand-charcoal px-2 py-1 rounded-lg flex items-center gap-1 transition-colors font-bold shadow-sm"><span>✨</span> AI Draft</button>
+                                    </div>
+
+                                    <div class="space-y-2 mb-6">
+                                        <button onclick="selectPitch(this)" class="pitch-opt w-full text-left p-3 rounded-xl bg-gray-700 border border-gray-600 hover:border-brand-gold hover:bg-gray-600 transition-all text-xs text-gray-300 group">
+                                            <div class="flex justify-between mb-1"><span class="font-bold text-white group-hover:text-brand-gold"><i data-lucide="home" class="inline w-3 h-3 mr-2"></i> Move-In Ready (QMI)</span><span class="text-green-400 font-mono">Immediate Close</span></div>
+                                        </button>
+                                    </div>
+                                    <div class="flex gap-3">
+                                        <button onclick="document.getElementById('pitch-modal').classList.add('hidden')" class="flex-1 py-3 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-xl text-xs font-bold">Cancel</button>
+                                        <button onclick="sendPitch()" class="flex-1 py-3 bg-brand-gold hover:bg-white text-brand-charcoal rounded-xl text-xs font-bold">Send Offer</button>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -527,35 +642,157 @@
         </div>
     </section>
 
-    <!-- Success Stories -->
+    <!-- Success Stories (Transaction Receipts) -->
     <section id="testimonials" class="py-24 bg-brand-concrete dark:bg-gray-900 transition-colors scroll-mt-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 text-center reveal-on-scroll"><h2 id="testimonial-title" class="text-3xl font-extrabold text-brand-charcoal dark:text-white">Real Buyers. Real Bids.</h2></div>
-            <div id="testimonials-grid" class="grid md:grid-cols-3 gap-8 reveal-on-scroll"></div>
-        </div>
-    </section>
-
-    <!-- Pricing (Buyer) -->
-    <section id="pricing-buyer" class="py-24 bg-white/50 dark:bg-brand-charcoal border-y border-brand-border dark:border-gray-800 transition-colors scroll-mt-28" data-audience="buyer">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal-on-scroll"><h2 class="text-3xl md:text-4xl font-extrabold text-brand-charcoal dark:text-white">Simple Pricing</h2></div>
-            <div class="grid md:grid-cols-3 gap-8 reveal-on-scroll">
-                <!-- Cards -->
-                <div class="p-8 rounded-3xl bg-brand-concrete dark:bg-gray-800 border border-brand-border dark:border-gray-700"><h3 class="text-2xl font-bold mb-2 text-brand-charcoal dark:text-white">Profile</h3><div class="text-4xl font-mono font-bold text-brand-charcoal dark:text-white mb-4">$0</div><p class="text-gray-500 dark:text-gray-400 text-sm">Build your "Buy Box".</p></div>
-                <div class="p-8 rounded-3xl bg-white dark:bg-gray-800 border-2 border-brand-teal shadow-glow transform -translate-y-2"><div class="inline-block px-3 py-1 bg-brand-teal text-white text-xs font-bold rounded-full mb-4">Most Popular</div><h3 class="text-2xl font-bold mb-2 text-brand-charcoal dark:text-white">Verified</h3><div class="text-4xl font-mono font-bold text-brand-teal mb-4">$0</div><p class="text-gray-500 dark:text-gray-400 text-sm">Gold Status Access.</p></div>
-                <div class="p-8 rounded-3xl bg-brand-concrete dark:bg-gray-800 border border-brand-border dark:border-gray-700"><h3 class="text-2xl font-bold mb-2 text-brand-charcoal dark:text-white">Agent</h3><div class="text-4xl font-mono font-bold text-brand-teal mb-4">$0</div><p class="text-gray-500 dark:text-gray-400 text-sm">Commissions Covered.</p></div>
+            <div class="mb-16 text-center reveal-on-scroll">
+                <h2 id="testimonial-title" class="text-3xl font-extrabold text-brand-charcoal dark:text-white">Recent Market Activity</h2>
+                <p id="testimonial-desc" class="mt-4 text-gray-500 dark:text-gray-300">Live transaction feed.</p>
+            </div>
+            <div id="testimonials-grid" class="grid md:grid-cols-3 gap-8 reveal-on-scroll">
+                <!-- JS Filled -->
             </div>
         </div>
     </section>
 
-    <!-- Pricing (Builder) -->
+    <!-- Pricing (Buyer - Membership Tiers) -->
+    <section id="pricing-buyer" class="py-24 bg-white/50 dark:bg-brand-charcoal border-y border-brand-border dark:border-gray-800 transition-colors scroll-mt-28" data-audience="buyer">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-on-scroll">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-brand-charcoal dark:text-white">Zero Risk. Infinite Upside.</h2>
+                <p class="mt-4 text-gray-500">Stop chasing. Start demanding.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-16 reveal-on-scroll max-w-4xl mx-auto">
+                <!-- Browser Level -->
+                <div class="p-8 rounded-3xl bg-brand-concrete/50 dark:bg-gray-800/50 border border-brand-border dark:border-gray-700 opacity-80 hover:opacity-100 transition-all">
+                    <h3 class="text-lg font-bold text-gray-500 uppercase tracking-widest mb-4">The Browser</h3>
+                    <div class="text-4xl font-extrabold text-gray-400 mb-6">$0</div>
+                    <ul class="space-y-4 text-sm text-gray-500 mb-8">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-5 h-5"></i> View Heatmap Data</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-5 h-5"></i> Build "Buy Box"</li>
+                        <li class="flex gap-2"><i data-lucide="x" class="w-5 h-5 text-gray-300"></i> Receive Builder Bids</li>
+                    </ul>
+                    <button class="w-full py-3 border-2 border-gray-300 text-gray-400 font-bold rounded-xl text-sm" disabled>Basic Access</button>
+                </div>
+
+                <!-- Verified Gold -->
+                <div class="p-8 rounded-3xl bg-white dark:bg-gray-800 border-2 border-brand-gold shadow-glow-gold relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-brand-gold text-brand-charcoal text-[10px] font-bold px-3 py-1 rounded-bl-xl uppercase tracking-widest">Recommended</div>
+                    <h3 class="text-lg font-bold text-brand-gold uppercase tracking-widest mb-4">Verified Gold</h3>
+                    <div class="text-4xl font-extrabold text-brand-charcoal dark:text-white mb-6">$0</div>
+                    <ul class="space-y-4 text-sm text-brand-charcoal dark:text-gray-300 mb-8 font-medium">
+                        <li class="flex gap-2"><i data-lucide="check" class="w-5 h-5 text-brand-gold"></i> <span class="font-bold">Receive Off-Market Bids</span></li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-5 h-5 text-brand-gold"></i> Hide Identity</li>
+                        <li class="flex gap-2"><i data-lucide="check" class="w-5 h-5 text-brand-gold"></i> Access Incentives</li>
+                    </ul>
+                    <button onclick="openWaitlistModal()" class="w-full py-3 bg-brand-gold text-brand-charcoal font-bold rounded-xl text-sm hover:bg-white transition-all shadow-lg">Verify Funds to Unlock</button>
+                </div>
+            </div>
+
+            <!-- Value Stack Table -->
+            <div class="bg-white dark:bg-gray-800 rounded-3xl p-8 border border-brand-border dark:border-gray-700 reveal-on-scroll">
+                <h4 class="font-bold text-brand-charcoal dark:text-white mb-6 text-center">Negotiating Power</h4>
+                <div class="grid grid-cols-3 gap-4 text-sm border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 font-bold text-gray-400 uppercase tracking-wider text-[10px]">
+                    <div>Feature</div>
+                    <div class="text-center">Traditional</div>
+                    <div class="text-center text-brand-teal">The Newer Way</div>
+                </div>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-3 gap-4 items-center">
+                        <div class="font-medium text-brand-charcoal dark:text-gray-300">Market Access</div>
+                        <div class="text-center text-gray-400">Beg for showing</div>
+                        <div class="text-center font-bold text-brand-teal">Builders pitch you</div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 items-center">
+                        <div class="font-medium text-brand-charcoal dark:text-gray-300">Competition</div>
+                        <div class="text-center text-gray-400">Bidding Wars</div>
+                        <div class="text-center font-bold text-brand-teal">You are the prize</div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 items-center">
+                        <div class="font-medium text-brand-charcoal dark:text-gray-300">Incentives</div>
+                        <div class="text-center text-gray-400">If lucky</div>
+                        <div class="text-center font-bold text-brand-teal">Rate Buy-Downs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing (Builder - ROI Calculator) -->
     <section id="pricing-builder" class="py-24 bg-brand-charcoal text-white hidden transition-colors scroll-mt-28" data-audience="builder">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal-on-scroll"><h2 class="text-3xl md:text-4xl font-extrabold text-white">Pay for Performance</h2></div>
-            <div class="grid md:grid-cols-3 gap-8 reveal-on-scroll">
-                <div class="p-8 rounded-3xl bg-gray-800 border border-gray-700 hover:border-brand-gold transition-all"><h3 class="text-2xl font-bold mb-2">Platform Fee</h3><div class="text-4xl font-mono font-bold text-white mb-4">$0</div><p class="text-gray-400 text-sm">List unlimited.</p></div>
-                <div class="p-8 rounded-3xl bg-gray-800 border-2 border-brand-gold shadow-glow-gold"><h3 class="text-2xl font-bold mb-2">Match Fee</h3><div class="text-4xl font-mono font-bold text-brand-gold mb-4">$150</div><p class="text-gray-400 text-sm">Per unlock.</p></div>
-                <div class="p-8 rounded-3xl bg-gray-800 border border-gray-700 hover:border-brand-gold transition-all"><h3 class="text-2xl font-bold mb-2">Success Fee</h3><div class="text-4xl font-mono font-bold text-brand-gold mb-4">0.5%</div><p class="text-gray-400 text-sm">At closing.</p></div>
+            <div class="text-center mb-16 reveal-on-scroll"><h2 class="text-3xl md:text-4xl font-extrabold text-white">CAC Engine</h2><p class="text-gray-400 mt-4">Stop burning cash on ads for tire-kickers.</p></div>
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+                <!-- Calculator Panel -->
+                <div class="bg-gray-900 border border-gray-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-gold to-transparent"></div>
+                    <h3 class="text-xl font-bold text-white mb-8 flex items-center gap-2"><i data-lucide="calculator" class="w-5 h-5 text-brand-gold"></i> Cost to Acquire Customer</h3>
+                    
+                    <!-- Old Way -->
+                    <div class="mb-6 p-4 rounded-xl bg-red-900/10 border border-red-900/30">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-red-400 uppercase">The Old Way</span>
+                            <span class="font-mono font-bold text-white">$17,000</span>
+                        </div>
+                        <div class="text-[10px] text-gray-500 flex justify-between">
+                            <span>Realtor Comm (3%)</span>
+                            <span>$15,000</span>
+                        </div>
+                        <div class="text-[10px] text-gray-500 flex justify-between">
+                            <span>Zillow/Ads</span>
+                            <span>$2,000</span>
+                        </div>
+                    </div>
+
+                    <!-- Newer Way -->
+                    <div class="mb-8 p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-brand-gold uppercase">The Newer Way</span>
+                            <span class="font-mono font-bold text-white">$2,650</span>
+                        </div>
+                        <div class="text-[10px] text-gray-400 flex justify-between">
+                            <span>Success Fee (0.5%)</span>
+                            <span>$2,500</span>
+                        </div>
+                        <div class="text-[10px] text-gray-400 flex justify-between">
+                            <span>Match Fee</span>
+                            <span>$150</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-800 pt-6">
+                        <div class="flex justify-between items-end mb-2">
+                            <label class="text-xs font-bold text-gray-400 uppercase">Annual Volume</label>
+                            <span class="font-mono text-brand-gold font-bold text-lg" id="roi-homes">10 Homes</span>
+                        </div>
+                        <input type="range" min="1" max="100" value="10" class="w-full mb-6 accent-brand-gold bg-gray-700 h-2 rounded-lg appearance-none cursor-pointer" oninput="updateROI(this.value)">
+                        
+                        <div class="text-center">
+                            <div class="text-sm text-gray-500 mb-1">Projected Annual Savings</div>
+                            <div class="text-4xl font-mono font-bold text-green-400" id="roi-savings">$143,500</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="space-y-8">
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-gold shrink-0 border border-gray-700"><i data-lucide="target" class="w-6 h-6"></i></div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white">Precision Targeting</h4>
+                            <p class="text-gray-400 text-sm mt-2">Don't spray and pray. Filter for buyers with verified funds who specifically requested your lot size and price point.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center text-brand-gold shrink-0 border border-gray-700"><i data-lucide="zap" class="w-6 h-6"></i></div>
+                        <div>
+                            <h4 class="font-bold text-xl text-white">Zero Carry Costs</h4>
+                            <p class="text-gray-400 text-sm mt-2">Match standing inventory to ready buyers in minutes, not months. Reduce loan interest payments instantly.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -580,11 +817,49 @@
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq" class="py-24 bg-brand-concrete dark:bg-gray-900 border-t border-brand-border dark:border-gray-800 transition-colors scroll-mt-28">
-        <div class="max-w-3xl mx-auto px-4">
-            <h2 class="text-3xl font-extrabold text-brand-charcoal dark:text-white text-center mb-12">FAQ</h2>
-            <div id="faq-container" class="space-y-4"></div>
+    <!-- NEWER AI ASSISTANT (Replaces FAQ) -->
+    <section id="ai-assistant" class="py-24 bg-brand-concrete dark:bg-gray-900 border-t border-brand-border dark:border-gray-800 transition-colors scroll-mt-28">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-teal/10 dark:bg-brand-gold/10 text-brand-teal dark:text-brand-gold text-[10px] font-bold uppercase tracking-widest mb-4">
+                    <span>✨</span> Newer Intelligence
+                </div>
+                <h2 class="text-3xl font-extrabold text-brand-charcoal dark:text-white">Have questions? Ask Newer AI.</h2>
+                <p class="mt-2 text-gray-500 dark:text-gray-400">Instant answers about the platform, process, and security.</p>
+            </div>
+
+            <!-- AI Interface -->
+            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-brand-border dark:border-gray-700 overflow-hidden relative min-h-[400px] flex flex-col">
+                <!-- Chat Window -->
+                <div id="ai-chat-window" class="flex-1 p-6 overflow-y-auto space-y-4 max-h-[500px]">
+                    <!-- Initial Welcome Message -->
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-charcoal flex items-center justify-center shrink-0">
+                            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 14a1 1 0 1 1 1-1 1 1 0 0 1-1 1Zm1-4.33V12a1 1 0 0 1-1 1v0a1 1 0 0 1-1-1v-.5a2.5 2.5 0 0 1 5 0Z"></path></svg>
+                        </div>
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-none p-4 text-sm text-brand-charcoal dark:text-gray-200 shadow-sm max-w-[80%]">
+                            Hi there! I'm Newer AI. I can explain how our reverse marketplace works, details on pricing, or how we keep your data secure. What's on your mind?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-4 bg-gray-50 dark:bg-gray-900 border-t border-brand-border dark:border-gray-700">
+                    <!-- Suggestions Chips -->
+                    <div id="ai-suggestions" class="flex flex-wrap gap-2 mb-4 overflow-x-auto pb-2 scrollbar-hide">
+                        <!-- JS injected suggestions -->
+                    </div>
+                    
+                    <div class="relative">
+                        <form onsubmit="handleAiSubmit(event)" class="relative">
+                            <input id="ai-input" type="text" placeholder="Ask anything..." class="w-full pl-6 pr-12 py-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-brand-teal dark:focus:ring-brand-gold outline-none shadow-sm text-brand-charcoal dark:text-white transition-all">
+                            <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-brand-charcoal dark:bg-white rounded-xl text-white dark:text-brand-charcoal hover:opacity-90 transition-opacity">
+                                <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -594,13 +869,7 @@
             <div class="grid md:grid-cols-4 gap-12 mb-16">
                 <div class="col-span-1">
                      <a href="#" class="flex items-baseline gap-2 group mb-4" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-                        <div class="h-[1.5em] flex items-end">
-                            <svg class="h-full w-auto block transition-transform group-hover:scale-105" viewBox="0 0 100 100" fill="none">
-                                <path id="footer-logo-path-1" d="M20 80 V35 L50 20 L50 55 L20 80 Z" fill="#00C2B2" stroke="#00C2B2" stroke-width="4" stroke-linejoin="round" class="theme-transition"/>
-                                <path id="footer-logo-path-2" d="M80 20 V65 L50 80 L50 45 L80 20 Z" fill="#00C2B2" stroke="#00C2B2" stroke-width="4" stroke-linejoin="round" class="theme-transition"/>
-                            </svg>
-                        </div>
-                        <span class="font-extrabold text-2xl tracking-tight leading-none text-white">Newer</span>
+                        <span class="font-extrabold text-2xl tracking-tight leading-none text-white">Newer<span id="footer-logo-dot" class="text-brand-teal transition-colors">.</span></span>
                     </a>
                     <p class="leading-relaxed mt-4 mb-6">Real Estate. Reversed.<br><span class="text-xs text-gray-500">The Newer Way to buy new construction.</span></p>
                 </div>
@@ -646,7 +915,7 @@
 
                     <div class="flex items-center gap-1.5 mb-4 px-1 justify-center md:justify-start"><i data-lucide="lock" class="w-3 h-3 text-gray-400"></i><span id="waitlist-trust-text" class="text-[10px] text-gray-400 font-medium">Secure 256-bit Encryption</span></div>
                     
-                    <!-- Hidden Radio logic to keep form functional but styling handled by context -->
+                    <!-- Hidden Radio logic -->
                     <div class="hidden">
                         <input type="radio" name="role" value="buyer" id="role-buyer-input">
                         <input type="radio" name="role" value="builder" id="role-builder-input">
@@ -665,6 +934,9 @@
         let currentAudience = 'buyer'; 
         let intelChartInstance = null;
         
+        // --- Map Data ---
+        const heatMapPoints = Array.from({length: 40}, () => ({ x: Math.random(), y: Math.random(), r: 20 + Math.random() * 40 }));
+        
         // --- Scroll Reveal Logic ---
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
         const observer = new IntersectionObserver((entries, observer) => {
@@ -674,6 +946,13 @@
                     // Check if it has a counter
                     const counters = entry.target.querySelectorAll('.counter');
                     counters.forEach(c => animateCounter(c));
+                    if(entry.target.id === 'testimonials-grid') {
+                        // Stagger effect for receipts
+                        const receipts = entry.target.querySelectorAll('.receipt-card');
+                        receipts.forEach((el, i) => {
+                            setTimeout(() => el.querySelector('.stamp-container').classList.add('animate-stamp'), i * 300 + 500);
+                        });
+                    }
                     observer.unobserve(entry.target);
                 }
             });
@@ -711,13 +990,22 @@
                      <li class="flex gap-3"><i data-lucide="x" class="w-5 h-5 text-red-400 mt-1"></i> Begging to spend your money.</li>`,
                 conceptTitle: 'The Power Shift',
                 conceptDesc: 'We flipped the script. <span class="text-brand-teal font-bold" id="concept-highlight">Become the Client.</span>',
+                
+                // Process Section (Dynamic)
+                processKicker: 'The Process',
+                processTitle: 'Demand. Verify. Receive.',
+
                 demoTitle: 'Your Personal Market',
                 demoDesc: 'Broadcast your needs via the App. Watch the market respond.',
-                testimonialTitle: 'Real Buyers. Real Bids.',
+                testimonialTitle: 'Recent Market Activity',
+                testimonialDesc: 'Live transaction feed.',
                 // 1-2-3 Steps Content
-                step1Title: 'Define', step1Desc: 'Set your style, budget, and must-haves.',
-                step2Title: 'Verify', step2Desc: 'Prove you are real to unlock VIP status.',
-                step3Title: 'Receive', step3Desc: 'Builders compete for your business.'
+                step1Title: 'Define', step1Desc: 'Set your style, budget, and must-haves.', step1Icon: 'sliders-horizontal',
+                step2Title: 'Verify', step2Desc: 'Prove you are real to unlock VIP status.', step2Icon: 'shield-check',
+                step3Title: 'Receive', step3Desc: 'Builders compete for your business.', step3Icon: 'gift',
+                
+                // AI Suggestions
+                aiChips: ["Is it expensive?", "How does it work?", "Is it safe?", "Rate buy-downs?"]
             },
             builder: {
                 title: 'Eliminate Risk.<br><span class="text-brand-gold">Build Pre-Sold.</span>',
@@ -737,13 +1025,22 @@
                      <li class="flex gap-3"><i data-lucide="x" class="w-5 h-5 text-red-400 mt-1"></i> Expensive ads for tire-kickers.</li>`,
                 conceptTitle: 'Demand Command Center',
                 conceptDesc: 'Newer replaces speculation with data. <span class="text-brand-gold font-bold" id="concept-highlight">Don\'t hunt buyers. Choose them.</span>',
+                
+                // Process Section (Dynamic)
+                processKicker: 'The Workflow',
+                processTitle: 'Filter. Identify. Transact.',
+
                 demoTitle: 'Live Order Book',
                 demoDesc: 'Filter by lot size, budget, and timeline to find your perfect buyer.',
-                testimonialTitle: 'Trusted by the Top 10.',
+                testimonialTitle: 'Recent Transactions',
+                testimonialDesc: 'Real results.',
                 // 1-2-3 Steps Content
-                step1Title: 'Filter', step1Desc: 'Set land & budget criteria.',
-                step2Title: 'Identify', step2Desc: 'Find verified, ready buyers.',
-                step3Title: 'Unlock', step3Desc: 'Directly pitch your build.'
+                step1Title: 'Filter', step1Desc: 'Set land & budget criteria.', step1Icon: 'filter',
+                step2Title: 'Identify', step2Desc: 'Find verified, ready buyers.', step2Icon: 'scan-face',
+                step3Title: 'Unlock', step3Desc: 'Directly pitch your build.', step3Icon: 'key',
+
+                // AI Suggestions
+                aiChips: ["What is the cost?", "Are leads verified?", "Custom builds?", "Conversion rates?"]
             }
         };
 
@@ -773,32 +1070,70 @@
             builder: '#FBBF24',  // brand-gold
         };
 
-        const testimonialsData = {
-            buyer: [
-                { name: 'Sarah T.', loc: 'First-Time Buyer, Austin', quote: "I built a profile on Tuesday and had three builder offers by Friday. I signed a contract for a home that wasn't even listed yet." },
-                { name: 'Mark D.', loc: 'Tech Professional, Denver', quote: "I wanted a 3-car garage. A builder changed a floorplan just to win my business. This feels like the future." },
-                { name: 'Elena R.', loc: 'Investor, Nashville', quote: "Verified my budget once, never had to show a bank statement to a realtor again. Total privacy." }
-            ],
-            builder: [
-                { name: 'James R.', loc: 'VP Sales, Lennar (Austin)', quote: "I searched for buyers with a $550k budget, found 3 matches, and pitched them. Sold it that weekend with zero marketing spend." },
-                { name: 'David K.', loc: 'Div Pres, Toll Brothers', quote: "The demand map showed us exactly where to permit our next phase. Pre-sold 4 lots before breaking ground." },
-                { name: 'Lisa M.', loc: 'Custom Builder, 78704', quote: "Finally, leads that actually have money. No more tire kickers at open houses on Sundays." }
-            ]
-        };
+        // Transaction Receipt Data
+        const testimonialsData = [
+            {
+                role: 'buyer',
+                time: '2h ago',
+                savings: '$14,500',
+                builder: 'Lennar (Austin)',
+                status: 'OFFER ACCEPTED',
+                marketTime: '0 Days'
+            },
+            {
+                role: 'buyer',
+                time: '5h ago',
+                savings: '$8,200',
+                builder: 'PulteGroup',
+                status: 'CLOSED',
+                marketTime: '0 Days'
+            },
+            {
+                role: 'buyer',
+                time: '1d ago',
+                savings: '$21,000',
+                builder: 'Toll Brothers',
+                status: 'CONTRACT SIGNED',
+                marketTime: '2 Days'
+            },
+            {
+                role: 'builder',
+                time: '45m ago',
+                savings: '$15,000 (Mktg)',
+                builder: 'David K. (Div Pres)',
+                status: 'UNIT PRE-SOLD',
+                marketTime: '0 Days'
+            },
+            {
+                role: 'builder',
+                time: '3h ago',
+                savings: '$2,400 (CAC)',
+                builder: 'Custom Builder',
+                status: 'LEAD UNLOCKED',
+                marketTime: 'Instant'
+            },
+            {
+                role: 'builder',
+                time: '1d ago',
+                savings: '$12,000 (Carry)',
+                builder: 'Regional Dev',
+                status: 'LOT CONTRACTED',
+                marketTime: '4 Days'
+            }
+        ];
         
-        const faqData = {
-            buyer: [
-                { q: "Is it complicated?", a: "No. Setting up your profile takes less than 5 minutes. You define your style, budget, and must-haves, then sit back." },
-                { q: "Is it expensive?", a: "Newer is 100% FREE for buyers. Builders pay us because we save them marketing costs." },
-                { q: "Is it safe?", a: "We use bank-level 256-bit encryption (via Plaid) to verify funds. We never see your login details, and your privacy is guaranteed." },
-                { q: "Can I request rate buy-downs?", a: "Yes. In your 'Buy Box,' specify financing needs. Builders often offer 2-1 buydowns or closing cost credits to win your business." }
-            ],
-            builder: [
-                { q: "Are the leads real?", a: "Yes. Verified Status requires proof of funds or a pre-approval letter within the last 30 days." },
-                { q: "What is the cost?", a: "There is $0 Platform Fee to list inventory. You pay a small match fee to unlock contact info, and a 0.5% success fee only at closing." },
-                { q: "Does it work for custom builds?", a: "Yes. Filter demand by specific lot requirements (e.g., '3-Car Garage', 'Pool Ready') to find buyers looking for exactly what you build." },
-                { q: "When do I pay the success fee?", a: "The 0.5% success fee is collected only at closing. If the deal doesn't close, you don't pay the transaction fee." }
-            ]
+        // Simulating AI Knowledge Base (replaces old FAQ)
+        const aiKnowledgeBase = {
+            "expensive": { text: "Newer is 100% FREE for buyers. Builders pay us because we save them expensive marketing costs." },
+            "cost": { text: "For builders, there is a $0 Platform Fee to list. You pay a small match fee to unlock contact info, and a 0.5% success fee only at closing." },
+            "complicated": { text: "No. Setting up your profile takes less than 5 minutes. You define your style, budget, and must-haves, then sit back." },
+            "safe": { text: "We use bank-level 256-bit encryption (via Plaid) to verify funds. We never see your login details, and your privacy is guaranteed." },
+            "rate": { text: "Yes! In your 'Buy Box,' specify financing needs. Builders often offer 2-1 buydowns or closing cost credits to win your business." },
+            "verified": { text: "Yes. Verified Status requires proof of funds or a pre-approval letter within the last 30 days." },
+            "custom": { text: "Absolutely. Filter demand by specific lot requirements (e.g., '3-Car Garage', 'Pool Ready') to find buyers looking for exactly what you build." },
+            "conversion": { text: "Our conversion rate is ~15x higher than typical leads because intent is verified upfront." },
+            "work": { text: "It's simple: 1. Define your needs. 2. Verify your budget. 3. Let builders bid on your business." },
+            "start": { text: "Click the 'Create Free Profile' button to get started. It takes about 2 minutes." }
         };
 
         function setAudience(role) {
@@ -825,9 +1160,13 @@
             if(demoTitle) demoTitle.innerText = cfg.demoTitle;
             if(demoDesc) demoDesc.innerText = cfg.demoDesc;
 
-            document.getElementById('testimonial-title').innerText = cfg.testimonialTitle;
+            // Update Process Section Titles
+            document.getElementById('process-kicker').innerText = cfg.processKicker;
+            document.getElementById('process-title').innerText = cfg.processTitle;
 
-            // Update 1-2-3 Step Text
+            document.getElementById('testimonial-title').innerText = cfg.testimonialTitle;
+            document.getElementById('testimonial-desc').innerText = cfg.testimonialDesc;
+
             document.getElementById('step-1-title').innerText = cfg.step1Title;
             document.getElementById('step-1-desc').innerText = cfg.step1Desc;
             document.getElementById('step-2-title').innerText = cfg.step2Title;
@@ -835,8 +1174,6 @@
             document.getElementById('step-3-title').innerText = cfg.step3Title;
             document.getElementById('step-3-desc').innerText = cfg.step3Desc;
 
-
-            // Image Loading
             const heroImg = document.getElementById('hero-image-el');
             if(heroImg && heroImg.src !== cfg.imageSrc) {
                 heroImg.style.opacity = '0.5';
@@ -859,30 +1196,20 @@
                 btnBuilder.classList.remove('text-gray-500'); btnBuilder.classList.add('text-white');
             }
 
-            // 3. Mobile Floating Nav Update - Simplified Logic
+            // 3. Mobile Floating Nav
             document.querySelectorAll('.role-btn-mobile').forEach(btn => {
                 const isBuilderBtn = btn.innerText.includes('Builder');
                 const isActive = (role === 'builder' && isBuilderBtn) || (role === 'buyer' && !isBuilderBtn);
                 
-                // Clear all potential states first
                 btn.classList.remove('active', 'shadow-sm', 'bg-brand-gold', 'bg-brand-teal', 'bg-white', 'text-brand-charcoal', 'text-white', 'text-gray-500', 'text-gray-400');
                 
                 if (isActive) {
                     btn.classList.add('active', 'shadow-sm');
-                    if (role === 'builder') {
-                        // Builder Active State (Gold)
-                        btn.classList.add('bg-brand-gold', 'text-brand-charcoal');
-                    } else {
-                        // Buyer Active State (White on gray bg)
-                        btn.classList.add('bg-white', 'text-brand-charcoal');
-                    }
+                    if (role === 'builder') btn.classList.add('bg-brand-gold', 'text-brand-charcoal');
+                    else btn.classList.add('bg-white', 'text-brand-charcoal');
                 } else {
-                    // Inactive State
-                    if (role === 'builder') {
-                        btn.classList.add('text-gray-400'); // Dark mode inactive text
-                    } else {
-                        btn.classList.add('text-gray-500'); // Light mode inactive text
-                    }
+                    if (role === 'builder') btn.classList.add('text-gray-400');
+                    else btn.classList.add('text-gray-500');
                 }
             });
 
@@ -894,7 +1221,10 @@
             const conceptHighlight = document.getElementById('concept-highlight');
             const stickyCta = document.getElementById('mobile-sticky-cta');
 
-            // Reset classes
+            // Logo Dot Logic
+            const navDot = document.getElementById('nav-logo-dot');
+            const footerDot = document.getElementById('footer-logo-dot');
+
             ['bg-brand-teal', 'bg-brand-gold', 'text-brand-teal', 'text-brand-gold'].forEach(c => {
                 badgeDot.classList.remove(c); ctaBtn.classList.remove(c); 
                 conceptBadge.classList.remove(c); conceptIcon.classList.remove(c); 
@@ -910,13 +1240,22 @@
                 conceptBadge.classList.add('text-brand-gold');
                 conceptIcon.classList.add('bg-brand-gold');
                 if(conceptHighlight) conceptHighlight.classList.add('text-brand-gold');
+
+                // Update Dots to Gold
+                if(navDot) { navDot.classList.remove('text-brand-teal'); navDot.classList.add('text-brand-gold'); }
+                if(footerDot) { footerDot.classList.remove('text-brand-teal'); footerDot.classList.add('text-brand-gold'); }
                 
+                // Update Step Badges
+                ['step-1-badge', 'step-2-badge', 'step-3-badge'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) { el.classList.remove('bg-brand-teal'); el.classList.add('bg-brand-gold', 'text-brand-charcoal'); }
+                });
+
                 document.getElementById('pricing-buyer').classList.add('hidden');
                 document.getElementById('pricing-builder').classList.remove('hidden');
                 document.getElementById('cta-buyer').classList.add('hidden');
                 document.getElementById('cta-builder').classList.remove('hidden');
 
-                // Mobile Sticky CTA
                 if(stickyCta) {
                     stickyCta.innerText = "View Local Demand";
                     stickyCta.classList.remove('bg-brand-teal', 'text-white');
@@ -933,12 +1272,21 @@
                 conceptIcon.classList.add('bg-brand-teal');
                 if(conceptHighlight) conceptHighlight.classList.add('text-brand-teal');
 
+                // Update Dots to Teal
+                if(navDot) { navDot.classList.remove('text-brand-gold'); navDot.classList.add('text-brand-teal'); }
+                if(footerDot) { footerDot.classList.remove('text-brand-gold'); footerDot.classList.add('text-brand-teal'); }
+
+                // Update Step Badges
+                ['step-1-badge', 'step-2-badge', 'step-3-badge'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) { el.classList.add('bg-brand-teal'); el.classList.remove('bg-brand-gold', 'text-brand-charcoal'); }
+                });
+
                 document.getElementById('pricing-buyer').classList.remove('hidden');
                 document.getElementById('pricing-builder').classList.add('hidden');
                 document.getElementById('cta-buyer').classList.remove('hidden');
                 document.getElementById('cta-builder').classList.add('hidden');
 
-                // Mobile Sticky CTA
                 if(stickyCta) {
                     stickyCta.innerText = "Create Free Profile";
                     stickyCta.classList.remove('bg-brand-gold', 'text-brand-charcoal');
@@ -946,58 +1294,165 @@
                 }
             }
             
-            // Render Testimonials
-            const tGrid = document.getElementById('testimonials-grid');
-            if(tGrid) {
-                tGrid.innerHTML = '';
-                const currentTestimonials = testimonialsData[role];
-                currentTestimonials.forEach(t => {
-                    const div = document.createElement('div');
-                    const hoverClass = role === 'builder' ? 'hover:border-brand-gold' : 'hover:border-brand-teal';
-                    const iconTextClass = role === 'builder' ? 'text-brand-gold' : 'text-brand-teal';
-                    const groupHoverBgClass = role === 'builder' ? 'group-hover:bg-brand-gold' : 'group-hover:bg-brand-teal';
-
-                    div.className = `bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-soft border border-transparent ${hoverClass} transition-all group`;
-                    div.innerHTML = `
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-12 h-12 bg-brand-concrete dark:bg-gray-700 rounded-full flex items-center justify-center font-bold text-xl group-hover:text-white transition-colors ${iconTextClass} ${groupHoverBgClass}">${t.name.charAt(0)}</div>
-                            <div><h4 class="font-bold text-brand-charcoal dark:text-white">${t.name}</h4><p class="text-xs text-gray-500 font-bold uppercase tracking-wider">${t.loc}</p></div>
-                        </div>
-                        <p class="text-gray-500 dark:text-gray-300 italic leading-relaxed">"${t.quote}"</p>
-                    `;
-                    tGrid.appendChild(div);
-                });
-            }
+            renderTestimonials(role);
+            // Replaced renderFaq with AI Suggestions
+            renderAiSuggestions(role);
             
-            // Render FAQs
-            const fContainer = document.getElementById('faq-container');
-            if(fContainer) {
-                fContainer.innerHTML = '';
-                const currentFaqs = faqData[role];
-                currentFaqs.forEach(item => {
-                    const div = document.createElement('div');
-                    div.className = "bg-white dark:bg-gray-800 rounded-2xl border border-brand-border dark:border-gray-700 overflow-hidden shadow-sm";
-                    div.innerHTML = `
-                        <button class="w-full px-6 py-5 text-left flex justify-between items-center font-bold text-brand-charcoal dark:text-white" onclick="toggleFaq(this)">
-                            ${item.q} <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 transition-transform duration-300"></i>
-                        </button>
-                        <div class="faq-answer px-6 bg-gray-50 dark:bg-gray-900"><p class="py-4 text-sm text-gray-600 dark:text-gray-400">${item.a}</p></div>
-                    `;
-                    fContainer.appendChild(div);
-                });
-            }
-            
-            // Logo Color Update
             const activeHex = colorMap[role];
             ['nav-logo-path-1', 'nav-logo-path-2', 'footer-logo-path-1', 'footer-logo-path-2'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) { el.setAttribute('fill', activeHex); el.setAttribute('stroke', activeHex); }
             });
 
+            // Update Dynamic Icons for Steps
+            document.getElementById('step-1-icon').setAttribute('data-lucide', cfg.step1Icon);
+            document.getElementById('step-2-icon').setAttribute('data-lucide', cfg.step2Icon);
+            document.getElementById('step-3-icon').setAttribute('data-lucide', cfg.step3Icon);
+
             lucide.createIcons();
+            setTimeout(drawMap, 100);
         }
 
-        // --- Demo & Dashboard Logic (Restored from v1.4) ---
+        function renderTestimonials(role) {
+            const tGrid = document.getElementById('testimonials-grid');
+            if(!tGrid) return;
+            tGrid.innerHTML = '';
+            
+            const filtered = testimonialsData.filter(t => t.role === role);
+            
+            filtered.forEach((t, i) => {
+                const div = document.createElement('div');
+                // Ticket / Receipt Visual
+                div.className = "receipt-card bg-white dark:bg-gray-800 p-0 rounded-sm shadow-sm transform transition-all hover:-translate-y-1 relative font-mono text-sm";
+                
+                const borderColor = role === 'builder' ? 'border-brand-gold' : 'border-brand-teal';
+                const textColor = role === 'builder' ? 'text-brand-gold' : 'text-brand-teal';
+                const stampColor = role === 'builder' ? '#FBBF24' : '#00C2B2';
+
+                div.innerHTML = `
+                    <div class="p-6 border-b border-dashed border-gray-300 dark:border-gray-600 relative overflow-hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-xs text-gray-400 font-bold uppercase tracking-wider">Transaction Record</span>
+                            <span class="${textColor} font-bold">${t.time}</span>
+                        </div>
+                        <div class="text-2xl font-bold text-brand-charcoal dark:text-white mb-1">${t.savings}</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-widest mb-6">Value Unlocked</div>
+                        
+                        <div class="space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Market Time:</span>
+                                <span class="font-bold text-brand-charcoal dark:text-gray-200">${t.marketTime}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Counterparty:</span>
+                                <span class="font-bold text-brand-charcoal dark:text-gray-200">${t.builder}</span>
+                            </div>
+                        </div>
+
+                        <!-- STAMP ANIMATION CONTAINER -->
+                        <div class="stamp-container absolute bottom-4 right-4 opacity-0 transform rotate-[-10deg]" style="border-color: ${stampColor}; color: ${stampColor}">
+                            ${t.status}
+                        </div>
+                    </div>
+                    <div class="receipt-edge"></div>
+                `;
+                tGrid.appendChild(div);
+            });
+        }
+        
+        // AI Assistant Logic (Replacing FAQ)
+        function renderAiSuggestions(role) {
+            const container = document.getElementById('ai-suggestions');
+            if(!container) return;
+            container.innerHTML = '';
+            
+            const cfg = contentConfig[role] || contentConfig['buyer'];
+            const chips = cfg.aiChips || [];
+            
+            chips.forEach(question => {
+                const btn = document.createElement('button');
+                btn.className = "flex-shrink-0 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-full text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-brand-teal dark:hover:border-brand-gold transition-colors";
+                btn.innerText = question;
+                btn.onclick = () => askAi(question);
+                container.appendChild(btn);
+            });
+        }
+
+        function askAi(question) {
+            const input = document.getElementById('ai-input');
+            input.value = ''; // clear input
+            
+            const chatWindow = document.getElementById('ai-chat-window');
+            
+            // 1. Add User Message
+            const userMsg = document.createElement('div');
+            userMsg.className = "flex gap-4 flex-row-reverse animate-fade-in";
+            userMsg.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <div class="bg-brand-charcoal dark:bg-white rounded-2xl rounded-tr-none p-4 text-sm text-white dark:text-brand-charcoal shadow-sm max-w-[80%]">
+                    ${question}
+                </div>
+            `;
+            chatWindow.appendChild(userMsg);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // 2. Add "Thinking" Indicator
+            const thinkingId = 'thinking-' + Date.now();
+            const thinkingMsg = document.createElement('div');
+            thinkingMsg.id = thinkingId;
+            thinkingMsg.className = "flex gap-4 animate-fade-in";
+            thinkingMsg.innerHTML = `
+                <div class="w-8 h-8 rounded-full bg-brand-teal dark:bg-brand-gold flex items-center justify-center shrink-0">
+                    <svg class="w-4 h-4 text-white dark:text-brand-charcoal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 14a1 1 0 1 1 1-1 1 1 0 0 1-1 1Zm1-4.33V12a1 1 0 0 1-1 1v0a1 1 0 0 1-1-1v-.5a2.5 2.5 0 0 1 5 0Z"></path></svg>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-none p-4 text-sm text-gray-500 shadow-sm flex items-center gap-1">
+                    <div class="dot-typing bg-gray-400"></div>
+                    <div class="dot-typing bg-gray-400"></div>
+                    <div class="dot-typing bg-gray-400"></div>
+                </div>
+            `;
+            chatWindow.appendChild(thinkingMsg);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // 3. Process & Respond (Simulated Delay)
+            setTimeout(() => {
+                document.getElementById(thinkingId).remove();
+                
+                // Simple keyword matching
+                const lowerQ = question.toLowerCase();
+                let answer = "I'm still learning about that specific topic. Try asking about pricing, safety, or how the reverse market works!";
+                
+                for (const key in aiKnowledgeBase) {
+                    if (lowerQ.includes(key)) {
+                        answer = aiKnowledgeBase[key].text;
+                        break;
+                    }
+                }
+
+                const botMsg = document.createElement('div');
+                botMsg.className = "flex gap-4 animate-fade-in";
+                botMsg.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-brand-charcoal flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 14a1 1 0 1 1 1-1 1 1 0 0 1-1 1Zm1-4.33V12a1 1 0 0 1-1 1v0a1 1 0 0 1-1-1v-.5a2.5 2.5 0 0 1 5 0Z"></path></svg>
+                    </div>
+                    <div class="bg-gray-100 dark:bg-gray-700 rounded-2xl rounded-tl-none p-4 text-sm text-brand-charcoal dark:text-gray-200 shadow-sm max-w-[80%]">
+                        ${answer}
+                    </div>
+                `;
+                chatWindow.appendChild(botMsg);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 1200);
+        }
+
+        function handleAiSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('ai-input');
+            if(input.value.trim()) askAi(input.value.trim());
+        }
+
+        // --- Demo & Dashboard Logic (V1.7) ---
         function selectStyle(s) {
             appState.style = s;
             document.querySelectorAll('.style-btn').forEach(b => b.classList.remove('ring-2', 'ring-brand-teal'));
@@ -1038,7 +1493,6 @@
         }
 
         function updateDashPreview() {
-            // Safe check for elements, as they exist in overlay
             const sEl = document.getElementById('dash-card-style');
             if(sEl) sEl.innerText = appState.style || 'Pending';
             const bEl = document.getElementById('dash-card-budget');
@@ -1051,15 +1505,50 @@
 
         function verifyUser(e) {
             e.currentTarget.innerHTML = 'Verifying...';
-            setTimeout(() => { nextStep('4'); notifyBuilder(); }, 1000);
+            setTimeout(() => { 
+                nextStep('4'); 
+                notifyBuilder(); 
+                spawnNotification({text: "Verification Complete", icon: "shield"});
+            }, 1000);
+        }
+
+        const mockBios = [
+            "Professional Couple seeking a modern sanctuary. Pre-approved and ready to move quickly for the right home office setup.",
+            "Growing family prioritizing school district and space. Looking for a functional layout with room to expand.",
+            "Design-conscious buyer seeking architectural uniqueness. Flexible closing timeline for the perfect modern aesthetic."
+        ];
+        
+        function generateBuyerBio() {
+            const btn = document.getElementById('btn-generate-bio');
+            const container = document.getElementById('ai-bio-container');
+            const text = document.getElementById('ai-bio-text');
+            
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Generating...'; btn.disabled = true;
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                const randomBio = mockBios[Math.floor(Math.random() * mockBios.length)];
+                container.classList.remove('hidden');
+                text.innerText = `"${randomBio}"`;
+                btn.innerHTML = '<span>✨</span> Regenerate Bio'; btn.disabled = false;
+            }, 1200);
+        }
+
+        function getOrigin(elementId) {
+            const el = document.getElementById(elementId);
+            if (!el) return { x: 0.5, y: 0.5 }; 
+            const rect = el.getBoundingClientRect();
+            const x = (rect.left + rect.width / 2) / window.innerWidth;
+            const y = (rect.top + rect.height / 2) / window.innerHeight;
+            return { x, y };
         }
 
         function notifyBuilder() {
             const overlay = document.getElementById('user-card-overlay');
             if(overlay) overlay.classList.remove('translate-y-full');
-            const stats = document.querySelector('.counter'); 
-            // Trigger confetti
-            confetti({ particleCount: 50, spread: 60, origin: { x: 0.7, y: 0.8 }, colors: ['#00C2B2', '#FBBF24'] });
+            const origin = getOrigin('builder-dashboard-container');
+            // POP 1: Builder receives verified lead
+            confetti({ particleCount: 30, spread: 60, origin: origin, colors: ['#00C2B2', '#FBBF24'] });
         }
 
         function unlockLead() {
@@ -1067,19 +1556,110 @@
             appState.credits -= 50;
             const credStat = document.getElementById('stat-credits');
             if(credStat) credStat.innerText = appState.credits;
-            
-            const btn = document.getElementById('btn-unlock');
-            btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i> LEAD UNLOCKED`;
-            btn.classList.remove('bg-brand-gold', 'text-brand-charcoal');
-            btn.classList.add('bg-green-500', 'text-white');
-            setTimeout(() => {
-               document.getElementById('user-card-overlay').innerHTML = `<div class="text-center py-8"><h3 class="text-white font-bold text-2xl">Pitch Sent!</h3></div>`;
-               setTimeout(() => {
-                   document.getElementById('user-card-overlay').classList.add('translate-y-full');
-               }, 2000);
-            }, 1000);
+            document.getElementById('pitch-modal').classList.remove('hidden');
         }
 
+        function selectPitch(el) {
+            el.classList.add('border-brand-gold', 'bg-gray-600');
+        }
+        
+        const mockPitches = [
+            "We have a lot in Phase 2 perfectly suited for your custom plan. Let's discuss a build-to-suit option.",
+            "I have a spec home finishing in 45 days that hits all your requirements. $10k incentive if under contract this month.",
+            "Your budget aligns with our new 'Modern Series'. Verify your funds and let's schedule a hard hat tour."
+        ];
+
+        function generateBuilderPitch() {
+            const btn = document.getElementById('btn-ai-pitch');
+            const area = document.getElementById('pitch-message');
+            btn.innerText = 'Thinking...';
+            setTimeout(() => {
+                area.value = mockPitches[Math.floor(Math.random() * mockPitches.length)];
+                btn.innerHTML = '<span>✨</span> AI Draft';
+            }, 800);
+        }
+
+        function sendPitch() {
+             document.getElementById('pitch-modal').classList.add('hidden');
+             document.getElementById('user-card-overlay').classList.add('translate-y-full');
+             
+             const container = document.getElementById('buyer-pitches-container');
+             container.innerHTML = `
+                 <div class="animate-fade-in p-4 bg-brand-teal/5 border border-brand-teal rounded-xl cursor-pointer hover:shadow-md transition-all" onclick="acceptPitch()">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="text-[10px] font-bold uppercase text-brand-teal">New Proposal</div>
+                        <div class="w-6 h-6 rounded-full bg-brand-teal text-white flex items-center justify-center"><i data-lucide="home" class="w-3 h-3"></i></div>
+                    </div>
+                    <h4 class="font-bold text-sm text-brand-charcoal mb-1">Move-In Ready Match</h4>
+                    <p class="text-xs text-gray-500 mb-3">"We have a spec home finishing in 45 days that hits all your requirements..."</p>
+                    <button class="w-full py-2 bg-brand-teal text-white text-xs font-bold rounded-lg">View Details</button>
+                 </div>
+             `;
+             lucide.createIcons();
+             spawnNotification({text: "Pitch Sent!", icon: "send"});
+        }
+
+        function acceptPitch() {
+             const container = document.getElementById('buyer-screen-container');
+             container.innerHTML = `
+                <div class="h-full flex flex-col items-center justify-center text-center p-6 animate-fade-in">
+                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center text-green-600 mb-4 shadow-sm border border-green-200">
+                        <i data-lucide="check" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-brand-charcoal mb-2">It's a Match!</h3>
+                    <p class="text-sm text-gray-500 mb-6">Builder notified. Preparing contract.</p>
+                    <button onclick="resetDemo()" class="text-xs text-brand-teal underline">Start Over</button>
+                </div>
+             `;
+             lucide.createIcons();
+             
+             const phoneOrigin = getOrigin('phone-container');
+             // POP 2: Buyer accepts pitch
+             confetti({ particleCount: 100, spread: 70, origin: phoneOrigin, colors: ['#00C2B2', '#10B981'] });
+             
+             triggerBuilderSale();
+        }
+
+        function triggerBuilderSale() {
+            const body = document.getElementById('builder-dashboard-body');
+            
+            const wrapper = document.createElement('div');
+            wrapper.id = 'builder-sale-overlay-wrapper';
+            wrapper.className = 'absolute inset-0 z-50 flex items-center justify-center pointer-events-none';
+            
+            const saleAlert = document.createElement('div');
+            saleAlert.className = 'w-4/5 bg-gray-900/95 border-2 border-brand-gold rounded-xl shadow-2xl p-6 text-center animate-fade-in backdrop-blur-xl pointer-events-auto';
+            saleAlert.innerHTML = `
+                <div class="mb-4 stamp-container animate-stamp">SOLD</div>
+                <h3 class="text-xl font-bold text-white mb-1 uppercase tracking-wider">Sale Pending</h3>
+                <p class="text-xs text-gray-400 mb-4">Buyer #8942 Accepted</p>
+                <div class="text-[10px] text-gray-500 italic">Marketing Spend: $0.00</div>
+            `;
+            
+            wrapper.appendChild(saleAlert);
+            body.appendChild(wrapper);
+            // No confetti here
+        }
+
+        function resetDemo() {
+            const list = document.getElementById('dashboard-list-view');
+            if(list) list.innerHTML = '';
+            
+            const saleWrapper = document.getElementById('builder-sale-overlay-wrapper');
+            if (saleWrapper) saleWrapper.remove();
+            
+            location.reload(); 
+        }
+
+        // ROI Calculator Logic
+        function updateROI(homes) {
+            const savingsPerHome = 14350; // $17k - $2650
+            const total = homes * savingsPerHome;
+            document.getElementById('roi-homes').innerText = `${homes} Homes`;
+            document.getElementById('roi-savings').innerText = `$${total.toLocaleString()}`;
+        }
+
+        // --- Feed & Map ---
         function addFeedItem() {
             const container = document.getElementById('dashboard-list-view');
             if (!container) return;
@@ -1121,17 +1701,24 @@
         function drawMap() {
             const c = document.getElementById('demandMap');
             if(!c) return;
-            const ctx = c.getContext('2d');
             c.width = c.parentElement.offsetWidth;
             c.height = c.parentElement.offsetHeight;
+            const ctx = c.getContext('2d');
+            
             ctx.fillStyle = '#111827';
             ctx.fillRect(0,0,c.width,c.height);
-            for(let i=0; i<30; i++) { 
-                ctx.beginPath(); 
-                ctx.arc(Math.random()*c.width, Math.random()*c.height, Math.random()*20+5, 0, Math.PI*2); 
-                ctx.fillStyle = 'rgba(251, 191, 36, 0.15)'; 
-                ctx.fill(); 
-            }
+            
+            heatMapPoints.forEach(p => {
+                const x = p.x * c.width;
+                const y = p.y * c.height;
+                const grad = ctx.createRadialGradient(x, y, 0, x, y, p.r);
+                grad.addColorStop(0, 'rgba(251, 191, 36, 0.2)'); 
+                grad.addColorStop(1, 'rgba(251, 191, 36, 0)');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(x, y, p.r, 0, Math.PI*2);
+                ctx.fill();
+            });
         }
 
         function initChart() {
@@ -1148,9 +1735,8 @@
         
         function toggleFaq(btn) {
             const ans = btn.nextElementSibling;
-            // Lucide replaces <i> with <svg>, so we try to find the svg first, fallback to i if not yet replaced
             const icon = btn.querySelector('svg') || btn.querySelector('i');
-            if (!icon) return; // Safety check
+            if (!icon) return; 
             
             if(ans.classList.contains('open')) { 
                 ans.classList.remove('open'); 
@@ -1161,28 +1747,24 @@
             }
         }
 
-        // --- Floating Hero UI Logic ---
         const notifications = [
             { text: "New Match: $450k Budget", icon: "check" },
             { text: "Builder Bid: $15k Incentive", icon: "tag" },
             { text: "Pre-Approval Verified", icon: "shield" }
         ];
         
-        function spawnNotification() {
+        function spawnNotification(custom) {
             const container = document.getElementById('hero-floating-notifications');
             if(!container) return;
-            const notif = notifications[Math.floor(Math.random() * notifications.length)];
+            const notif = custom || notifications[Math.floor(Math.random() * notifications.length)];
             const el = document.createElement('div');
             el.className = "floating-bubble bg-white/90 dark:bg-gray-900/90 backdrop-blur px-4 py-2 rounded-xl shadow-lg border border-white/20 text-xs font-bold flex items-center gap-2 text-brand-charcoal dark:text-white";
             el.innerHTML = `<i data-lucide="${notif.icon}" class="w-3 h-3 text-brand-teal"></i> ${notif.text}`;
             container.appendChild(el);
             lucide.createIcons();
-            
-            // Remove after 4s
             setTimeout(() => { el.remove(); }, 4000);
         }
         
-        // --- Form Validation ---
         function validateEmail(input) {
             const icon = document.getElementById('email-check');
             if(input.value.includes('@') && input.value.includes('.')) {
@@ -1192,7 +1774,6 @@
             }
         }
 
-        // --- Init ---
         function openWaitlistModal(role) { 
             const target = role || currentAudience;
             updateModalContext(target);
@@ -1215,7 +1796,6 @@
             
             document.getElementById('waitlist-trust-text').innerText = conf.trust;
             
-            // Handle radio buttons logic visually only
             const buyerInput = document.getElementById('role-buyer-input');
             const builderInput = document.getElementById('role-builder-input');
             if(role === 'buyer') buyerInput.checked = true;
@@ -1229,7 +1809,7 @@
             setAudience('buyer'); 
             setInterval(addFeedItem, 3000); 
             setInterval(spawnNotification, 2500); 
-            addFeedItem(); // Initial call
+            addFeedItem(); 
         });
 
     </script>
