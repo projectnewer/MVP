@@ -683,25 +683,83 @@
                         <div id="builder-dashboard-body" class="flex-1 relative bg-brand-charcoal overflow-hidden">
                             <div id="dashboard-list-view" class="absolute inset-0 overflow-y-auto p-4 space-y-2 overscroll-contain touch-pan-y" style="overflow-anchor: none;"></div>
                             
+                            <!-- UPDATED: Enhanced Map View -->
                             <div id="dashboard-map-view" class="absolute inset-0 hidden">
                                 <canvas id="demandMap" class="w-full h-full"></canvas>
-                                <div class="absolute bottom-4 left-4 bg-gray-900/90 backdrop-blur px-4 py-2 rounded-lg text-xs font-bold text-white border border-gray-700">
-                                    <span class="text-brand-teal">●</span> Your Lots &nbsp; <span class="text-brand-gold">●</span> Demand Heat
+                                <div class="absolute bottom-6 left-6 bg-gray-900/90 backdrop-blur px-4 py-3 rounded-lg border border-gray-700 shadow-2xl flex flex-col gap-2">
+                                    <div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Heatmap Legend</div>
+                                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-teal shadow-[0_0_10px_#0D9488]"></span><span class="text-xs font-bold text-white">Verified Buyer</span></div>
+                                    <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-brand-gold shadow-[0_0_10px_#D97706]"></span><span class="text-xs font-bold text-white">High Demand Zone</span></div>
+                                </div>
+                                <div class="absolute top-6 right-6 bg-brand-gold/10 backdrop-blur px-3 py-1 rounded border border-brand-gold/30">
+                                    <span class="text-[10px] font-mono text-brand-gold animate-pulse">● LIVE SCANNING</span>
                                 </div>
                             </div>
 
-                             <div id="dashboard-intel-view" class="absolute inset-0 hidden p-6 overflow-y-auto">
-                                <div class="grid grid-cols-2 gap-6 h-full">
-                                    <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
-                                        <h4 class="text-xs font-bold text-gray-400 uppercase mb-4">Feature Demand</h4>
-                                        <div class="space-y-4">
-                                            <div><div class="flex justify-between text-xs text-gray-400 mb-1"><span>Home Office</span><span class="text-brand-gold font-mono">42%</span></div><div class="h-1 bg-gray-700 rounded-full"><div class="h-full bg-brand-gold w-[42%] rounded-full"></div></div></div>
-                                            <div><div class="flex justify-between text-xs text-gray-400 mb-1"><span>3-Car Garage</span><span class="text-gray-500 font-mono">28%</span></div><div class="h-1 bg-gray-700 rounded-full"><div class="h-full bg-indigo-500 w-[28%] rounded-full"></div></div></div>
+                            <!-- UPDATED: Denser Intel Tab -->
+                             <div id="dashboard-intel-view" class="absolute inset-0 hidden p-6 overflow-y-auto bg-brand-charcoal">
+                                <div class="grid grid-cols-2 gap-6 h-full auto-rows-min">
+                                    <!-- 1. Amenity Demand -->
+                                    <div class="bg-gray-900/50 p-5 rounded-xl border border-gray-700 h-full flex flex-col">
+                                        <div class="flex justify-between items-center mb-4">
+                                            <h4 class="text-xs font-bold text-white uppercase tracking-wider">Amenity Demand</h4>
+                                            <span class="text-[10px] text-gray-500">Last 7 Days</span>
+                                        </div>
+                                        <div class="space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+                                            <div class="group"><div class="flex justify-between text-xs text-gray-300 mb-1"><span>Home Office</span><span class="text-brand-gold font-mono">42% <span class="text-green-500 text-[10px]">▲</span></span></div><div class="h-1.5 bg-gray-800 rounded-full overflow-hidden"><div class="h-full bg-brand-gold w-[42%] rounded-full group-hover:shadow-[0_0_10px_#D97706] transition-all"></div></div></div>
+                                            <div class="group"><div class="flex justify-between text-xs text-gray-300 mb-1"><span>3-Car Garage</span><span class="text-gray-400 font-mono">28% <span class="text-gray-600 text-[10px]">-</span></span></div><div class="h-1.5 bg-gray-800 rounded-full overflow-hidden"><div class="h-full bg-blue-500 w-[28%] rounded-full"></div></div></div>
+                                            <div class="group"><div class="flex justify-between text-xs text-gray-300 mb-1"><span>Pool Ready</span><span class="text-gray-400 font-mono">15% <span class="text-green-500 text-[10px]">▲</span></span></div><div class="h-1.5 bg-gray-800 rounded-full overflow-hidden"><div class="h-full bg-teal-500 w-[15%] rounded-full"></div></div></div>
+                                            <div class="group"><div class="flex justify-between text-xs text-gray-300 mb-1"><span>Multi-Gen Suite</span><span class="text-gray-400 font-mono">12% <span class="text-green-500 text-[10px]">▲</span></span></div><div class="h-1.5 bg-gray-800 rounded-full overflow-hidden"><div class="h-full bg-purple-500 w-[12%] rounded-full"></div></div></div>
                                         </div>
                                     </div>
-                                    <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
-                                        <h4 class="text-xs font-bold text-gray-400 uppercase mb-4">Budget Trend</h4>
-                                        <div class="h-32 w-full"><canvas id="intelChart"></canvas></div>
+
+                                    <!-- 2. Chart -->
+                                    <div class="bg-gray-900/50 p-5 rounded-xl border border-gray-700 h-full flex flex-col">
+                                        <div class="flex justify-between items-center mb-4">
+                                            <h4 class="text-xs font-bold text-white uppercase tracking-wider">Price Velocity</h4>
+                                            <div class="flex gap-2"><span class="w-2 h-2 rounded-full bg-brand-gold"></span><span class="text-[10px] text-gray-500">Avg Budget</span></div>
+                                        </div>
+                                        <div class="flex-1 w-full relative">
+                                            <canvas id="intelChart"></canvas>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Zip Heat -->
+                                    <div class="bg-gray-900/50 p-5 rounded-xl border border-gray-700 h-full">
+                                        <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Zip Code Heat</h4>
+                                        <div class="space-y-3">
+                                            <div class="flex items-center justify-between p-2 rounded bg-gray-800/50 border border-gray-700">
+                                                <div class="flex items-center gap-3"><div class="text-brand-gold font-bold text-sm">01</div><span class="text-xs font-mono text-gray-300">78704 (Austin)</span></div>
+                                                <div class="text-xs font-bold text-white">241 <span class="text-[10px] text-gray-500 font-normal">Active</span></div>
+                                            </div>
+                                            <div class="flex items-center justify-between p-2 rounded bg-gray-800/50 border border-gray-700">
+                                                <div class="flex items-center gap-3"><div class="text-gray-500 font-bold text-sm">02</div><span class="text-xs font-mono text-gray-300">77002 (Houston)</span></div>
+                                                <div class="text-xs font-bold text-white">189 <span class="text-[10px] text-gray-500 font-normal">Active</span></div>
+                                            </div>
+                                            <div class="flex items-center justify-between p-2 rounded bg-gray-800/50 border border-gray-700">
+                                                <div class="flex items-center gap-3"><div class="text-gray-500 font-bold text-sm">03</div><span class="text-xs font-mono text-gray-300">75034 (Frisco)</span></div>
+                                                <div class="text-xs font-bold text-white">156 <span class="text-[10px] text-gray-500 font-normal">Active</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Competitor Intel -->
+                                    <div class="bg-gray-900/50 p-5 rounded-xl border border-gray-700 h-full">
+                                        <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Competitor Intel</h4>
+                                        <div class="space-y-3 text-xs">
+                                            <div class="flex gap-2">
+                                                <i data-lucide="zap" class="w-4 h-4 text-yellow-500 shrink-0"></i>
+                                                <span class="text-gray-300"><strong class="text-white">Lennar</strong> closed 12 units in <span class="text-gray-400 font-mono">78704</span> yesterday.</span>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <i data-lucide="trending-down" class="w-4 h-4 text-red-400 shrink-0"></i>
+                                                <span class="text-gray-300"><strong class="text-white">DR Horton</strong> dropped prices 2% in <span class="text-gray-400 font-mono">77002</span>.</span>
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <i data-lucide="users" class="w-4 h-4 text-blue-400 shrink-0"></i>
+                                                <span class="text-gray-300">14 Custom Builders viewing <span class="text-white">Lot 8</span>.</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -824,6 +882,7 @@
         </div>
     </section>
 
+    <!-- ... (Pricing Builder, CTA, FAQ, Footer sections remain unchanged) ... -->
     <section id="pricing-builder" class="py-24 bg-brand-charcoal text-white hidden transition-colors scroll-mt-28" data-audience="builder">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal-on-scroll"><h2 class="text-3xl md:text-4xl font-extrabold text-white">CAC Engine</h2><p class="text-gray-400 mt-4">Stop burning cash on ads for tire-kickers.</p></div>
@@ -1006,6 +1065,7 @@
         </div>
     </div>
 
+    <!-- ... (Waitlist Modal remains unchanged) ... -->
     <div id="waitlist-modal" class="fixed inset-0 z-[60] hidden">
         <div class="absolute inset-0 bg-brand-charcoal/90 dark:bg-black/90 backdrop-blur-sm" onclick="closeWaitlistModal()"></div>
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-2xl transition-colors">
@@ -1046,6 +1106,7 @@
         let appState = { style: '', budget: 500, bedrooms: 3, amenities: [], credits: 500, persona: '' };
         let currentAudience = 'buyer'; 
         let intelChartInstance = null;
+        let mapAnimationId = null; // Store animation frame ID
 
         // --- Chat Engine Logic ---
         const chatKnowledgeBase = {
@@ -1148,8 +1209,33 @@
             }
         }
         
-        // --- Map Data ---
-        const heatMapPoints = Array.from({length: 40}, () => ({ x: Math.random(), y: Math.random(), r: 20 + Math.random() * 40 }));
+        // --- UPDATED MAP LOGIC ---
+        // Dense Heatmap Data (Simulating distinct neighborhoods)
+        const heatMapPoints = [];
+        const clusters = [
+            { x: 0.3, y: 0.4, count: 35, spread: 0.15 }, // Downtown
+            { x: 0.7, y: 0.2, count: 25, spread: 0.1 },  // Suburbs North
+            { x: 0.6, y: 0.7, count: 40, spread: 0.12 }  // New Dev South
+        ];
+
+        clusters.forEach(c => {
+            for(let i=0; i<c.count; i++) {
+                heatMapPoints.push({
+                    x: c.x + (Math.random() - 0.5) * c.spread,
+                    y: c.y + (Math.random() - 0.5) * c.spread,
+                    r: 25 + Math.random() * 50,
+                    opacity: 0.3 + Math.random() * 0.5,
+                    pulseSpeed: 0.02 + Math.random() * 0.03
+                });
+            }
+        });
+
+        // Add some distinct "Verified Buyer" dots (Teal/Green) that sit on top
+        const verifiedLeads = Array.from({length: 12}, () => ({
+            x: 0.2 + Math.random() * 0.6,
+            y: 0.2 + Math.random() * 0.6,
+            active: true
+        }));
         
         // --- Scroll Reveal Logic ---
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
@@ -1543,7 +1629,13 @@
             // Removed JS logic for logo paths
 
             lucide.createIcons();
-            setTimeout(drawMap, 100);
+            
+            // Re-init Map Animation
+            if(role === 'builder') {
+                setTimeout(animateMap, 100); 
+            } else {
+                if(mapAnimationId) cancelAnimationFrame(mapAnimationId);
+            }
         }
 
         // ... [Rest of js functions like renderTestimonials, drawMap, etc.]
@@ -1852,7 +1944,7 @@
             });
 
             if(v === 'map') { 
-                map.classList.remove('hidden'); mapBtn.classList.add('bg-brand-gold', 'text-brand-charcoal'); drawMap(); 
+                map.classList.remove('hidden'); mapBtn.classList.add('bg-brand-gold', 'text-brand-charcoal'); animateMap(); 
             } else if (v === 'intel') {
                 intel.classList.remove('hidden'); intelBtn.classList.add('bg-brand-gold', 'text-brand-charcoal'); initChart();
             } else { 
@@ -1860,27 +1952,68 @@
             }
         }
 
-        function drawMap() {
+        // --- NEW MAP RENDER LOOP ---
+        function animateMap() {
             const c = document.getElementById('demandMap');
-            if(!c) return;
+            if(!c || c.offsetParent === null) return; // Stop if hidden
+            
             c.width = c.parentElement.offsetWidth;
             c.height = c.parentElement.offsetHeight;
             const ctx = c.getContext('2d');
-            
+            const time = Date.now() * 0.001;
+
+            // Clear
             ctx.fillStyle = '#111827';
             ctx.fillRect(0,0,c.width,c.height);
-            
+
+            // Draw Grid
+            ctx.strokeStyle = '#1F2937';
+            ctx.lineWidth = 1;
+            const gridSize = 40;
+            for(let x=0; x<c.width; x+=gridSize) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,c.height); ctx.stroke(); }
+            for(let y=0; y<c.height; y+=gridSize) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(c.width,y); ctx.stroke(); }
+
+            // Draw Heat Clusters
             heatMapPoints.forEach(p => {
                 const x = p.x * c.width;
                 const y = p.y * c.height;
+                // Pulsate opacity
+                const opacity = p.opacity + Math.sin(time * p.pulseSpeed * 10) * 0.1;
+                
                 const grad = ctx.createRadialGradient(x, y, 0, x, y, p.r);
-                grad.addColorStop(0, 'rgba(217, 119, 6, 0.2)'); 
+                grad.addColorStop(0, `rgba(217, 119, 6, ${opacity})`); 
                 grad.addColorStop(1, 'rgba(217, 119, 6, 0)'); 
                 ctx.fillStyle = grad;
                 ctx.beginPath();
                 ctx.arc(x, y, p.r, 0, Math.PI*2);
                 ctx.fill();
             });
+
+            // Draw Verified Leads (Teal Dots)
+            verifiedLeads.forEach(l => {
+                const lx = l.x * c.width;
+                const ly = l.y * c.height;
+                ctx.fillStyle = '#0D9488';
+                ctx.beginPath();
+                ctx.arc(lx, ly, 3, 0, Math.PI*2);
+                ctx.fill();
+                // Glow ring
+                ctx.strokeStyle = `rgba(13, 148, 136, ${0.5 + Math.sin(time * 3) * 0.3})`;
+                ctx.beginPath();
+                ctx.arc(lx, ly, 6, 0, Math.PI*2);
+                ctx.stroke();
+            });
+
+            // Radar Sweep Effect
+            const sweepX = (time * 100) % (c.width + 200) - 100;
+            const gradient = ctx.createLinearGradient(sweepX, 0, sweepX + 100, 0);
+            gradient.addColorStop(0, 'rgba(217, 119, 6, 0)');
+            gradient.addColorStop(0.5, 'rgba(217, 119, 6, 0.1)'); // Faint Gold sweep
+            gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(sweepX, 0, 100, c.height);
+
+            mapAnimationId = requestAnimationFrame(animateMap);
         }
 
         function initChart() {
@@ -1888,10 +2021,38 @@
             const c = document.getElementById('intelChart');
             if(!c) return;
             const ctx = c.getContext('2d');
+            
+            // Create Gradient
+            const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(217, 119, 6, 0.5)'); // Brand Gold
+            gradient.addColorStop(1, 'rgba(217, 119, 6, 0)');
+
             intelChartInstance = new Chart(ctx, {
                 type: 'line',
-                data: { labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], datasets: [{ label: 'Avg Buyer Budget', data: [420, 435, 430, 450, 465, 485], borderColor: '#D97706', tension: 0.4, borderWidth: 2, pointRadius: 0 }] }, 
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { ticks: { color: '#6b7280' }, grid: { display: false } } } }
+                data: { 
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], 
+                    datasets: [{ 
+                        label: 'Avg Verified Budget ($k)', 
+                        data: [420, 435, 430, 450, 465, 485], 
+                        borderColor: '#D97706', 
+                        backgroundColor: gradient,
+                        tension: 0.4, 
+                        borderWidth: 2, 
+                        pointRadius: 3,
+                        pointBackgroundColor: '#1F2937',
+                        pointBorderColor: '#D97706',
+                        fill: true
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { display: false } }, 
+                    scales: { 
+                        y: { display: true, grid: { color: '#374151' }, ticks: { color: '#9CA3AF' } }, 
+                        x: { ticks: { color: '#9CA3AF' }, grid: { display: false } } 
+                    } 
+                }
             });
         }
         
