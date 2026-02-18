@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Newer | The New Construction Marketplace</title>
     
-    <link rel="icon" href="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='-5 -5 110 110' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 15 80 V 30 L 45 15 V 65 Z' fill='%230F172A'/%3E%3Cpath d='M 85 20 V 70 L 55 85 V 35 Z' fill='%230D9488'/%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 22 85 V 35 L 48 22 V 72 Z' fill='%230F172A'/%3E%3Cpath d='M 78 15 V 65 L 52 78 V 28 Z' fill='%230D9488'/%3E%3C/svg%3E">
     
     <meta name="description" content="Newer is the New Construction Marketplace. Stop chasing listings. Create a free profile and make top builders bid on your new home project. Access off-market and spec homes.">
     <meta name="keywords" content="New Homes, New Construction, Custom Builders, Off-Market Real Estate, Home Builder Bids, Spec Homes, Quick Move-In Homes">
@@ -64,8 +64,8 @@
                         'cloud-float': 'cloudFloat 30s linear infinite',
                         'float-y': 'floatY 4s ease-in-out infinite',
                         'slide-up-fade': 'slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-                        'strike-down': 'strikeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) both',
-                        'strike-up': 'strikeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both',
+                        'snap-lock-buyer': 'snapBuyer 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both',
+                        'snap-lock-builder': 'snapBuilder 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both',
                     },
                     keyframes: {
                         float: {
@@ -104,17 +104,13 @@
                             '0%': { transform: 'translateX(-20px)' },
                             '100%': { transform: 'translateX(100px)' }
                         },
-                        strikeDown: {
-                            '0%': { 'clip-path': 'inset(0 0 100% 0)', opacity: '0', transform: 'scale(0.95)' },
-                            '60%': { 'clip-path': 'inset(0 0 0 0)', opacity: '1', transform: 'scale(1.05)' },
-                            '80%': { transform: 'scale(0.98)' },
-                            '100%': { transform: 'scale(1)', 'clip-path': 'inset(0 0 0 0)', opacity: '1' }
+                        snapBuyer: {
+                            '0%': { opacity: '0', transform: 'translate(-20px, -20px) scale(1.1)' },
+                            '100%': { opacity: '1', transform: 'translate(0, 0) scale(1)' }
                         },
-                        strikeUp: {
-                            '0%': { 'clip-path': 'inset(100% 0 0 0)', opacity: '0', transform: 'scale(0.95)' },
-                            '60%': { 'clip-path': 'inset(0 0 0 0)', opacity: '1', transform: 'scale(1.05)' },
-                            '80%': { transform: 'scale(0.98)' },
-                            '100%': { transform: 'scale(1)', 'clip-path': 'inset(0 0 0 0)', opacity: '1' }
+                        snapBuilder: {
+                            '0%': { opacity: '0', transform: 'translate(20px, 20px) scale(1.1)' },
+                            '100%': { opacity: '1', transform: 'translate(0, 0) scale(1)' }
                         }
                     }
                 }
@@ -286,9 +282,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
                 <a href="#" class="flex items-center gap-3 group" onclick="setAudience('buyer'); window.scrollTo({top: 0, behavior: 'smooth'});">
-                    <svg id="nav-logo" class="w-8 h-8 transition-colors" viewBox="-5 -5 110 110" fill="none">
-                        <path id="nav-logo-left" d="M 15 80 V 30 L 45 15 V 65 Z" class="fill-brand-charcoal dark:fill-white transition-colors duration-500 animate-strike-down"/>
-                        <path id="nav-logo-right" d="M 85 20 V 70 L 55 85 V 35 Z" class="fill-brand-teal dark:fill-brand-gold transition-colors duration-500 animate-strike-up"/>
+                    <svg id="nav-logo" class="w-8 h-8 transition-colors" viewBox="0 0 100 100" fill="none">
+                        <path id="nav-logo-left" d="M 22 85 V 35 L 48 22 V 72 Z" class="fill-brand-charcoal dark:fill-white transition-colors duration-500 animate-snap-lock-buyer"/>
+                        <path id="nav-logo-right" d="M 78 15 V 65 L 52 78 V 28 Z" class="fill-brand-teal dark:fill-brand-gold transition-colors duration-500 animate-snap-lock-builder"/>
                     </svg>
                     <span class="font-extrabold tracking-tight leading-none text-2xl text-brand-charcoal dark:text-white transition-colors">Newer</span>
                 </a>
@@ -536,9 +532,9 @@
                         <div class="hidden md:block absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-brand-charcoal rounded-b-2xl z-20"></div>
                         <div class="h-20 bg-white border-b border-brand-border flex items-end justify-between px-6 pb-3 pt-8">
                             <div class="h-8 flex items-end justify-center gap-2">
-                                <svg width="24" height="24" viewBox="-5 -5 110 110" fill="none">
-                                    <path d="M 15 80 V 30 L 45 15 V 65 Z" fill="#0F172A" class="animate-strike-down"/>
-                                    <path d="M 85 20 V 70 L 55 85 V 35 Z" fill="#0D9488" class="animate-strike-up"/>
+                                <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
+                                    <path d="M 22 85 V 35 L 48 22 V 72 Z" fill="#0F172A" class="animate-snap-lock-buyer"/>
+                                    <path d="M 78 15 V 65 L 52 78 V 28 Z" fill="#0D9488" class="animate-snap-lock-builder"/>
                                 </svg>
                                 <span class="font-extrabold text-brand-charcoal text-xl tracking-tighter">Newer</span>
                             </div>
@@ -1020,9 +1016,9 @@
             <div class="grid md:grid-cols-4 gap-12 mb-16">
                 <div class="col-span-1">
                      <a href="#" class="flex items-center gap-3 group text-2xl mb-6" onclick="setAudience('buyer'); window.scrollTo({top: 0, behavior: 'smooth'});">
-                        <svg class="w-8 h-8 group-hover:animate-pulse" viewBox="-5 -5 110 110" fill="none">
-                            <path d="M 15 80 V 30 L 45 15 V 65 Z" class="fill-white animate-strike-down"/>
-                            <path d="M 85 20 V 70 L 55 85 V 35 Z" class="fill-brand-teal dark:fill-brand-gold transition-colors duration-500 animate-strike-up"/>
+                        <svg class="w-8 h-8 group-hover:animate-pulse" viewBox="0 0 100 100" fill="none">
+                            <path d="M 22 85 V 35 L 48 22 V 72 Z" class="fill-white animate-snap-lock-buyer"/>
+                            <path d="M 78 15 V 65 L 52 78 V 28 Z" class="fill-brand-teal dark:fill-brand-gold transition-colors duration-500 animate-snap-lock-builder"/>
                         </svg>
                         <span class="font-extrabold tracking-tight leading-none text-white">Newer</span>
                     </a>
@@ -1074,9 +1070,9 @@
             <button onclick="closeWaitlistModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
             <div class="text-center">
                 <div id="waitlist-badge-bg" class="w-20 h-20 bg-brand-concrete dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6 transition-colors duration-500 overflow-hidden relative">
-                    <svg class="w-12 h-12 relative z-10" viewBox="-5 -5 110 110" fill="none">
-                         <path id="waitlist-logo-left" d="M 15 80 V 30 L 45 15 V 65 Z" class="fill-brand-charcoal dark:fill-white animate-strike-down"/>
-                         <path id="waitlist-logo-right" d="M 85 20 V 70 L 55 85 V 35 Z" class="fill-brand-teal dark:fill-brand-gold animate-strike-up"/>
+                    <svg class="w-12 h-12 relative z-10" viewBox="0 0 100 100" fill="none">
+                         <path id="waitlist-logo-left" d="M 22 85 V 35 L 48 22 V 72 Z" class="fill-brand-charcoal dark:fill-white animate-snap-lock-buyer"/>
+                         <path id="waitlist-logo-right" d="M 78 15 V 65 L 52 78 V 28 Z" class="fill-brand-teal dark:fill-brand-gold animate-snap-lock-builder"/>
                     </svg>
                 </div>
                 <h3 id="waitlist-title" class="text-2xl font-bold text-brand-charcoal dark:text-white mb-2">Get Early Access</h3>
@@ -1544,8 +1540,8 @@
             const navLeft = document.getElementById('nav-logo-left');
             const navRight = document.getElementById('nav-logo-right');
             if(navLeft && navRight) {
-                navLeft.classList.remove('animate-strike-down');
-                navRight.classList.remove('animate-strike-up');
+                navLeft.classList.remove('animate-snap-lock-buyer');
+                navRight.classList.remove('animate-snap-lock-builder');
                 
                 // Force DOM reflow
                 void navLeft.offsetWidth;
@@ -1553,8 +1549,8 @@
                 
                 // 10ms micro-timeout fix
                 setTimeout(() => {
-                    navLeft.classList.add('animate-strike-down');
-                    navRight.classList.add('animate-strike-up');
+                    navLeft.classList.add('animate-snap-lock-buyer');
+                    navRight.classList.add('animate-snap-lock-builder');
                 }, 10);
             }
             
@@ -1978,16 +1974,16 @@
             const waitlistRight = document.getElementById('waitlist-logo-right');
             
             if(waitlistLeft && waitlistRight) {
-                waitlistLeft.classList.remove('animate-strike-down');
-                waitlistRight.classList.remove('animate-strike-up');
+                waitlistLeft.classList.remove('animate-snap-lock-buyer');
+                waitlistRight.classList.remove('animate-snap-lock-builder');
                 
                 void waitlistLeft.offsetWidth;
                 void waitlistRight.offsetWidth;
                 
                 // 10ms micro-timeout fix applied to modal animation
                 setTimeout(() => {
-                    waitlistLeft.classList.add('animate-strike-down');
-                    waitlistRight.classList.add('animate-strike-up');
+                    waitlistLeft.classList.add('animate-snap-lock-buyer');
+                    waitlistRight.classList.add('animate-snap-lock-builder');
                 }, 10);
             }
             
